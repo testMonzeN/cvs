@@ -1,0 +1,206 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Пристрелка оружия - Phantom{% endblock %}
+{% block description %}Профессиональная пристрелка оружия в стрелковом клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <a href="{% url 'main' %}" class="breadcrumb-item">
+                <i class="fas fa-home"></i>
+                Главная
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'singhting-in' %}" class="breadcrumb-item">Пристрелка</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Пристрелка оружия</span>
+        </nav>
+
+        <!-- Sighting Header -->
+        <div class="event-header fade-in">
+            <div class="event-header-content">
+                <div class="event-icon sighting">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="event-info">
+                    <div class="event-category">Пристрелка оружия</div>
+                    <h1 class="event-title">Профессиональная пристрелка</h1>
+                    <div class="event-meta">
+                        <span class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {% if singhting_in.date %}
+                                {{ singhting_in.date|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Дата уточняется
+                            {% endif %}
+                        </span>
+                        <span class="event-participants">
+                            <i class="fas fa-user"></i>
+                            {{ singhting_in.user.username }}
+                        </span>
+                        <span class="event-status">
+                            {% if singhting_in.status %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-circle"></i>
+                                    Активна
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-circle"></i>
+                                    Завершена
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-actions">
+                {% if user.is_authenticated and user.role_user == 'admin' %}
+                    <a href="{% url 'singhting-in-edit' singhting_in.pk %}" class="btn btn-outline">
+                        <i class="fas fa-edit"></i>
+                        Редактировать
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sighting Details -->
+        <div class="event-content">
+            <div class="event-main">
+                <!-- Description -->
+                <div class="content-section card">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-info-circle"></i>
+                            Описание пристрелки
+                        </h2>
+                    </div>
+                    <div class="event-description">
+                        {{ singhting_in.description|linebreaks }}
+                    </div>
+                </div>
+
+                <!-- Client Info -->
+                <div class="content-section card">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-user"></i>
+                            Информация о клиенте
+                        </h2>
+                    </div>
+                    <div class="client-info">
+                        <div class="participant-card">
+                            <div class="participant-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="participant-info">
+                                <div class="participant-name">{{ singhting_in.user.username }}</div>
+                                <div class="participant-role">
+                                    {% if singhting_in.user.role_user == 'admin' %}
+                                        <i class="fas fa-crown"></i> Администратор
+                                    {% elif singhting_in.user.role_user == 'instructor' %}
+                                        <i class="fas fa-medal"></i> Инструктор
+                                    {% else %}
+                                        <i class="fas fa-user"></i> Участник
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Sidebar -->
+            <div class="event-sidebar">
+                <!-- Quick Info -->
+                <div class="sidebar-card card">
+                    <div class="sidebar-header">
+                        <h3>
+                            <i class="fas fa-info"></i>
+                            Информация
+                        </h3>
+                    </div>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-bullseye"></i>
+                                Тип
+                            </div>
+                            <div class="info-value">Пристрелка оружия</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Дата
+                            </div>
+                            <div class="info-value">
+                                {% if singhting_in.date %}
+                                    {{ singhting_in.date|date:"d.m.Y" }}<br>
+                                    <small>{{ singhting_in.date|date:"H:i" }}</small>
+                                {% else %}
+                                    Уточняется
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user"></i>
+                                Клиент
+                            </div>
+                            <div class="info-value">{{ singhting_in.user.username }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-flag"></i>
+                                Статус
+                            </div>
+                            <div class="info-value">
+                                {% if singhting_in.status %}
+                                    <span class="status-badge active">Активна</span>
+                                {% else %}
+                                    <span class="status-badge inactive">Завершена</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="sidebar-card card">
+                    <div class="sidebar-header">
+                        <h3>
+                            <i class="fas fa-bolt"></i>
+                            Быстрые действия
+                        </h3>
+                    </div>
+                    <div class="quick-actions-list">
+                        <a href="{% url 'singhting-in' %}" class="quick-action">
+                            <i class="fas fa-list"></i>
+                            Все записи
+                        </a>
+                        <a href="{% url 'competitions' %}" class="quick-action">
+                            <i class="fas fa-trophy"></i>
+                            Соревнования
+                        </a>
+                        <a href="{% url 'training' %}" class="quick-action">
+                            <i class="fas fa-dumbbell"></i>
+                            Тренировки
+                        </a>
+                        <a href="{% url 'teleport' %}" class="quick-action">
+                            <i class="fas fa-home"></i>
+                            Главное меню
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

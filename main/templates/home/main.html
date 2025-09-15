@@ -1,5 +1,173 @@
 {% extends 'global/base.html' %}
 
-{% block content %}
+{% block title %}Phantom - Главная{% endblock %}
+{% block description %}Добро пожаловать в Phantom - профессиональный стрелковый клуб. Участвуйте в соревнованиях, тренировках и семинарах.{% endblock %}
 
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section text-center" style="padding: 4rem 0;">
+            <div class="hero-content fade-in">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    <i class="fas fa-crosshairs" style="margin-right: 1rem;"></i>
+                    Phantom
+                </h1>
+                <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Профессиональный стрелковый клуб для любителей точной стрельбы. 
+                    Соревнования, тренировки, семинары и индивидуальная пристрелка оружия.
+                </p>
+                
+                <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'teleport' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-rocket"></i>
+                            Перейти к функциям
+                        </a>
+                        <a href="{% url 'cabinet' %}" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-user"></i>
+                            Личный кабинет
+                        </a>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-user-plus"></i>
+                            Присоединиться
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Войти
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Preview -->
+        <section class="features-preview" style="padding: 4rem 0;">
+            <div class="text-center mb-4">
+                <h2 style="margin-bottom: 1rem;">Что мы предлагаем</h2>
+                <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    Полный спектр услуг для развития навыков стрельбы и участия в профессиональных мероприятиях
+                </p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card slide-in-left">
+                    <div style="font-size: 3rem; color: var(--accent-primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Соревнования</h3>
+                    <p>Участвуйте в соревнованиях по снайпингу, силуэтной и практической стрельбе. Проверьте свои навыки против лучших стрелков.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'teleport' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.1s;">
+                    <div style="font-size: 3rem; color: var(--accent-success); margin-bottom: 1.5rem;">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Тренировки</h3>
+                    <p>Регулярные тренировки под руководством опытных инструкторов. Развивайте технику и повышайте точность стрельбы.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'teleport' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Записаться
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.2s;">
+                    <div style="font-size: 3rem; color: var(--accent-warning); margin-bottom: 1.5rem;">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Семинары</h3>
+                    <p>Образовательные семинары по баллистике, тактике и техническим аспектам стрельбы от ведущих экспертов.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'teleport' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Узнать больше
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.3s;">
+                    <div style="font-size: 3rem; color: var(--accent-secondary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <h3>Пристрелка</h3>
+                    <p>Профессиональная пристрелка оружия с точными баллистическими расчетами и индивидуальным подходом.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'teleport' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Записаться
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-counter="500">0</div>
+                        <p class="stat-label">Участников</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-counter="150">0</div>
+                        <p class="stat-label">Соревнований</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-counter="75">0</div>
+                        <p class="stat-label">Семинаров</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-counter="1000">0</div>
+                        <p class="stat-label">Тренировок</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        {% if not user.is_authenticated %}
+        <section class="cta-section text-center" style="padding: 4rem 0;">
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1rem;">Готовы начать?</h3>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                    Присоединяйтесь к нашему сообществу профессиональных стрелков и начните свой путь к совершенству.
+                </p>
+                <a href="{% url 'register' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-rocket"></i>
+                    Зарегистрироваться сейчас
+                </a>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate counters when they come into view
+    const counters = document.querySelectorAll('[data-counter]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-counter'));
+                PhantomJS.animateCounter(counter, 0, target, 2000);
+                observer.unobserve(counter);
+            }
+        });
+    });
+    
+    counters.forEach(counter => observer.observe(counter));
+});
+</script>
 {% endblock %}

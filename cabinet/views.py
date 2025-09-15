@@ -24,7 +24,7 @@ import base64
 # Личный кабинет TODO: сделать
 class CabinetView(View):
     def get(self, request):
-        pass
+        return render(request, 'account/index.html')
 
 # Регистрация пользователя
 class RegisterView(View):
@@ -37,7 +37,7 @@ class RegisterView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('cabinet')
+            return redirect('main')
         return render(request, 'registration/registration.html', {'form': form})
 
 
@@ -66,7 +66,7 @@ class LoginView(View):
 
                     request.session.pop('tmp_username', None)
                     request.session.pop('tmp_password', None)
-                    return redirect('cabinet')
+                    return redirect('main')
                 else:
                     form2.add_error('code', 'Неверный код')
             return render(request, '2-fa/accept.html', {'form': form2})
@@ -85,7 +85,7 @@ class LoginView(View):
                     return render(request, '2-fa/accept.html', {'form': form2})
                 else:
                     login(request, user)
-                    return redirect('cabinet')
+                    return redirect('main')
             else:
                 try:
                     user = User.objects.get(username=username)
@@ -110,7 +110,7 @@ class LoginView(View):
 class LogoutAccountView(View):
     def get(self, request):
         logout(request)
-        return redirect('home')
+        return redirect('main')
     
     def post(self, request):
         return self.get(request)

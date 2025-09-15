@@ -1,74 +1,224 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block name_page %}
-<script>
-    const currentNamePage = "Change";
-</script>
-{% endblock %}
+{% block title %}Изменение пароля - Phantom{% endblock %}
+{% block description %}Измените пароль для вашего аккаунта в стрелковом клубе Phantom.{% endblock %}
 
 {% block content %}
-<div class="login-wrapper">
+<main class="main-content">
     <div class="container">
-        <div class="login-content dark-content-box">
-            <div class="login-form-container">
-                <div class="login-header">
-                    <h1>Изменение данных</h1>
-                    <p>Обновите ваши персональные данные</p>
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <a href="{% url 'main' %}" class="breadcrumb-item">
+                <i class="fas fa-home"></i>
+                Главная
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'cabinet' %}" class="breadcrumb-item">Личный кабинет</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Изменение пароля</span>
+        </nav>
+
+        <div class="auth-wrapper">
+            <div class="auth-card card">
+                <div class="auth-header text-center">
+                    <div class="auth-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h1>Изменение пароля</h1>
+                    <p>Обновите пароль для повышения безопасности аккаунта</p>
                 </div>
                 
-                <form method="post" class="login-form">
+                <form method="post" class="auth-form" id="changePasswordForm">
                     {% csrf_token %}
                     
-                    {% if form.non_field_errors %}
-                    <div class="error-message">
-                        {% for error in form.non_field_errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div class="error-list">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div>{{ field.label }}: {{ error }}</div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     {% endif %}
                     
-                    {% for field in form %}
-                    {% if field.name != 'password' %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {% if field.field.widget.input_type %}
-                        <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" 
-                               id="{{ field.id_for_label }}" value="{{ field.value|default:'' }}" 
-                               {% if field.field.required %}required{% endif %}>
-                        {% else %}
-                        {{ field }}
-                        {% endif %}
-                        
-                        {% if field.errors %}
-                        <div class="error-message">
-                            {% for error in field.errors %}
-                                {{ error }}
-                            {% endfor %}
+                        <label for="id_old_password" class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Текущий пароль
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                name="old_password" 
+                                id="id_old_password" 
+                                class="form-control"
+                                placeholder="Введите текущий пароль"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword('id_old_password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
-                        {% endif %}
-                        
-                        {% if field.help_text %}
-                        <div class="help-text">{{ field.help_text }}</div>
-                        {% endif %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
+                    
+                    <div class="form-group">
+                        <label for="id_new_password1" class="form-label">
+                            <i class="fas fa-key"></i>
+                            Новый пароль
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                name="new_password1" 
+                                id="id_new_password1" 
+                                class="form-control"
+                                placeholder="Придумайте новый пароль"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword('id_new_password1')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength"></div>
+                        <small class="form-text">
+                            Пароль должен содержать минимум 8 символов, включая буквы и цифры
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_new_password2" class="form-label">
+                            <i class="fas fa-check"></i>
+                            Подтверждение нового пароля
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                name="new_password2" 
+                                id="id_new_password2" 
+                                class="form-control"
+                                placeholder="Повторите новый пароль"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword('id_new_password2')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-match" id="passwordMatch"></div>
+                    </div>
+                    
+                    <!-- Security Tips -->
+                    <div class="security-tips">
+                        <h4>
+                            <i class="fas fa-shield-alt"></i>
+                            Рекомендации по безопасности
+                        </h4>
+                        <ul>
+                            <li>Используйте уникальный пароль для каждого аккаунта</li>
+                            <li>Включите двухфакторную аутентификацию</li>
+                            <li>Не используйте личную информацию в пароле</li>
+                            <li>Регулярно обновляйте пароли</li>
+                        </ul>
+                    </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="login-btn">Сохранить изменения</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="changePasswordBtn">
+                            <i class="fas fa-save"></i>
+                            Изменить пароль
+                        </button>
                     </div>
                     
-                    <div class="form-links">
-                        <a href="{% url 'cabinet' %}" class="form-link"><i class="fas fa-arrow-left"></i> Вернуться в кабинет</a>
+                    <div class="auth-links text-center">
+                        <p>
+                            <a href="{% url 'cabinet' %}" class="auth-link">
+                                <i class="fas fa-arrow-left"></i>
+                                Вернуться в кабинет
+                            </a>
+                        </p>
+                        {% if not user.mfa_enabled %}
+                        <p>
+                            <a href="{% url 'authentication' %}" class="auth-link">
+                                <i class="fas fa-shield-alt"></i>
+                                Настроить двухфакторную аутентификацию
+                            </a>
+                        </p>
+                        {% endif %}
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+</main>
 
-{% block extra_scripts %}
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const newPassword1 = document.getElementById('id_new_password1');
+    const newPassword2 = document.getElementById('id_new_password2');
+    const strengthIndicator = document.getElementById('passwordStrength');
+    const matchIndicator = document.getElementById('passwordMatch');
+    
+    // Password strength checker
+    newPassword1.addEventListener('input', function() {
+        const password = this.value;
+        const strength = checkPasswordStrength(password);
+        
+        strengthIndicator.className = `password-strength ${strength.class}`;
+        strengthIndicator.textContent = strength.text;
+        
+        checkPasswordMatch();
+    });
+    
+    // Password match checker
+    newPassword2.addEventListener('input', checkPasswordMatch);
+    
+    function checkPasswordStrength(password) {
+        if (password.length === 0) {
+            return { class: '', text: '' };
+        }
+        
+        let score = 0;
+        const checks = {
+            length: password.length >= 8,
+            lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            numbers: /\d/.test(password),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
+        
+        Object.values(checks).forEach(check => check && score++);
+        
+        if (score < 2) return { class: 'weak', text: 'Слабый пароль' };
+        if (score < 4) return { class: 'medium', text: 'Средний пароль' };
+        return { class: 'strong', text: 'Надежный пароль' };
+    }
+    
+    function checkPasswordMatch() {
+        const password1 = newPassword1.value;
+        const password2 = newPassword2.value;
+        
+        if (password2.length === 0) {
+            matchIndicator.className = 'password-match';
+            matchIndicator.textContent = '';
+            return;
+        }
+        
+        if (password1 === password2) {
+            matchIndicator.className = 'password-match match';
+            matchIndicator.textContent = 'Пароли совпадают';
+        } else {
+            matchIndicator.className = 'password-match no-match';
+            matchIndicator.textContent = 'Пароли не совпадают';
+        }
+    }
+});
+</script>
 {% endblock %}

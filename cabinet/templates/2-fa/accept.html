@@ -1,42 +1,174 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block name_page %}
-<script>
-    const currentNamePage = "2FA Accept";
-</script>
-{% endblock %}
+{% block title %}Подтверждение входа - Phantom{% endblock %}
+{% block description %}Введите код двухфакторной аутентификации для завершения входа в Phantom.{% endblock %}
 
 {% block content %}
-<div class="login-wrapper">
+<main class="main-content">
     <div class="container">
-        <div class="login-content dark-content-box">
-            <div class="login-form-container">
-                <div class="login-header">
-                    <h1>Вход в аккаунт</h1>
-                    <p>Введите данные для входа в личный кабинет</p>
+        <div class="auth-wrapper">
+            <div class="auth-card card">
+                <div class="auth-header text-center">
+                    <div class="auth-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h1>Подтверждение входа</h1>
+                    <p>Введите код из приложения аутентификации</p>
                 </div>
                 
-                <form method="post" class="login-form">
+                <form method="post" class="auth-form" id="twoFAAcceptForm">
                     {% csrf_token %}
                     
                     {% if form.errors %}
-                    <div class="error-message">
-                        <p>Введен некорректный код. Попробуйте снова!</p>
-                    </div>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Введен некорректный код. Проверьте правильность кода и попробуйте снова.
+                        </div>
                     {% endif %}
                     
-                    <div class="form-group">
-                        <label for="id_code">2fa код подтверждения</label>
-                        <input type="text" name="code" id="id_code" maxlength="6" required>
+                    <div class="two-fa-verification">
+                        <div class="verification-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        
+                        <div class="verification-info">
+                            <h3>Почти готово!</h3>
+                            <p>Откройте приложение аутентификации на вашем устройстве и введите текущий 6-значный код.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_code" class="form-label">
+                                <i class="fas fa-key"></i>
+                                Код подтверждения
+                            </label>
+                            <input 
+                                type="text" 
+                                name="code" 
+                                id="id_code" 
+                                class="form-control otp-input text-center" 
+                                maxlength="6" 
+                                placeholder="000000"
+                                required
+                                autocomplete="off"
+                                pattern="[0-9]{6}"
+                                autofocus
+                            >
+                            <small class="form-text">Код обновляется каждые 30 секунд</small>
+                        </div>
+                        
+                        <!-- Timer indicator -->
+                        <div class="timer-container">
+                            <div class="timer-circle">
+                                <svg class="timer-svg" viewBox="0 0 36 36">
+                                    <path class="timer-bg" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="timer-progress" d="M18 2.0845
+                                        a 15.9155 15.9155 0 0 1 0 31.831
+                                        a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                                <div class="timer-text">30</div>
+                            </div>
+                            <span class="timer-label">сек до обновления</span>
+                        </div>
                     </div>
-                                      
+                    
                     <div class="form-actions">
-                        <button type="submit" class="login-btn">Войти</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="verifyBtn">
+                            <i class="fas fa-check"></i>
+                            Подтвердить вход
+                        </button>
+                    </div>
+                    
+                    <div class="auth-links text-center">
+                        <p>Проблемы с входом?</p>
+                        <a href="{% url 'login' %}" class="auth-link">
+                            <i class="fas fa-arrow-left"></i>
+                            Вернуться к входу
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const otpInput = document.getElementById('id_code');
+    const form = document.getElementById('twoFAAcceptForm');
+    let timer = 30;
+    let timerInterval;
+    
+    // Auto-format OTP input
+    otpInput.addEventListener('input', function() {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+        
+        // Auto-submit when 6 digits are entered
+        if (this.value.length === 6) {
+            setTimeout(() => {
+                form.submit();
+            }, 300);
+        }
+    });
+    
+    // Keyboard navigation for better UX
+    otpInput.addEventListener('keydown', function(e) {
+        // Allow backspace, delete, tab, escape, enter
+        if ([46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
+            // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            (e.keyCode === 65 && e.ctrlKey === true) ||
+            (e.keyCode === 67 && e.ctrlKey === true) ||
+            (e.keyCode === 86 && e.ctrlKey === true) ||
+            (e.keyCode === 88 && e.ctrlKey === true) ||
+            // Allow home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+    
+    // Timer functionality
+    function startTimer() {
+        const timerText = document.querySelector('.timer-text');
+        const timerProgress = document.querySelector('.timer-progress');
+        const circumference = 2 * Math.PI * 15.9155;
+        
+        timerProgress.style.strokeDasharray = circumference;
+        
+        timerInterval = setInterval(() => {
+            timer--;
+            timerText.textContent = timer;
+            
+            const progress = (30 - timer) / 30;
+            const dashOffset = circumference - (progress * circumference);
+            timerProgress.style.strokeDashoffset = dashOffset;
+            
+            if (timer <= 0) {
+                timer = 30;
+                // Reset progress
+                timerProgress.style.strokeDashoffset = circumference;
+            }
+        }, 1000);
+    }
+    
+    // Start timer
+    startTimer();
+    
+    // Focus on input
+    otpInput.focus();
+    
+    // Clean up timer on page unload
+    window.addEventListener('beforeunload', () => {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+    });
+});
+</script>
 {% endblock %} 

@@ -1,0 +1,236 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Семинар - Phantom{% endblock %}
+{% block description %}Образовательный семинар в стрелковом клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-nav">
+            <a href="{% url 'main' %}" class="breadcrumb-item">
+                <i class="fas fa-home"></i>
+                Главная
+            </a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="{% url 'seminar' %}" class="breadcrumb-item">Семинары</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Семинар</span>
+        </nav>
+
+        <!-- Seminar Header -->
+        <div class="event-header fade-in">
+            <div class="event-header-content">
+                <div class="event-icon seminars">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="event-info">
+                    <div class="event-category">Семинар</div>
+                    <h1 class="event-title">Образовательный семинар</h1>
+                    <div class="event-meta">
+                        <span class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {% if seminar.date %}
+                                {{ seminar.date|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Дата уточняется
+                            {% endif %}
+                        </span>
+                        <span class="event-participants">
+                            <i class="fas fa-users"></i>
+                            {{ seminar.participants.count }} участников
+                        </span>
+                        <span class="event-status">
+                            {% if seminar.status %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-circle"></i>
+                                    Активен
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-circle"></i>
+                                    Завершен
+                                </span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-actions">
+                {% if user.is_authenticated %}
+                    {% if user in seminar.participants.all %}
+                        <span class="btn btn-success">
+                            <i class="fas fa-check-circle"></i>
+                            Вы участвуете
+                        </span>
+                    {% else %}
+                        {% if seminar.status %}
+                            <a href="#" class="btn btn-primary" onclick="joinSeminar({{ seminar.pk }})">
+                                <i class="fas fa-plus"></i>
+                                Записаться
+                            </a>
+                        {% else %}
+                            <span class="btn btn-secondary" disabled>
+                                <i class="fas fa-times"></i>
+                                Регистрация закрыта
+                            </span>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Войти для участия
+                    </a>
+                {% endif %}
+                
+                {% if user.is_authenticated and user.role_user == 'admin' %}
+                    <a href="{% url 'seminar-edit' seminar.pk %}" class="btn btn-outline">
+                        <i class="fas fa-edit"></i>
+                        Редактировать
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Seminar Details -->
+        <div class="event-content">
+            <div class="event-main">
+                <!-- Description -->
+                <div class="content-section card">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-info-circle"></i>
+                            О семинаре
+                        </h2>
+                    </div>
+                    <div class="event-description">
+                        <p>Образовательный семинар для участников стрелкового клуба Phantom. Изучение теории и практики стрельбы, обмен опытом с коллегами.</p>
+                    </div>
+                </div>
+
+                <!-- Participants -->
+                {% if seminar.participants.exists %}
+                <div class="content-section card">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fas fa-users"></i>
+                            Участники ({{ seminar.participants.count }})
+                        </h2>
+                    </div>
+                    <div class="participants-grid">
+                        {% for participant in seminar.participants.all %}
+                        <div class="participant-card">
+                            <div class="participant-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="participant-info">
+                                <div class="participant-name">{{ participant.username }}</div>
+                                <div class="participant-role">
+                                    {% if participant.role_user == 'admin' %}
+                                        <i class="fas fa-crown"></i> Администратор
+                                    {% elif participant.role_user == 'instructor' %}
+                                        <i class="fas fa-medal"></i> Инструктор
+                                    {% else %}
+                                        <i class="fas fa-user"></i> Участник
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Event Sidebar -->
+            <div class="event-sidebar">
+                <!-- Quick Info -->
+                <div class="sidebar-card card">
+                    <div class="sidebar-header">
+                        <h3>
+                            <i class="fas fa-info"></i>
+                            Информация
+                        </h3>
+                    </div>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Тип
+                            </div>
+                            <div class="info-value">Семинар</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-calendar-alt"></i>
+                                Дата
+                            </div>
+                            <div class="info-value">
+                                {% if seminar.date %}
+                                    {{ seminar.date|date:"d.m.Y" }}<br>
+                                    <small>{{ seminar.date|date:"H:i" }}</small>
+                                {% else %}
+                                    Уточняется
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-users"></i>
+                                Участники
+                            </div>
+                            <div class="info-value">{{ seminar.participants.count }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-flag"></i>
+                                Статус
+                            </div>
+                            <div class="info-value">
+                                {% if seminar.status %}
+                                    <span class="status-badge active">Активен</span>
+                                {% else %}
+                                    <span class="status-badge inactive">Завершен</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="sidebar-card card">
+                    <div class="sidebar-header">
+                        <h3>
+                            <i class="fas fa-bolt"></i>
+                            Быстрые действия
+                        </h3>
+                    </div>
+                    <div class="quick-actions-list">
+                        <a href="{% url 'seminar' %}" class="quick-action">
+                            <i class="fas fa-list"></i>
+                            Все семинары
+                        </a>
+                        <a href="{% url 'competitions' %}" class="quick-action">
+                            <i class="fas fa-trophy"></i>
+                            Соревнования
+                        </a>
+                        <a href="{% url 'training' %}" class="quick-action">
+                            <i class="fas fa-dumbbell"></i>
+                            Тренировки
+                        </a>
+                        <a href="{% url 'teleport' %}" class="quick-action">
+                            <i class="fas fa-home"></i>
+                            Главное меню
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -9,3 +9,4 @@ django-rest-framework
 qrcode
 pyotp
 uwsgi
+python-dotenv

@@ -1,186 +1,293 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block name_page %}
-<script>
-    const currentNamePage = "Account";
-</script>
-{% endblock %}
+{% block title %}Личный кабинет - Phantom{% endblock %}
+{% block description %}Личный кабинет участника стрелкового клуба Phantom. Управление профилем, просмотр активности и записи на мероприятия.{% endblock %}
 
 {% block content %}
-{% csrf_token %}
-<div class="account-wrapper">
+<main class="main-content">
     <div class="container">
-        <div class="account-content dark-content-box">
-            <div class="account-panel">
-                <!-- Левая панель с информацией о пользователе -->
-                <div class="account-user-panel">
-                    <div class="user-avatar">
-                        <img src="{% static 'img/default_avatar.jpg' %}" alt="{{ user.username }}">
+        <!-- Profile Header -->
+        <div class="profile-header fade-in">
+            <div class="profile-avatar-section">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="user-status">{{ status_user }}</div>
-                    <div class="user-name">{{ user.username }} <span class="user-id">uid {{ user.id }}</span></div>
-                    
-                    <div class="account-actions">
-                        {% if request.user.is_subscribed %}
-                            <a href="{% url 'download_launcher' %}" class="account-action-btn">
-                                <i class="fas fa-download"></i> Download client
-                            </a>
-                        {% else %}
-                            <a href="{% url 'cabinet' %}" class="account-action-btn feature-coming-soon" message="У вас нету подписки для установки лаунчера">
-                                <i class="fas fa-download"></i> Download client
-                            </a>
-                        {% endif %}
-
-
-                        {% if not mfa_enabled %}
-                            <a href="{% url 'authentication' %}" class="account-action-btn">
-                                <i class="fas fa-shield-alt"></i> 2FA Authenticator
-                            </a>
-                        {% else %}
-                            <a href="{% url 'cabinet' %}" class="account-action-btn feature-coming-soon" message="2FA Authenticator уже включен" id="2fa-enabled">
-                                <i class="fas fa-shield-alt"></i> 2FA Authenticator
-                            </a>
-                        {% endif %}
-                        <a href="{% url 'change' %}" class="account-action-btn">
-                            <i class="fas fa-key"></i> Reset password
-                        </a>
-                        <a href="https://discord.gg/phantomdlc" class="account-action-btn" target="_blank">
-                            <i class="fab fa-discord"></i> Discord server
-                        </a>
-                        <form action="{% url 'logout' %}" method="post" class="logout-form">
-                            {% csrf_token %}
-                            <button type="submit" class="account-action-btn logout-btn">
-                                <i class="fas fa-sign-out-alt"></i> Sign out
-                            </button>
-                        </form>
+                    <div class="avatar-status {% if user.is_active %}online{% else %}offline{% endif %}"></div>
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">{{ user.username }}</h1>
+                    <div class="profile-details">
+                        <span class="profile-id">ID: {{ user.id }}</span>
+                        <span class="profile-role {% if user.role_user == 'admin' %}admin{% elif user.role_user == 'instructor' %}instructor{% else %}member{% endif %}">
+                            <i class="fas fa-{% if user.role_user == 'admin' %}crown{% elif user.role_user == 'instructor' %}medal{% else %}user{% endif %}"></i>
+                            {% if user.role_user == 'admin' %}Администратор{% elif user.role_user == 'instructor' %}Инструктор{% else %}Участник{% endif %}
+                        </span>
                     </div>
                 </div>
-                
-                <!-- Правая панель с информацией об аккаунте -->
-                <div class="account-info-panel">
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="far fa-calendar-alt"></i> Registration date
-                        </div>
-                        <div class="info-value">
-                            {{ user.registration_date|date:"F j, Y \a\t H:i A" }}
-                        </div>
-                    </div>
-                    
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="far fa-clock"></i> Last login date
-                        </div>
-                        <div class="info-value">
-                            {{ user.last_login_date|date:"F j, Y \a\t H:i A" }}
-                        </div>
-                    </div>
-                    
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="fas fa-user-tag"></i> Role
-                        </div>
-                        <div class="info-value premium-role">
-                            {% if user.role_user.name %}{{ user.role_user.name }}{% else %}Default{% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="fas fa-microchip"></i> Hardware ID
-                        </div>
-                        <div class="info-value hardware-id">
-                            {% if user.HWID %}{{ user.HWID }}{% else %}None{% endif %}
-                        </div>
-                    </div>
-                    
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="far fa-envelope"></i> Email
-                        </div>
-                        <div class="info-value">
-                            {{ user.email }}
-                        </div>
-                    </div>
-                                        
-                    <div class="account-info-item">
-                        <div class="info-label">
-                            <i class="fas fa-lock"></i> Two-factor authentication
-                        </div>
-                        <div class="info-value {% if status_2fa %}enabled{% else %}disabled{% endif %}">
-                            {% if status_2fa %}Enabled{% else %}Disabled{% endif %}
-                        </div>
-                    </div>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{% url 'change' %}" class="btn btn-outline">
+                    <i class="fas fa-key"></i>
+                    Сменить пароль
+                </a>
+                {% if not mfa_enabled %}
+                <a href="{% url 'authentication' %}" class="btn btn-primary">
+                    <i class="fas fa-shield-alt"></i>
+                    Включить 2FA
+                </a>
+                {% else %}
+                <span class="btn btn-success" title="2FA уже активирована">
+                    <i class="fas fa-shield-check"></i>
+                    2FA активна
+                </span>
+                {% endif %}
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Выйти
+                    </button>
+                </form>
+            </div>
+        </div>
 
-                    
-                    <!-- Таймер подписки -->
-                    <div class="subscription-info">
-                        <div class="subscription-title">SUBSCRIPTION TIME LEFT</div>
-                        {% if user.is_subscribed %}
-                            <div class="subscription-timer">
-                                <div class="timer-item">
-                                    <span class="timer-value">{{ user.get_subscription_time_left.years|stringformat:"02d" }}</span>
-                                    <span class="timer-label">y</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">{{ user.get_subscription_time_left.days|stringformat:"02d" }}</span>
-                                    <span class="timer-label">d</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">{{ user.get_subscription_time_left.hours|stringformat:"02d" }}</span>
-                                    <span class="timer-label">h</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">{{ user.get_subscription_time_left.minutes|stringformat:"02d" }}</span>
-                                    <span class="timer-label">m</span>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="subscription-timer">
-                                <div class="timer-item">
-                                    <span class="timer-value">00</span>
-                                    <span class="timer-label">y</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">00</span>
-                                    <span class="timer-label">d</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">00</span>
-                                    <span class="timer-label">h</span>
-                                </div>
-                                <div class="timer-item">
-                                    <span class="timer-value">00</span>
-                                    <span class="timer-label">m</span>
-                                </div>
-                            </div>
-                        {% endif %}
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="profile-section card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-user-circle"></i>
+                        Личная информация
+                    </h2>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </div>
+                        <div class="info-value">{{ user.email }}</div>
                     </div>
                     
-                    <!-- Форма активации ключа -->
-                    <div class="key-activation-section">
-                        <h3>Активация лицензионного ключа</h3>
-                        <form action="{% url 'activate_key' %}" method="post" class="key-activation-form">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <input type="text" name="license_key" placeholder="XXXX-XXXX-XXXX-XXXX" required>
-                                <button class="btn" type="submit">Активировать</button>
-                            </div>
-                            {% if key_activation_message %}
-                                <div class="activation-message {% if key_activation_success %}success{% else %}error{% endif %}">
-                                    {{ key_activation_message }}
-                                </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            Дата регистрации
+                        </div>
+                        <div class="info-value">
+                            {% if user.date_joined %}
+                                {{ user.date_joined|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Не указана
                             {% endif %}
-                        </form>
+                        </div>
                     </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-clock"></i>
+                            Последний вход
+                        </div>
+                        <div class="info-value">
+                            {% if user.last_login %}
+                                {{ user.last_login|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Никогда
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-shield-alt"></i>
+                            Двухфакторная аутентификация
+                        </div>
+                        <div class="info-value">
+                            {% if mfa_enabled %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-check-circle"></i>
+                                    Включена
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-times-circle"></i>
+                                    Отключена
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Statistics -->
+            <div class="profile-section card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-chart-line"></i>
+                        Активность в клубе
+                    </h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon competitions">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ user.competitions.count }}</div>
+                            <div class="stat-label">Соревнований</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon trainings">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ user.training.count }}</div>
+                            <div class="stat-label">Тренировок</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon seminars">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ user.seminar.count }}</div>
+                            <div class="stat-label">Семинаров</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon sighting">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">{{ user.singhting_in.count }}</div>
+                            <div class="stat-label">Пристрелок</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="profile-section card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-history"></i>
+                        Последние мероприятия
+                    </h2>
+                </div>
+                <div class="activity-list">
+                    {% for competition in user.competitions.all|slice:":3" %}
+                    <div class="activity-item">
+                        <div class="activity-icon competitions">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Соревнование: {{ competition.type }}</div>
+                            <div class="activity-date">{{ competition.date|date:"d.m.Y в H:i" }}</div>
+                        </div>
+                        <div class="activity-status">
+                            {% if competition.status %}
+                                <span class="status-badge active">Активно</span>
+                            {% else %}
+                                <span class="status-badge inactive">Завершено</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% for training in user.training.all|slice:":3" %}
+                    <div class="activity-item">
+                        <div class="activity-icon trainings">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Тренировка: {{ training.type }}</div>
+                            <div class="activity-date">{{ training.date|date:"d.m.Y в H:i" }}</div>
+                        </div>
+                        <div class="activity-status">
+                            {% if training.status %}
+                                <span class="status-badge active">Активна</span>
+                            {% else %}
+                                <span class="status-badge inactive">Завершена</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if not user.competitions.all and not user.training.all %}
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <h3>Нет активности</h3>
+                        <p>Вы пока не участвовали в мероприятиях клуба</p>
+                        <a href="{% url 'teleport' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Записаться на мероприятие
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="profile-section card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-bolt"></i>
+                        Быстрые действия
+                    </h2>
+                </div>
+                <div class="quick-actions">
+                    <a href="{% url 'competitions' %}" class="quick-action-btn">
+                        <div class="action-icon competitions">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="action-content">
+                            <div class="action-title">Соревнования</div>
+                            <div class="action-desc">Участвовать в соревнованиях</div>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'training' %}" class="quick-action-btn">
+                        <div class="action-icon trainings">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="action-content">
+                            <div class="action-title">Тренировки</div>
+                            <div class="action-desc">Записаться на тренировку</div>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'seminar' %}" class="quick-action-btn">
+                        <div class="action-icon seminars">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="action-content">
+                            <div class="action-title">Семинары</div>
+                            <div class="action-desc">Посетить семинар</div>
+                        </div>
+                    </a>
+                    
+                    <a href="{% url 'singhting-in' %}" class="quick-action-btn">
+                        <div class="action-icon sighting">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="action-content">
+                            <div class="action-title">Пристрелка</div>
+                            <div class="action-desc">Записаться на пристрелку</div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
-
-{% block extra_scripts %}
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</main>
 {% endblock %}

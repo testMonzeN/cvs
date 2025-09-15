@@ -1,34 +1,125 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Phantom</title>
-    <link rel="icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">
-    <link rel="shortcut icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>{% block title %}Phantom - Стрелковый клуб{% endblock %}</title>
+    <meta name="description" content="{% block description %}Phantom - профессиональный стрелковый клуб. Соревнования, тренировки, семинары и пристрелка оружия.{% endblock %}">
+    
+    <!--<link rel="icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">-->
+    <!--<link rel="shortcut icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">-->
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/event-details.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth-enhanced.css' %}">
+    <link rel="stylesheet" href="{% static 'css/rules.css' %}">
+    
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     {% block extra_styles %}{% endblock %}
 
     <script>
     const currentUsername = "{{ request.user.username|default:'guest' }}";
+    const isAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
     </script>
     {% block name_page %}{% endblock %}
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <a href="{% url 'main' %}" class="nav-brand">
+                    <i class="fas fa-crosshairs"></i>
+                    Phantom
+                </a>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="{% url 'main' %}" class="nav-link">Главная</a></li>
+                    <li><a href="{% url 'teleport' %}" class="nav-link">Функции</a></li>
+                    <li><a href="{% url 'sniper_rules' %}" class="nav-link">Правила</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'cabinet' %}" class="nav-link">
+                            <i class="fas fa-user"></i>
+                            {{ user.username }}
+                        </a></li>
+                        <li><a href="{% url 'logout' %}" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Выйти
+                        </a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Войти
+                        </a></li>
+                        <li><a href="{% url 'register' %}" class="nav-link btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Регистрация
+                        </a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <div class="content-wrapper">
+        <!-- Messages -->
+        {% if messages %}
+            <div class="container" style="padding-top: 6rem;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} fade-in">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem 0; margin-top: 4rem;">
+        <div class="container">
+            <div class="text-center">
+                <p style="color: var(--text-muted); margin: 0;">
+                    &copy; 2025 Phantom. Все права защищены.
+                </p>
+            </div>
+        </div>
+    </footer>
     
-    <script src="{% static 'js/script.js' %}"></script>
+    <!-- JavaScript Files -->
+    <script src="{% static 'js/core.js' %}"></script>
+    <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/forms.js' %}"></script>
+    <script src="{% static 'js/animations.js' %}"></script>
+    <script src="{% static 'js/components.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+    <script src="{% static 'js/calendar-forms.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
+    
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
-
-
-

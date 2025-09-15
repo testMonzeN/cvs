@@ -1,0 +1,125 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Функции - Phantom{% endblock %}
+{% block description %}Выберите нужную функцию: соревнования, тренировки, семинары или пристрелка оружия.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in text-center">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Выберите функцию</h1>
+                    <p>Все возможности стрелкового клуба Phantom в одном месте</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="features">
+                <div class="feature-card slide-in-left">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Соревнования</h3>
+                    <p>Участвуйте в соревнованиях по снайпингу, силуэтной и практической стрельбе. Проверьте свои навыки против лучших стрелков клуба.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-users"></i> Активных участников</span>
+                        <span><i class="fas fa-calendar"></i> Регулярные турниры</span>
+                    </div>
+                    <div class="feature-card-link">
+                        <a href="{% url 'competitions' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Перейти к соревнованиям
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Тренировки</h3>
+                    <p>Регулярные тренировки под руководством опытных инструкторов. Развивайте технику стрельбы и повышайте точность.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-clock"></i> Гибкое расписание</span>
+                        <span><i class="fas fa-user-graduate"></i> Опытные тренеры</span>
+                    </div>
+                    <div class="feature-card-link">
+                        <a href="{% url 'training' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Записаться на тренировку
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Семинары</h3>
+                    <p>Образовательные семинары по баллистике, тактике и техническим аспектам стрельбы от ведущих экспертов отрасли.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-brain"></i> Теория и практика</span>
+                        <span><i class="fas fa-certificate"></i> Сертификаты</span>
+                    </div>
+                    <div class="feature-card-link">
+                        <a href="{% url 'seminar' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Посмотреть семинары
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card slide-in-left" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <h3>Пристрелка</h3>
+                    <p>Профессиональная пристрелка оружия с точными баллистическими расчетами и индивидуальным подходом к каждому стрелку.</p>
+                    <div class="feature-stats">
+                        <span><i class="fas fa-calculator"></i> Точные расчеты</span>
+                        <span><i class="fas fa-bullseye"></i> Максимальная точность</span>
+                    </div>
+                    <div class="feature-card-link">
+                        <a href="{% url 'singhting-in' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Записаться на пристрелку
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Stats -->
+        <section class="quick-stats">
+            <div class="stats-grid">
+                <div class="quick-stat">
+                    <i class="fas fa-trophy"></i>
+                    <span class="stat-number">25</span>
+                    <span class="stat-label">Активных соревнований</span>
+                </div>
+                <div class="quick-stat">
+                    <i class="fas fa-dumbbell"></i>
+                    <span class="stat-number">48</span>
+                    <span class="stat-label">Еженедельных тренировок</span>
+                </div>
+                <div class="quick-stat">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Экспертных семинаров</span>
+                </div>
+                <div class="quick-stat">
+                    <i class="fas fa-crosshairs"></i>
+                    <span class="stat-number">156</span>
+                    <span class="stat-label">Проведенных пристрелок</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

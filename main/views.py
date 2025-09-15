@@ -4,4 +4,4 @@ from django.views import View
 # Create your views here.
 class MainView(View):
     def get(self, request):
-        return render(request, 'templates/home/main.html')
+        return render(request, 'home/main.html')

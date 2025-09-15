@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+db.sqlite3
+local-venv/
+about/__pycache__/
+func/__pycache__/
+cabinet/__pycache__/
+rules/__pycache__/
+main/__pycache__/
+cvs/__pycache__/

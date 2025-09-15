@@ -1,0 +1,81 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Редактирование семинара - Phantom{% endblock %}
+{% block description %}Редактируйте параметры семинара в клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Редактирование семинара</h1>
+                    <p>Измените параметры существующего семинара</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form">
+                    {% csrf_token %}
+                    
+                    {% if edit_form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_date">
+                                <i class="fas fa-calendar-alt"></i>
+                                Дата и время проведения
+                            </label>
+                            {{ edit_form.date }}
+                            {% if edit_form.date.errors %}
+                                <div class="field-error">{{ edit_form.date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                {{ edit_form.status }}
+                                <span class="checkbox-text">
+                                    <i class="fas fa-toggle-on"></i>
+                                    Семинар активен
+                                </span>
+                            </label>
+                            <small class="form-help">Снимите галочку, чтобы завершить семинар</small>
+                            {% if edit_form.status.errors %}
+                                <div class="field-error">{{ edit_form.status.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                                      
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Сохранить изменения
+                        </button>
+                        <a href="{% url 'seminar' %}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Создание тренировки - Phantom{% endblock %}
+{% block description %}Создайте новую тренировку по стрельбе в клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Создание тренировки</h1>
+                    <p>Заполните форму для создания новой тренировки</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form">
+                    {% csrf_token %}
+                   
+                    {% if create_form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_date">
+                                <i class="fas fa-calendar-alt"></i>
+                                Дата и время проведения
+                            </label>
+                            {{ create_form.date }}
+                            {% if create_form.date.errors %}
+                                <div class="field-error">{{ create_form.date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_type">
+                                <i class="fas fa-dumbbell"></i>
+                                Тип тренировки
+                            </label>
+                            {{ create_form.type }}
+                            {% if create_form.type.errors %}
+                                <div class="field-error">{{ create_form.type.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_description">
+                                <i class="fas fa-align-left"></i>
+                                Описание тренировки
+                            </label>
+                            {{ create_form.description }}
+                            {% if create_form.description.errors %}
+                                <div class="field-error">{{ create_form.description.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Создать тренировку
+                        </button>
+                        <a href="{% url 'training' %}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

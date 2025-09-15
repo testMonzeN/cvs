@@ -1,52 +1,87 @@
 {% extends 'global/base.html' %}
-{% load static %}
 
-{% block name_page %}
-<script>
-    const currentNamePage = "Login";
-</script>
-{% endblock %}
+{% block title %}Вход - Phantom{% endblock %}
+{% block description %}Войдите в свой аккаунт Phantom для доступа к функциям стрелкового клуба.{% endblock %}
 
 {% block content %}
-<div class="login-wrapper">
+<main class="main-content">
     <div class="container">
-        <div class="login-content dark-content-box">
-            <div class="login-form-container">
-                <div class="login-header">
-                    <h1>Вход в аккаунт</h1>
-                    <p>Введите данные для входа в личный кабинет</p>
+        <div class="auth-wrapper">
+            <div class="auth-card card">
+                <div class="auth-header text-center">
+                    <div class="auth-icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h1>Добро пожаловать</h1>
+                    <p>Войдите в свой аккаунт для продолжения</p>
                 </div>
                 
-                <form method="post" class="login-form">
+                <form method="post" class="auth-form" id="loginForm">
                     {% csrf_token %}
                     
-                    {% if form.errors %}
-                    <div class="error-message">
-                        <p>Имя пользователя или пароль неверны. Пожалуйста, попробуйте снова.</p>
-                    </div>
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Неверное имя пользователя или пароль. Пожалуйста, попробуйте снова.
+                        </div>
                     {% endif %}
                     
                     <div class="form-group">
-                        <label for="id_username">Имя пользователя</label>
-                        <input type="text" name="username" id="id_username" required>
+                        <label for="id_username" class="form-label">
+                            <i class="fas fa-user"></i>
+                            Имя пользователя
+                        </label>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            id="id_username" 
+                            class="form-control"
+                            placeholder="Введите имя пользователя"
+                            required
+                            autocomplete="username"
+                            value="{{ form.username.value|default:'' }}"
+                        >
                     </div>
                     
                     <div class="form-group">
-                        <label for="id_password">Пароль</label>
-                        <input type="password" name="password" id="id_password" required>
+                        <label for="id_password" class="form-label">
+                            <i class="fas fa-lock"></i>
+                            Пароль
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="id_password" 
+                                class="form-control"
+                                placeholder="Введите пароль"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword('id_password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                    
                     <div class="form-actions">
-                        <button type="submit" class="login-btn">Войти</button>
+                        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Войти
+                        </button>
                     </div>
                     
-                    <div class="form-links">
-                        <!--<a href="{% url 'change' %}" class="form-link">Забыли пароль?</a> -->
-                        <a href="{% url 'register' %}" class="form-link">Регистрация</a>
+                    <div class="auth-links text-center">
+                        <p>Нет аккаунта? 
+                            <a href="{% url 'register' %}" class="auth-link">
+                                Зарегистрироваться
+                            </a>
+                        </p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-{% endblock %} 
+</main>
+
+{% endblock %}
