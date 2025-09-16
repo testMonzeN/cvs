@@ -112,6 +112,11 @@
                             <i class="fas fa-reply"></i>
                             Ответить
                         </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">
+                            <i class="fas fa-reply"></i>
+                            Войти чтобы ответить
+                        </a>
                     {% endif %}
                 </div>
 

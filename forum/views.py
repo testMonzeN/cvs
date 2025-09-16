@@ -4,12 +4,23 @@ from .models import QuestionModel, CommentModel
 from .forms import QuestionForm, CommentForm
 from django.views import View
 from django.shortcuts import get_object_or_404
+from cabinet.models import User
 
 # Create your views here.
 class QuestionListView(View):
     def get(self, request):
         questions = QuestionModel.objects.all()
-        return render(request, 'forum/question_list.html', {'questions': questions})
+        
+        questions_count = QuestionModel.objects.all().count()
+        comments_count = CommentModel.objects.all().count()
+        active_users = User.objects.all().count()
+        return render(request, 'forum/question_list.html', 
+                      {
+                          'questions': questions, 
+                          'questions_count': questions_count, 
+                          'comments_count': comments_count, 
+                          'active_users': active_users,
+                          })
 
 class QuestionDetailView(View):
     def get(self, request, pk):
