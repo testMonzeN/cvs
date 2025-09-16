@@ -1,0 +1,173 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Двухфакторная аутентификация - ЦВС{% endblock %}
+{% block description %}Настройка двухфакторной аутентификации для повышения безопасности аккаунта в ЦВС.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="auth-wrapper">
+            <div class="auth-card card">
+                <div class="auth-header text-center">
+                    <div class="auth-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h2>Двухфакторная аутентификация</h2>
+                    <p>Повысьте безопасность вашего аккаунта</p>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags|default:'info' }}">
+                            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if not user.mfa_enabled %}
+                    <!-- Setup 2FA -->
+                    <div class="two-fa-setup">
+                        <div class="setup-steps">
+                            <div class="step-item active">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Скачайте приложение</h3>
+                                    <p>Установите одно из приложений аутентификации:</p>
+                                    <div class="app-recommendations">
+                                        <div class="app-item">
+                                            <i class="fab fa-google"></i>
+                                            <span>Google Authenticator</span>
+                                        </div>
+                                        <div class="app-item">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>Microsoft Authenticator</span>
+                                        </div>
+                                        <div class="app-item">
+                                            <i class="fas fa-key"></i>
+                                            <span>Authy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item active">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Отсканируйте QR-код</h3>
+                                    <p>Используйте приложение для сканирования QR-кода:</p>
+                                    <div class="qr-container">
+                                        <div class="qr-code-wrapper">
+                                            <img src="{{ qr_code }}" alt="QR Code для 2FA">
+                                        </div>
+                                        <div class="manual-entry">
+                                            <p>Или введите код вручную:</p>
+                                            <div class="secret-key-container">
+                                                <input type="text" class="secret-key" value="{{ secret_key }}" readonly>
+                                                <button type="button" class="copy-btn" onclick="copyToClipboard('.secret-key')">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-item active">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Введите код подтверждения</h3>
+                                    <form method="post" class="auth-form" id="twoFAForm">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="otp_code" class="form-label">
+                                                <i class="fas fa-key"></i>
+                                                Код из приложения
+                                            </label>
+                                            <input 
+                                                type="text" 
+                                                class="form-control otp-input" 
+                                                id="otp_code" 
+                                                name="otp_code"
+                                                placeholder="000000" 
+                                                required 
+                                                autocomplete="off" 
+                                                maxlength="6"
+                                                pattern="[0-9]{6}"
+                                            >
+                                            <small class="form-text">Введите 6-значный код из приложения</small>
+                                        </div>
+                                        
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary btn-block">
+                                                <i class="fas fa-shield-check"></i>
+                                                Активировать 2FA
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <!-- 2FA is already enabled -->
+                    <div class="two-fa-enabled">
+                        <div class="success-icon">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <h3>Двухфакторная аутентификация активна</h3>
+                        <p>Ваш аккаунт защищен дополнительным уровнем безопасности</p>
+                        
+                        <div class="security-info">
+                            <div class="info-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Аккаунт защищен</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Приложение настроено</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Повышенная безопасность</span>
+                            </div>
+                        </div>
+                        <!-- 
+                        <div class="backup-codes-section">
+                            <h4>
+                                <i class="fas fa-key"></i>
+                                Резервные коды
+                            </h4>
+                            <p>Сохраните резервные коды в безопасном месте. Они помогут восстановить доступ, если вы потеряете телефон.</p>
+                            <button type="button" class="btn btn-outline" onclick="generateBackupCodes()">
+                                <i class="fas fa-download"></i>
+                                Сгенерировать резервные коды
+                            </button>
+                        </div>-->
+
+                        <form method="post" class="disable-2fa-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="disable">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите отключить двухфакторную аутентификацию?')">
+                                <i class="fas fa-times"></i>
+                                Отключить 2FA
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+
+                <div class="auth-links text-center">
+                    <p>
+                        <a href="{% url 'cabinet' %}" class="auth-link">
+                            <i class="fas fa-arrow-left"></i>
+                            Вернуться в кабинет
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

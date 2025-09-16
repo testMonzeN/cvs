@@ -1,0 +1,109 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Редактировать тему - Форум - Phantom{% endblock %}
+{% block description %}Редактирование темы на форуме стрелкового клуба Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Редактировать тему</h1>
+                    <p>Внесите изменения в вашу тему</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form topic-edit-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Topic Type -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_type">
+                                <i class="fas fa-tag"></i>
+                                Тип темы
+                            </label>
+                            {{ form.type }}
+                            {% if form.type.errors %}
+                                <div class="field-error">{{ form.type.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Topic Title -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_title">
+                                <i class="fas fa-heading"></i>
+                                Заголовок темы
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="field-error">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Topic Content -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_text">
+                                <i class="fas fa-align-left"></i>
+                                Содержание темы
+                            </label>
+                            {{ form.text }}
+                            {% if form.text.errors %}
+                                <div class="field-error">{{ form.text.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Edit Notice -->
+                    <div class="edit-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Изменения будут отмечены как отредактированные с указанием времени последнего изменения.</p>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Сохранить изменения
+                        </button>
+                        <a href="{{ form.instance.get_absolute_url }}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                        <a href="{% url 'question-delete' form.instance.pk %}" class="btn btn-danger" 
+                           onclick="return confirm('Вы уверены, что хотите удалить эту тему?')">
+                            <i class="fas fa-trash"></i>
+                            Удалить тему
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

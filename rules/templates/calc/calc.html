@@ -1,0 +1,109 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}Калькулятор очков - Phantom{% endblock %}
+{% block description %}Калькулятор вычисления очков за попадание в классическом снайпинге в стрелковом клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Калькулятор очков</h1>
+                    <p>Вычисление очков за попадание в классическом снайпинге</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_target">
+                                <i class="fas fa-bullseye"></i>
+                                Цель (см)
+                            </label>
+                            <input type="number" name="target" id="id_target" class="form-control" step="0.1" min="0.1">
+                            <small class="form-help">Размер цели от 0.2 до 0.7 МРАД</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_dist">
+                                <i class="fas fa-ruler"></i>
+                                Дистанция (м)
+                            </label>
+                            <input type="number" name="dist" id="id_dist" class="form-control" min="100" max="1500">
+                            <small class="form-help">Дистанция от 100м до 1500м</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="id_calculate">
+                            <i class="fas fa-calculator"></i>
+                            Рассчитать
+                        </button>
+                        <button type="submit" name="clear" class="btn btn-secondary">
+                            <i class="fas fa-trash"></i>
+                            Очистить историю
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if recent_tables %}
+        <div class="content-section">
+            <div class="card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-history"></i>
+                        История расчетов
+                    </h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="modern-table">
+                        <thead>
+                            <tr>
+                                <th>Цель (см)</th>
+                                <th>Дистанция (м)</th>
+                                <th>1-й выстрел</th>
+                                <th>2-й выстрел</th>
+                                <th>3-й выстрел</th>
+                                <th>Цель (МРАД)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in recent_tables %}
+                            <tr>
+                                <td>{{ item.table.target }}</td>
+                                <td>{{ item.table.dist }}</td>
+                                <td class="{% if 'Вы не попали' in item.table.first_try|stringformat:'s' %}text-danger{% else %}text-success{% endif %}">
+                                    {{ item.table.first_try }}
+                                </td>
+                                <td class="{% if 'Вы не попали' in item.table.second_try|stringformat:'s' %}text-danger{% else %}text-success{% endif %}">
+                                    {{ item.table.second_try }}
+                                </td>
+                                <td class="{% if 'Вы не попали' in item.table.third_try|stringformat:'s' %}text-danger{% else %}text-success{% endif %}">
+                                    {{ item.table.third_try }}
+                                </td>
+                                <td class="{% if item.table.mrad >= 0.2 and item.table.mrad <= 0.7 %}text-success{% else %}text-danger{% endif %}">
+                                    {{ item.table.mrad }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

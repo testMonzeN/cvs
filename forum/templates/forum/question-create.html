@@ -1,0 +1,142 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Создать тему - Форум - Phantom{% endblock %}
+{% block description %}Создание новой темы для обсуждения на форуме стрелкового клуба Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Создать новую тему</h1>
+                    <p>Поделитесь своими мыслями, задайте вопрос или начните обсуждение</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form topic-create-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Topic Type -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_type">
+                                <i class="fas fa-tag"></i>
+                                Тип темы
+                            </label>
+                            {{ form.type }}
+                            {% if form.type.errors %}
+                                <div class="field-error">{{ form.type.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-help">Выберите подходящий тип для вашей темы</small>
+                        </div>
+                    </div>
+
+                    <!-- Topic Title -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_title">
+                                <i class="fas fa-heading"></i>
+                                Заголовок темы
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="field-error">{{ form.title.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-help">Краткое и понятное описание темы</small>
+                        </div>
+                    </div>
+
+                    <!-- Topic Content -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_text">
+                                <i class="fas fa-align-left"></i>
+                                Содержание темы
+                            </label>
+                            {{ form.text }}
+                            {% if form.text.errors %}
+                                <div class="field-error">{{ form.text.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-help">Подробно опишите вашу тему или вопрос</small>
+                        </div>
+                    </div>
+
+                    <!-- Forum Guidelines -->
+                    <div class="forum-guidelines">
+                        <div class="guidelines-header">
+                            <i class="fas fa-info-circle"></i>
+                            <h4>Правила форума</h4>
+                        </div>
+                        <ul class="guidelines-list">
+                            <li>Соблюдайте уважительный тон в общении</li>
+                            <li>Не публикуйте спам или рекламу</li>
+                            <li>Используйте поиск перед созданием новой темы</li>
+                            <li>Выбирайте подходящую категорию для темы</li>
+                            <li>Пишите информативные заголовки</li>
+                        </ul>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Создать тему
+                        </button>
+                        <a href="{% url 'question-list' %}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Help Section -->
+            <div class="help-section card">
+                <div class="help-header">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Нужна помощь?</h3>
+                </div>
+                <div class="help-content">
+                    <div class="help-item">
+                        <h4>Как выбрать тип темы?</h4>
+                        <p><strong>Вопрос</strong> - для получения ответов от сообщества</p>
+                        <p><strong>Предложение</strong> - для идей по улучшению клуба</p>
+                        <p><strong>Обсуждение</strong> - для общих дискуссий</p>
+                        <p><strong>Жалоба</strong> - для сообщений о проблемах</p>
+                    </div>
+                    <div class="help-item">
+                        <h4>Советы по написанию</h4>
+                        <ul>
+                            <li>Используйте понятный заголовок</li>
+                            <li>Структурируйте текст абзацами</li>
+                            <li>Приводите конкретные примеры</li>
+                            <li>Проверяйте орфографию</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Соревнования - Phantom{% endblock %}
+{% block description %}Участвуйте в соревнованиях по снайпингу, силуэтной и практической стрельбе в клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Соревнования</h1>
+                    <p>Проверьте свои навыки в профессиональных соревнованиях</p>
+                </div>
+            </div>
+            
+            {% if user.is_authenticated and user.role_user == 'admin' %}
+            <div class="page-actions">
+                <a href="{% url 'competitions-create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Создать соревнование
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="content-section">
+            <div class="competitions-filter">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all" name="all">
+                        <i class="fas fa-list"></i>
+                        Все соревнования
+                    </button>
+                    <button class="filter-tab" data-filter="Снайпинг" name="Снайпинг">
+                        <i class="fas fa-crosshairs"></i>
+                        Снайпинг
+                    </button>
+                    <button class="filter-tab" data-filter="Снайпинг МК" name="Снайпинг МК">
+                        <i class="fas fa-bullseye"></i>
+                        Снайпинг МК
+                    </button>
+                    <button class="filter-tab" data-filter="Силуэтная стрельба" name="Силуэтная стрельба">
+                        <i class="fas fa-running"></i>
+                        Силуэтная
+                    </button>
+                    <button class="filter-tab" data-filter="Практическая стрельба" name="Практическая стрельба">
+                        <i class="fas fa-target"></i>
+                        Практическая
+                    </button>
+                </div>
+            </div>
+
+            <div class="competitions-grid" data-filter-container>
+                {% for competition in competitions %}
+                <div class="competition-card card slide-in-left" data-type="{{ competition.type }}" data-filter-item="{{ competition.type }}" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s;">
+                    <div class="competition-header">
+                        <div class="competition-type">
+                            <i class="fas fa-{% if competition.type == 'Снайпинг' %}crosshairs{% elif competition.type == 'Снайпинг МК' %}bullseye{% elif competition.type == 'Силуэтная стрельба' %}running{% else %}target{% endif %}"></i>
+                            {{ competition.type }}
+                        </div>
+                        <div class="competition-status">
+                            {% if competition.status %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-circle"></i>
+                                    Активно
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-circle"></i>
+                                    Завершено
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="competition-info">
+                        <div class="competition-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {% if competition.date %}
+                                {{ competition.date|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Дата уточняется
+                            {% endif %}
+                        </div>
+                        
+                        <div class="competition-description">
+                            {{ competition.description|truncatewords:20 }}
+                        </div>
+                        
+                        <div class="competition-participants">
+                            <i class="fas fa-users"></i>
+                            <span>{{ competition.participants.count }} участников</span>
+                        </div>
+                    </div>
+
+                    <div class="competition-actions">
+                        <a href="{{ competition.get_absolute_url }}" class="btn btn-outline">
+                            <i class="fas fa-eye"></i>
+                            Подробнее
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                            {% if user in competition.participants.all %}
+                                <span class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                    Участвую
+                                </span>
+                            {% else %}
+                                <button class="btn btn-primary" onclick="joinCompetition({{ competition.pk }})">
+                                    <i class="fas fa-plus"></i>
+                                    Участвовать
+                                </button>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.is_authenticated and user.role_user == 'admin' %}
+                        <div class="admin-actions">
+                            <a href="{% url 'competitions-edit' competition.pk %}" class="btn-icon" title="Редактировать">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Нет активных соревнований</h3>
+                    <p>В данный момент нет запланированных соревнований. Следите за обновлениями!</p>
+                    {% if user.is_authenticated and user.role_user == 'admin' %}
+                    <a href="{% url 'competitions-create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Создать первое соревнование
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

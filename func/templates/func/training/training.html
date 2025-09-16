@@ -1,0 +1,149 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Тренировки - Phantom{% endblock %}
+{% block description %}Участвуйте в тренировках по снайпингу, силуэтной и практической стрельбе в клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Тренировки</h1>
+                    <p>Развивайте навыки стрельбы на профессиональных тренировках</p>
+                </div>
+            </div>
+            
+            {% if user.is_authenticated and user.role_user == 'admin' %}
+            <div class="page-actions">
+                <a href="{% url 'training-create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Создать тренировку
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="content-section">
+            <div class="training-filter">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all" name="all">
+                        <i class="fas fa-list"></i>
+                        Все тренировки
+                    </button>
+                    <button class="filter-tab" data-filter="Снайпинг" name="Снайпинг">
+                        <i class="fas fa-crosshairs"></i>
+                        Снайпинг
+                    </button>
+                    <button class="filter-tab" data-filter="Снайпинг МК" name="Снайпинг МК">
+                        <i class="fas fa-bullseye"></i>
+                        Снайпинг МК
+                    </button>
+                    <button class="filter-tab" data-filter="Силуэтная стрельба" name="Силуэтная стрельба">
+                        <i class="fas fa-running"></i>
+                        Силуэтная
+                    </button>
+                    <button class="filter-tab" data-filter="Практическая стрельба" name="Практическая стрельба">
+                        <i class="fas fa-target"></i>
+                        Практическая
+                    </button>
+                </div>
+            </div>
+
+            <div class="training-grid" data-filter-container>
+                {% for training in training_list %}
+                <div class="training-card card slide-in-left" data-type="{{ training.type }}" data-filter-item="{{ training.type }}" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s;">
+                    <div class="training-header">
+                        <div class="training-type">
+                            <i class="fas fa-{% if training.type == 'Снайпинг' %}crosshairs{% elif training.type == 'Снайпинг МК' %}bullseye{% elif training.type == 'Силуэтная стрельба' %}running{% else %}target{% endif %}"></i>
+                            {{ training.type }}
+                        </div>
+                        <div class="training-status">
+                            {% if training.status %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-circle"></i>
+                                    Активна
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-circle"></i>
+                                    Завершена
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="training-info">
+                        <div class="training-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {% if training.date %}
+                                {{ training.date|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Дата уточняется
+                            {% endif %}
+                        </div>
+                        
+                        <div class="training-description">
+                            {{ training.description|truncatewords:20 }}
+                        </div>
+                        
+                        <div class="training-participants">
+                            <i class="fas fa-users"></i>
+                            <span>{{ training.participants.count }} участников</span>
+                        </div>
+                    </div>
+
+                    <div class="training-actions">
+                        <a href="{{ training.get_absolute_url }}" class="btn btn-outline">
+                            <i class="fas fa-eye"></i>
+                            Подробнее
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                            {% if user in training.participants.all %}
+                                <span class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                    Участвую
+                                </span>
+                            {% else %}
+                                <button class="btn btn-primary" onclick="joinTraining({{ training.pk }})">
+                                    <i class="fas fa-plus"></i>
+                                    Записаться
+                                </button>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.is_authenticated and user.role_user == 'admin' %}
+                        <div class="admin-actions">
+                            <a href="{% url 'training-edit' training.pk %}" class="btn-icon" title="Редактировать">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Нет активных тренировок</h3>
+                    <p>В данный момент нет запланированных тренировок. Следите за обновлениями!</p>
+                    {% if user.is_authenticated and user.role_user == 'admin' %}
+                    <a href="{% url 'training-create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Создать первую тренировку
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

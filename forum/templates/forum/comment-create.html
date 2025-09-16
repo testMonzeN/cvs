@@ -1,0 +1,103 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Ответить - Форум - Phantom{% endblock %}
+{% block description %}Написать ответ на тему форума стрелкового клуба Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-reply"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Написать ответ</h1>
+                    <p>Поделитесь своим мнением или ответьте на вопрос</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form comment-create-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Hidden Question Field -->
+                    <input type="hidden" name="question" value="{{ pk }}">
+
+                    <!-- Comment Content -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_text">
+                                <i class="fas fa-comment"></i>
+                                Ваш ответ
+                            </label>
+                            <textarea name="text" rows="8" class="form-control" placeholder="Напишите ваш ответ..." required></textarea>
+                            {% if form.text.errors %}
+                                <div class="field-error">{{ form.text.errors.0 }}</div>
+                            {% endif %}
+                            <small class="form-help">Минимум 10 символов для ответа</small>
+                        </div>
+                    </div>
+
+                    <!-- Comment Guidelines -->
+                    <div class="comment-guidelines">
+                        <div class="guidelines-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Советы для хорошего ответа</h4>
+                        </div>
+                        <ul class="guidelines-list">
+                            <li>Отвечайте по теме и будьте конструктивны</li>
+                            <li>Приводите примеры и ссылки при необходимости</li>
+                            <li>Соблюдайте вежливость в общении</li>
+                            <li>Проверяйте орфографию перед отправкой</li>
+                        </ul>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Отправить ответ
+                        </button>
+                        <a href="{% url 'question-detail' pk %}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                        <button type="button" class="btn btn-outline" onclick="this.form.reset()">
+                            <i class="fas fa-eraser"></i>
+                            Очистить
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section card" style="display: none;">
+                <div class="preview-header">
+                    <i class="fas fa-eye"></i>
+                    <h3>Предварительный просмотр</h3>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <!-- Preview will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

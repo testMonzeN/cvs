@@ -1,0 +1,343 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Extra Large screens (1400px and up) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1400px;
+    }
+    
+    .features {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4rem;
+    }
+    
+    h1 { font-size: 4rem; }
+    
+    .hero-section {
+        padding: 6rem 0 !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 4rem;
+    }
+}
+
+/* Large screens (992px to 1399px) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .container {
+        max-width: 1200px;
+    }
+    
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Medium screens (768px to 991px) - Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        padding: 0 20px;
+    }
+    
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .feature-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .feature-card-small {
+        padding: 1.5rem !important;
+        max-width: 250px;
+    }
+    
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 1.8rem; }
+    
+    .hero-section {
+        padding: 3rem 0 !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .page-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .page-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .competitions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .teleport-header h1 {
+        font-size: 2rem;
+    }
+    
+    .teleport-header p {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+    
+    .feature-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .quick-stats .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* Small screens (576px to 767px) - Large phones */
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .features {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 2rem;
+    }
+    
+    .feature-card-small {
+        padding: 1.25rem !important;
+        max-width: 240px;
+    }
+    
+    .content-box {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.6rem; }
+    h3 { font-size: 1.3rem; }
+    
+    .btn {
+        padding: 0.7rem 1.3rem;
+        font-size: 0.95rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .page-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .competitions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Extra small screens (up to 575px) - Small phones */
+@media (max-width: 575px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .features {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-card-small {
+        padding: 1rem !important;
+        max-width: 220px;
+    }
+    
+    .content-box {
+        padding: 1.5rem;
+        border-radius: var(--radius-medium);
+        margin: 0.5rem;
+    }
+    
+    h1 { 
+        font-size: 1.8rem; 
+        line-height: 1.2;
+    }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.2rem; }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.75rem !important;
+    }
+    
+    .hero-section p {
+        font-size: 1.1rem !important;
+        padding: 0 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
+    
+    .stats-section {
+        margin: 2rem 0;
+        padding: 2rem 0;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .page-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .competitions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .quick-stats .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quick-stat {
+        padding: 1rem;
+    }
+    
+    .teleport-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .teleport-header p {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/* Ultra-wide screens (1920px and up) */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .features {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3rem;
+    }
+    
+    .feature-card {
+        padding: 3rem;
+    }
+    
+    .feature-card-small {
+        padding: 2.5rem !important;
+        max-width: 320px;
+    }
+    
+    .stats-grid {
+        gap: 5rem;
+    }
+    
+    h1 { font-size: 4.5rem; }
+    h2 { font-size: 2.5rem; }
+    
+    .hero-section {
+        padding: 8rem 0 !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 4.5rem;
+    }
+}
+

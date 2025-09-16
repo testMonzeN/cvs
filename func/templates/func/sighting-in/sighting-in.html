@@ -1,0 +1,109 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Пристрелка оружия - Phantom{% endblock %}
+{% block description %}Услуги пристрелки оружия в профессиональном стрелковом клубе Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Пристрелка оружия</h1>
+                    <p>Профессиональные услуги пристрелки и настройки оружия</p>
+                </div>
+            </div>
+            
+            {% if user.is_authenticated and user.role_user == 'admin' %}
+            <div class="page-actions">
+                <a href="{% url 'singhting-in-create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Создать запись
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="content-section">
+            <div class="sighting-grid" data-filter-container>
+                {% for sighting_in in sighting_in_list %}
+                <div class="sighting-card card slide-in-left" data-filter-item="sighting" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s;">
+                    <div class="sighting-header">
+                        <div class="sighting-type">
+                            <i class="fas fa-bullseye"></i>
+                            Пристрелка оружия
+                        </div>
+                        <div class="sighting-status">
+                            {% if sighting_in.status %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-circle"></i>
+                                    Активна
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-circle"></i>
+                                    Завершена
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="sighting-info">
+                        <div class="sighting-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            {% if sighting_in.date %}
+                                {{ sighting_in.date|date:"d.m.Y в H:i" }}
+                            {% else %}
+                                Дата уточняется
+                            {% endif %}
+                        </div>
+                        
+                        <div class="sighting-description">
+                            {{ sighting_in.description|truncatewords:20 }}
+                        </div>
+                        
+                        <div class="sighting-user">
+                            <i class="fas fa-user"></i>
+                            <span>{{ sighting_in.user.username }}</span>
+                        </div>
+                    </div>
+
+                    <div class="sighting-actions">
+                        <a href="{{ sighting_in.get_absolute_url }}" class="btn btn-outline">
+                            <i class="fas fa-eye"></i>
+                            Подробнее
+                        </a>
+
+                        {% if user.is_authenticated and user.role_user == 'admin' %}
+                        <div class="admin-actions">
+                            <a href="{% url 'singhting-in-edit' sighting_in.pk %}" class="btn-icon" title="Редактировать">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Нет записей на пристрелку</h3>
+                    <p>В данный момент нет активных записей на пристрелку оружия.</p>
+                    {% if user.is_authenticated and user.role_user == 'admin' %}
+                    <a href="{% url 'singhting-in-create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Создать первую запись
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
