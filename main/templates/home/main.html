@@ -20,10 +20,7 @@
                 
                 <div class="hero-buttons" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'teleport' %}" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                            <i class="fas fa-rocket"></i>
-                            Перейти к функциям
-                        </a>
+                    
                         <a href="{% url 'cabinet' %}" class="btn btn-outline" style="font-size: 1.1rem; padding: 1rem 2rem;">
                             <i class="fas fa-user"></i>
                             Личный кабинет
@@ -42,7 +39,6 @@
             </div>
         </section>
 
-        <!-- Features Preview -->
         <section class="features-preview" style="padding: 4rem 0;">
             <div class="text-center mb-4">
                 <h2 style="margin-bottom: 1rem;">Что мы предлагаем</h2>
@@ -54,7 +50,7 @@
             <div class="features">
                 <div class="feature-card slide-in-left">
                     <div style="font-size: 3rem; color: var(--accent-primary); margin-bottom: 1.5rem;">
-                        <i class="fas fa-trophy"></i>
+                        <i class="fas fa-trophy fa-beat-fade"></i>
                     </div>
                     <h3>Соревнования</h3>
                     <p>Участвуйте в соревнованиях по снайпингу, силуэтной и практической стрельбе. Проверьте свои навыки против лучших стрелков.</p>
@@ -68,7 +64,7 @@
                 
                 <div class="feature-card slide-in-left" style="animation-delay: 0.1s;">
                     <div style="font-size: 3rem; color: var(--accent-success); margin-bottom: 1.5rem;">
-                        <i class="fas fa-dumbbell"></i>
+                        <i class="fas fa-dumbbell fa-beat-fade"></i>
                     </div>
                     <h3>Тренировки</h3>
                     <p>Регулярные тренировки под руководством опытных инструкторов. Развивайте технику и повышайте точность стрельбы.</p>
@@ -82,7 +78,7 @@
                 
                 <div class="feature-card slide-in-left" style="animation-delay: 0.2s;">
                     <div style="font-size: 3rem; color: var(--accent-warning); margin-bottom: 1.5rem;">
-                        <i class="fas fa-chalkboard-teacher"></i>
+                        <i class="fas fa-chalkboard-teacher fa-beat-fade"></i>
                     </div>
                     <h3>Семинары</h3>
                     <p>Образовательные семинары по баллистике, тактике и техническим аспектам стрельбы от ведущих экспертов.</p>
@@ -96,7 +92,7 @@
                 
                 <div class="feature-card slide-in-left" style="animation-delay: 0.3s;">
                     <div style="font-size: 3rem; color: var(--accent-secondary); margin-bottom: 1.5rem;">
-                        <i class="fas fa-crosshairs"></i>
+                        <i class="fas fa-crosshairs fa-beat-fade"></i>
                     </div>
                     <h3>Пристрелка</h3>
                     <p>Профессиональная пристрелка оружия с точными баллистическими расчетами и индивидуальным подходом.</p>
@@ -104,6 +100,50 @@
                         <a href="{% url 'teleport' %}">
                             <i class="fas fa-arrow-right"></i>
                             Записаться
+                        </a>
+                    </div>
+                </div>
+
+
+
+                <div class="feature-card feature-card-small slide-in-left">
+                    <div style="font-size: 2.5rem; color: var(--accent-primary); margin-bottom: 1rem;">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Правила</h3>
+                    <p>Правила для участия в профессиональных мероприятиях.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'sniper_rules' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Перейти к правилам
+                        </a>
+                    </div>
+                </div>
+
+                <div class="feature-card feature-card-small slide-in-right">
+                    <div style="font-size: 2.5rem; color: var(--accent-primary); margin-bottom: 1rem;">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Форум</h3>
+                    <p>Форум для обсуждения вопросов и получения помощи.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'question-list' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Перейти к форуму
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="feature-card feature-card-small slide-in-right">
+                    <div style="font-size: 2.5rem; color: var(--accent-primary); margin-bottom: 1rem;">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Калькулятор</h3>
+                    <p>Калькулятор для расчета очков за попадание в классическом снайпинге.</p>
+                    <div class="feature-card-link">
+                        <a href="{% url 'calc' %}">
+                            <i class="fas fa-arrow-right"></i>
+                            Перейти к калькулятору
                         </a>
                     </div>
                 </div>

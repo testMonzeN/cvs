@@ -195,6 +195,29 @@
     text-decoration: none;
 }
 
+/* Маленькие карточки (Правила, Форум, Калькулятор) */
+.feature-card-small {
+    padding: 1.5rem !important;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.feature-card-small h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.75rem;
+}
+
+.feature-card-small p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.feature-card-small .feature-card-link a {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+}
+
 /* Content Box */
 .content-box {
     background: rgba(45, 45, 45, 0.5);
@@ -342,6 +365,11 @@
         padding: 2rem;
     }
     
+    .feature-card-small {
+        padding: 1.25rem !important;
+        max-width: 260px;
+    }
+    
     .content-box {
         padding: 2rem;
     }
@@ -376,6 +404,11 @@
     
     .feature-card {
         padding: 3rem;
+    }
+    
+    .feature-card-small {
+        padding: 2rem !important;
+        max-width: 300px;
     }
     
     .content-box {

@@ -7,25 +7,13 @@
 {% block content %}
 <main class="main-content">
     <div class="container">
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb-nav">
-            <a href="{% url 'main' %}" class="breadcrumb-item">
-                <i class="fas fa-home"></i>
-                Главная
-            </a>
-            <span class="breadcrumb-separator">/</span>
-            <a href="{% url 'cabinet' %}" class="breadcrumb-item">Личный кабинет</a>
-            <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current">Двухфакторная аутентификация</span>
-        </nav>
-
         <div class="auth-wrapper">
             <div class="auth-card card">
                 <div class="auth-header text-center">
                     <div class="auth-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h1>Двухфакторная аутентификация</h1>
+                    <h2>Двухфакторная аутентификация</h2>
                     <p>Повысьте безопасность вашего аккаунта</p>
                 </div>
 
@@ -145,7 +133,7 @@
                                 <span>Повышенная безопасность</span>
                             </div>
                         </div>
-
+                        <!-- 
                         <div class="backup-codes-section">
                             <h4>
                                 <i class="fas fa-key"></i>
@@ -156,7 +144,7 @@
                                 <i class="fas fa-download"></i>
                                 Сгенерировать резервные коды
                             </button>
-                        </div>
+                        </div>-->
 
                         <form method="post" class="disable-2fa-form">
                             {% csrf_token %}
