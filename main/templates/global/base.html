@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{% static 'css/tables.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth-enhanced.css' %}">
     <link rel="stylesheet" href="{% static 'css/rules.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forum.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     
     <!-- External Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -57,6 +59,7 @@
                     <li><a href="{% url 'main' %}" class="nav-link">Главная</a></li>
                     <li><a href="{% url 'teleport' %}" class="nav-link">Функции</a></li>
                     <li><a href="{% url 'sniper_rules' %}" class="nav-link">Правила</a></li>
+                    <li><a href="{% url 'question-list' %}" class="nav-link">Форум</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'cabinet' %}" class="nav-link">
                             <i class="fas fa-user"></i>
@@ -102,14 +105,26 @@
     <!-- Footer -->
     <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem 0; margin-top: 4rem;">
         <div class="container">
-            <div class="text-center">
-                <p style="color: var(--text-muted); margin: 0;">
-                    &copy; 2025 Phantom. Все права защищены.
-                </p>
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>ЦВС</h3>
+                    <p>Профессиональный стрелковый клуб</p>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://github.com/testMonzeN" target="_blank" rel="noopener noreferrer" class="github-link">
+                        <i class="fab fa-github github-icon"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+                
+                <div class="footer-copyright">
+                    <p>&copy; 2025 ЦВС. Все права защищены.</p>
+                </div>
             </div>
         </div>
     </footer>
-    
+    <script src="{% static 'js/footer.js' %}"></script>
     <!-- JavaScript Files -->
     <script src="{% static 'js/core.js' %}"></script>
     <script src="{% static 'js/navigation.js' %}"></script>
@@ -119,6 +134,10 @@
     <script src="{% static 'js/calendar.js' %}"></script>
     <script src="{% static 'js/calendar-forms.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>
+    <script src="{% static 'js/rules.js' %}"></script>
+    <script src="{% static 'js/two-factor-auth.js' %}"></script>
+    <script src="{% static 'js/forum.js' %}"></script>
+
     
     {% block extra_scripts %}{% endblock %}
 </body>

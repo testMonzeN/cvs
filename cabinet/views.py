@@ -138,7 +138,7 @@ class Authentication(View):
 
         opt_url = pyotp.totp.TOTP(user.otp_secret).provisioning_uri(
             name = user.username,
-            issuer_name='Phantom'
+            issuer_name='ЦВС'
         )
 
         qr = qrcode.make(opt_url)

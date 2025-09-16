@@ -21,9 +21,9 @@ class CompetitionsView(View):
         filter_type = request.GET.get('name') or request.GET.get('filter')
         
         if not filter_type or filter_type == 'all':
-            competitions = CompetitionsModel.objects.all().order_by('-date')
+            competitions = CompetitionsModel.objects.all().order_by('-date').order_by('-status')
         else:
-            competitions = CompetitionsModel.objects.filter(type=filter_type).order_by('-date')
+            competitions = CompetitionsModel.objects.filter(type=filter_type).order_by('-date').order_by('-status')
             
         return render(request, 'func/competitions/competitions.html', 
                       {
@@ -61,14 +61,14 @@ class CompetitionsCreateView(View):
         
 class CompetitionsEditView(View):
     def get(self, request, pk):
-        edit_form = CompetitionsEditForm(CompetitionsModel.objects.get(pk=pk))
+        edit_form = CompetitionsEditForm(instance=CompetitionsModel.objects.get(pk=pk))
         return render(request, 'func/competitions/competitions-edit.html', 
                       {
                           'edit_form': edit_form,
                           })
         
     def post(self, request, pk):
-        edit_form = CompetitionsEditForm(request.POST, instance=CompetitionsModel.objects.get(pk=pk))
+        edit_form = CompetitionsEditForm(instance=CompetitionsModel.objects.get(pk=pk))
         if edit_form.is_valid():
             edit_form.save()
             return redirect('competitions')
@@ -153,7 +153,7 @@ class TrainingEditView(View):
 class SinghtingInView(View):
     def get(self, request):
         sighting_in_list = SinghtingInModel.objects.all().order_by('-date')
-        return render(request, 'func/ssighting-in/sighting-in.html', 
+        return render(request, 'func/sighting-in/sighting-in.html', 
                       {
                           'sighting_in_list': sighting_in_list,
                           })
@@ -161,7 +161,7 @@ class SinghtingInView(View):
 class SinghtingInDetailView(View):
     def get(self, request, pk):
         singhting_in = SinghtingInModel.objects.get(pk=pk)
-        return render(request, 'func/singhting-in/singhting-in-detail.html', 
+        return render(request, 'func/sighting-in/sighting-in-detail.html', 
                       {
                           'singhting_in': singhting_in,
                           })
@@ -169,7 +169,7 @@ class SinghtingInDetailView(View):
 class SinghtingInCreateView(View):
     def get(self, request):
         create_form = SinghtingInCreateForm()
-        return render(request, 'func/singhting-in/singhting-in-create.html', 
+        return render(request, 'func/sighting-in/sighting-in-create.html', 
                       {
                           'create_form': create_form,
                           })
@@ -178,14 +178,14 @@ class SinghtingInCreateView(View):
         if create_form.is_valid():
             create_form.save()
             return redirect('singhting-in')
-        return render(request, 'func/singhting-in/singhting-in-create.html', 
+        return render(request, 'func/sighting-in/sighting-in-create.html', 
                       {
                           'create_form': create_form,
                           })
 class SinghtingInEditView(View):
     def get(self, request, pk):
         edit_form = SinghtingInEditForm(instance=SinghtingInModel.objects.get(pk=pk))
-        return render(request, 'func/singhting-in/singhting-in-edit.html', 
+        return render(request, 'func/sighting-in/sighting-in-edit.html', 
                       {
                           'edit_form': edit_form,
                           })

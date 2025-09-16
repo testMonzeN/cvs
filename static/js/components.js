@@ -140,7 +140,18 @@ function initLoadingStates() {
     // Auto-add loading states to buttons with data-loading attribute
     document.addEventListener('click', function(e) {
         if (e.target.matches('[data-loading]')) {
-            addLoadingState(e.target);
+            // Only add loading state for submit buttons in forms
+            const form = e.target.closest('form');
+            if (form && e.target.type === 'submit') {
+                addLoadingState(e.target);
+                
+                // Remove loading state if form submission fails
+                setTimeout(() => {
+                    if (e.target.classList.contains('loading')) {
+                        removeLoadingState(e.target);
+                    }
+                }, 10000); // Remove after 10 seconds as fallback
+            }
         }
     });
 }

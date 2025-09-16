@@ -1,0 +1,185 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}{{ question.title }} - Форум - Phantom{% endblock %}
+{% block description %}{{ question.text|truncatewords:20 }}{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+
+        <!-- Topic Header -->
+        <div class="topic-detail-header fade-in">
+            <div class="topic-type-badge">
+                <span class="type-badge type-{{ question.type|lower }}">
+                    {% if question.type == 'Вопрос' %}
+                        <i class="fas fa-question-circle"></i>
+                    {% elif question.type == 'Предложение' %}
+                        <i class="fas fa-lightbulb"></i>
+                    {% elif question.type == 'Жалоба' %}
+                        <i class="fas fa-exclamation-triangle"></i>
+                    {% elif question.type == 'Обсуждение' %}
+                        <i class="fas fa-comments"></i>
+                    {% else %}
+                        <i class="fas fa-comment"></i>
+                    {% endif %}
+                    {{ question.type }}
+                </span>
+            </div>
+            <h1 class="topic-title">{{ question.title }}</h1>
+            <div class="topic-meta">
+                <div class="author-info">
+                    <div class="author-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="author-details">
+                        <div class="author-name">
+                            {% if question.author %}
+                                {{ question.author.username }}
+                            {% else %}
+                                Аноним
+                            {% endif %}
+                        </div>
+                        <div class="author-role">Участник</div>
+                    </div>
+                </div>
+                <div class="topic-info">
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        {{ question.created_at|date:"d.m.Y H:i" }}
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-comment"></i>
+                        {{ comments.count }} ответов
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Content -->
+        <div class="topic-detail-content">
+            <!-- Original Post -->
+            <div class="post-card original-post fade-in">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">
+                                {% if question.author %}
+                                    {{ question.author.username }}
+                                {% else %}
+                                    Аноним
+                                {% endif %}
+                            </div>
+                            <div class="author-meta">
+                                <span class="author-badge">Автор темы</span>
+                                <span class="post-date">{{ question.created_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        {% if user.is_authenticated and user == question.author %}
+                            <a href="{% url 'question-update' question.pk %}" class="btn btn-outline btn-sm">
+                                <i class="fas fa-edit"></i>
+                                Изменить
+                            </a>
+                            <a href="{% url 'question-delete' question.pk %}" class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Вы уверены, что хотите удалить эту тему?')">
+                                <i class="fas fa-trash"></i>
+                                Удалить
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="post-content">
+                    <div class="post-text">
+                        {{ question.text|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <div class="comments-header fade-in">
+                    <h3>
+                        <i class="fas fa-comments"></i>
+                        Ответы ({{ comments.count }})
+                    </h3>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'comment-create' question.pk %}" class="btn btn-primary">
+                            <i class="fas fa-reply"></i>
+                            Ответить
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div class="comments-list">
+                    {% if comments %}
+                        {% for comment in comments %}
+                        <div class="post-card comment-post fade-in">
+                            <div class="post-header">
+                                <div class="post-author">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <div class="author-name">
+                                            {% if comment.author %}
+                                                {{ comment.author.username }}
+                                            {% else %}
+                                                Аноним
+                                            {% endif %}
+                                        </div>
+                                        <div class="author-meta">
+                                            <span class="post-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-actions">
+                                    {% if user.is_authenticated and user == comment.author %}
+                                        <a href="{% url 'comment-update' comment.pk %}" class="btn btn-outline btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'comment-delete' comment.pk %}" class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-text">
+                                    {{ comment.text|linebreaks }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-comments fade-in">
+                            <div class="empty-icon">
+                                <i class="fas fa-comment-slash"></i>
+                            </div>
+                            <p>Пока нет ответов на эту тему</p>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'comment-create' question.pk %}" class="btn btn-primary">
+                                    <i class="fas fa-reply"></i>
+                                    Написать первый ответ
+                                </a>
+                            {% else %}
+                                <p class="auth-prompt">
+                                    <a href="{% url 'login' %}">Войдите</a> или 
+                                    <a href="{% url 'registration' %}">зарегистрируйтесь</a>, 
+                                    чтобы оставить ответ
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock %}

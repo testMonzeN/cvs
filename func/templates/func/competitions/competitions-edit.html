@@ -21,7 +21,7 @@
 
         <div class="content-section">
             <div class="form-container card">
-                <form method="post" class="modern-form">
+                <form method="post" enctype="multipart/form-data" class="modern-form">
                     {% csrf_token %}
                     
                     {% if edit_form.errors %}

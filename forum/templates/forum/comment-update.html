@@ -1,0 +1,84 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Редактировать комментарий - Форум - Phantom{% endblock %}
+{% block description %}Редактирование комментария на форуме стрелкового клуба Phantom.{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Редактировать комментарий</h1>
+                    <p>Внесите изменения в ваш комментарий</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="content-section">
+            <div class="form-container card">
+                <form method="post" class="modern-form comment-edit-form">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-error fade-in">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Ошибка валидации</strong>
+                            <p>Пожалуйста, исправьте ошибки в форме и попробуйте снова.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Hidden Question Field -->
+                    <input type="hidden" name="question" value="{{ form.instance.question.pk }}">
+
+                    <!-- Comment Content -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_text">
+                                <i class="fas fa-comment"></i>
+                                Текст комментария
+                            </label>
+                            {{ form.text }}
+                            {% if form.text.errors %}
+                                <div class="field-error">{{ form.text.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Edit Notice -->
+                    <div class="edit-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Изменения будут отмечены как отредактированные с указанием времени последнего изменения.</p>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Сохранить изменения
+                        </button>
+                        <a href="{{ form.instance.question.get_absolute_url }}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i>
+                            Отменить
+                        </a>
+                        <a href="{% url 'comment-delete' form.instance.pk %}" class="btn btn-danger" 
+                           onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')">
+                            <i class="fas fa-trash"></i>
+                            Удалить комментарий
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

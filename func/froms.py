@@ -22,7 +22,8 @@ class CompetitionsCreateForm(forms.ModelForm):
         
     def save(self, commit=True):
         instance = super().save(commit=False)
-        instance.status = True  # По умолчанию соревнование активно
+        instance.status = True  
+        
         if commit:
             instance.save()
         return instance
@@ -33,7 +34,7 @@ class CompetitionsCreateForm(forms.ModelForm):
         date = cleaned_data.get('date')
         type = cleaned_data.get('type')
         description = cleaned_data.get('description')
-        status = cleaned_data.get('status')
+        #status = cleaned_data.get('status')
         
         return cleaned_data
 
@@ -173,7 +174,6 @@ class SeminarEditForm(forms.ModelForm):
 
 class SinghtingInCreateForm(forms.ModelForm):
     date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    status = forms.BooleanField(required=True)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}))
     status = forms.BooleanField(required=True)
     
@@ -193,7 +193,6 @@ class SinghtingInCreateForm(forms.ModelForm):
 
 class SinghtingInEditForm(forms.ModelForm):
     date = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
-    status = forms.BooleanField(required=True)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}))
     status = forms.BooleanField(required=True)
     

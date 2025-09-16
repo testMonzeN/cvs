@@ -1,8 +1,8 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block title %}Двухфакторная аутентификация - Phantom{% endblock %}
-{% block description %}Настройка двухфакторной аутентификации для повышения безопасности аккаунта в Phantom.{% endblock %}
+{% block title %}Двухфакторная аутентификация - ЦВС{% endblock %}
+{% block description %}Настройка двухфакторной аутентификации для повышения безопасности аккаунта в ЦВС.{% endblock %}
 
 {% block content %}
 <main class="main-content">
@@ -182,53 +182,4 @@
     </div>
 </main>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Auto-format OTP input
-    const otpInput = document.getElementById('otp_code');
-    if (otpInput) {
-        otpInput.addEventListener('input', function() {
-            // Only allow numbers
-            this.value = this.value.replace(/[^0-9]/g, '');
-            
-            // Auto-submit when 6 digits are entered
-            if (this.value.length === 6) {
-                // Add small delay for better UX
-                setTimeout(() => {
-                    document.getElementById('twoFAForm').submit();
-                }, 500);
-            }
-        });
-    }
-});
-
-function copyToClipboard(selector) {
-    const element = document.querySelector(selector);
-    element.select();
-    element.setSelectionRange(0, 99999); // For mobile devices
-    
-    try {
-        document.execCommand('copy');
-        
-        // Show feedback
-        const btn = document.querySelector('.copy-btn');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        btn.classList.add('copied');
-        
-        setTimeout(() => {
-            btn.innerHTML = originalHTML;
-            btn.classList.remove('copied');
-        }, 2000);
-        
-    } catch (err) {
-        console.error('Failed to copy text: ', err);
-    }
-}
-
-function generateBackupCodes() {
-    // This would typically make an AJAX request to generate backup codes
-    alert('Функция генерации резервных кодов будет реализована в следующем обновлении.');
-}
-</script>
 {% endblock %}
