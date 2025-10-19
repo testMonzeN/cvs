@@ -1,8 +1,8 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block title %}Личный кабинет - Phantom{% endblock %}
-{% block description %}Личный кабинет участника стрелкового клуба Phantom. Управление профилем, просмотр активности и записи на мероприятия.{% endblock %}
+{% block title %}Личный кабинет - ЦВС{% endblock %}
+{% block description %}Личный кабинет участника стрелкового клуба ЦВС. Управление профилем, просмотр активности и записи на мероприятия.{% endblock %}
 
 {% block content %}
 <main class="main-content">
@@ -28,30 +28,32 @@
                 </div>
             </div>
             
-            <div class="profile-actions">
-                <a href="{% url 'change' %}" class="btn btn-outline">
-                    <i class="fas fa-key"></i>
-                    Сменить пароль
-                </a>
-                {% if not mfa_enabled %}
-                <a href="{% url 'authentication' %}" class="btn btn-primary">
-                    <i class="fas fa-shield-alt"></i>
-                    Включить 2FA
-                </a>
-                {% else %}
-                <span class="btn btn-success" title="2FA уже активирована">
-                    <i class="fas fa-shield-check"></i>
-                    2FA активна
-                </span>
-                {% endif %}
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Выйти
-                    </button>
-                </form>
-            </div>
+            {% if user.username == request.user.username %}
+                <div class="profile-actions">
+                    <a href="{% url 'change' %}" class="btn btn-outline">
+                        <i class="fas fa-key"></i>
+                        Сменить пароль
+                    </a>
+                    {% if not mfa_enabled %}
+                    <a href="{% url 'authentication' %}" class="btn btn-primary">
+                        <i class="fas fa-shield-alt"></i>
+                        Включить 2FA
+                    </a>
+                    {% else %}
+                    <span class="btn btn-success" title="2FA уже активирована">
+                        <i class="fas fa-shield-check"></i>
+                        2FA активна
+                    </span>
+                    {% endif %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Выйти
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
         </div>
 
         <!-- Profile Content -->
@@ -101,25 +103,27 @@
                         </div>
                     </div>
                     
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i class="fas fa-shield-alt"></i>
-                            Двухфакторная аутентификация
+                    {% if user.username == request.user.username %}
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-shield-alt"></i>
+                                Двухфакторная аутентификация
+                            </div>
+                            <div class="info-value">
+                                {% if mfa_enabled %}
+                                    <span class="status-badge active">
+                                        <i class="fas fa-check-circle"></i>
+                                        Включена
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge inactive">
+                                        <i class="fas fa-times-circle"></i>
+                                        Отключена
+                                    </span>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="info-value">
-                            {% if mfa_enabled %}
-                                <span class="status-badge active">
-                                    <i class="fas fa-check-circle"></i>
-                                    Включена
-                                </span>
-                            {% else %}
-                                <span class="status-badge inactive">
-                                    <i class="fas fa-times-circle"></i>
-                                    Отключена
-                                </span>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
 

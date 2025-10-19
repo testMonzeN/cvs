@@ -26,6 +26,11 @@ class CabinetView(View):
     def get(self, request):
         return render(request, 'account/index.html')
 
+class CabinetUtherUserView(View):
+    def get(self, request, username):
+        user = User.objects.get(username=username)
+        return render(request, 'account/index.html', {'user': user})
+    
 # Регистрация пользователя
 class RegisterView(View):
     def get(self, request):

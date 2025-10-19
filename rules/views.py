@@ -7,6 +7,9 @@ from .forms import CalculatorForm
 from decimal import Decimal, ROUND_HALF_UP
 from .models import TableIpAddressSort, Table
 from cvs.settings import BASE_DIR
+from django.http import HttpResponse
+from django.conf import settings
+from django.shortcuts import redirect
 
 
 # Create your views here.
@@ -97,3 +100,15 @@ class CalculatorView(View):
 class RulesView(View):
     def get(self, request):
         return render(request, 'rules/rules.html')
+    
+    
+class DownloadLauncherView(View):
+    def get(self, request):
+        file_path = os.path.join(settings.BASE_DIR, '9.1 Правила винтовка статичная (классический снайпинг).docx')    # YOUR_FILE.txt - изменить на будуший лаунчер / билдер 
+        file_name = 'rules.docx'         # launcher.txt -> phantom.exe
+        
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/vnd.ms-exe")
+                response['Content-Disposition'] = f'inline; filename={file_name}'
+                return response

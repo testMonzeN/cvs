@@ -21,6 +21,7 @@ class User(AbstractUser):
     # boolean fields
     mfa_enabled = models.BooleanField(default=False) # 2FA enabled
     
+    
     def __str__(self):
         return self.username
     

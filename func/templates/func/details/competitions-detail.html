@@ -1,8 +1,8 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block title %}{{ competition.type }} - Phantom{% endblock %}
-{% block description %}Соревнование по {{ competition.type|lower }} в стрелковом клубе Phantom. {{ competition.description }}{% endblock %}
+{% block title %}{{ competition.type }} - ЦВС{% endblock %}
+{% block description %}Соревнование по {{ competition.type|lower }} в стрелковом клубе ЦВС. {{ competition.description }}{% endblock %}
 
 {% block content %}
 <main class="main-content">
@@ -126,7 +126,9 @@
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="participant-info">
-                                <div class="participant-name">{{ participant.username }}</div>
+                                <div class="participant-name">
+                                    <a href="{% url 'cabinet-other-user' participant.username %}">{{ participant.username }}</a>
+                                </div>
                                 <div class="participant-role">
                                     {% if participant.role_user == 'admin' %}
                                         <i class="fas fa-crown"></i> Администратор

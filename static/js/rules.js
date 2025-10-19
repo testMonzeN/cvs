@@ -135,12 +135,29 @@ function printRules() {
 }
 
 function exportRules() {
-    // This would typically generate a PDF
-    if (typeof PhantomJS !== 'undefined' && PhantomJS.showNotification) {
-        PhantomJS.showNotification('Функция экспорта в PDF будет реализована в следующем обновлении.', 'info');
-    } else {
-        alert('Функция экспорта в PDF будет реализована в следующем обновлении.');
-    }
+    const downloadUrl = document.querySelector('[data-download-url]').getAttribute('data-download-url');
+        
+    fetch(downloadUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'rules.docx';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(error => {
+            console.error('Error downloading file:', error);
+            alert('Ошибка при загрузке файла: ' + error.message);
+        });
 }
 
 // Export functions to global scope for inline usage

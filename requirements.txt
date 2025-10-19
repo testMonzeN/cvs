@@ -10,3 +10,4 @@ qrcode
 pyotp
 uwsgi
 python-dotenv
+requests

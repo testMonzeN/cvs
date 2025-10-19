@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>{% block title %}Phantom - Стрелковый клуб{% endblock %}</title>
-    <meta name="description" content="{% block description %}Phantom - профессиональный стрелковый клуб. Соревнования, тренировки, семинары и пристрелка оружия.{% endblock %}">
+    <title>{% block title %}ЦВС - Стрелковый клуб{% endblock %}</title>
+    <meta name="description" content="{% block description %}ЦВС - профессиональный стрелковый клуб. Соревнования, тренировки, семинары и пристрелка оружия.{% endblock %}">
     
     <!--<link rel="icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">-->
     <!--<link rel="shortcut icon" href="{% static 'img/phantom-final-logo.svg' %}" type="image/svg+xml">-->
@@ -48,7 +48,7 @@
             <div class="nav-container">
                 <a href="{% url 'main' %}" class="nav-brand">
                     <i class="fas fa-crosshairs"></i>
-                    Phantom
+                    ЦВС
                 </a>
                 
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -61,9 +61,9 @@
                     <li><a href="{% url 'sniper_rules' %}" class="nav-link">Правила</a></li>
                     <li><a href="{% url 'question-list' %}" class="nav-link">Форум</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'cabinet' %}" class="nav-link">
+                        <li><a href="{% url 'cabinet'%}" class="nav-link">
                             <i class="fas fa-user"></i>
-                            {{ user.username }}
+                                {{ user.username }}
                         </a></li>
                         <li><a href="{% url 'logout' %}" class="nav-link">
                             <i class="fas fa-sign-out-alt"></i>

@@ -1,8 +1,8 @@
 {% extends 'global/base.html' %}
 {% load static %}
 
-{% block title %}Правила винтовка статичная - Phantom{% endblock %}
-{% block description %}Официальные правила соревнований по классическому снайпингу в стрелковом клубе Phantom.{% endblock %}
+{% block title %}Правила винтовка статичная - ЦВС{% endblock %}
+{% block description %}Официальные правила соревнований по классическому снайпингу в стрелковом клубе ЦВС.{% endblock %}
 
 {% block content %}
 <main class="main-content">
@@ -137,10 +137,15 @@
                                 <i class="fas fa-print"></i>
                                 Печать
                             </button>
-                            <button class="btn btn-outline btn-sm" onclick="exportRules()">
+                            <button class="btn btn-outline btn-sm" onclick="exportRules()" data-download-url="{% url 'download_rules' %}">
                                 <i class="fas fa-download"></i>
-                                Скачать PDF
+                                Скачать Word
                             </button>
+                            <!--
+                            <a href="{% url 'download_rules' %}" class="btn btn-outline btn-sm">
+                                <i class="fas fa-download"></i>
+                                Скачать Word
+                            </a>-->
                         </div>
                     </div>
                 </aside>
