@@ -1,7 +1,7 @@
 import requests
 
 
-url = 'https://web.telegram.org/'
+url = 'https://tetate.pythonanywhere.com/'
 try:
     print(requests.get(url, timeout=5).status_code)
 

@@ -104,25 +104,25 @@
                     </div>
                     
                     {% if user.username == request.user.username %}
-                        <div class="info-item">
-                            <div class="info-label">
-                                <i class="fas fa-shield-alt"></i>
-                                Двухфакторная аутентификация
-                            </div>
-                            <div class="info-value">
-                                {% if mfa_enabled %}
-                                    <span class="status-badge active">
-                                        <i class="fas fa-check-circle"></i>
-                                        Включена
-                                    </span>
-                                {% else %}
-                                    <span class="status-badge inactive">
-                                        <i class="fas fa-times-circle"></i>
-                                        Отключена
-                                    </span>
-                                {% endif %}
-                            </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-shield-alt"></i>
+                            Двухфакторная аутентификация
                         </div>
+                        <div class="info-value">
+                            {% if mfa_enabled %}
+                                <span class="status-badge active">
+                                    <i class="fas fa-check-circle"></i>
+                                    Включена
+                                </span>
+                            {% else %}
+                                <span class="status-badge inactive">
+                                    <i class="fas fa-times-circle"></i>
+                                    Отключена
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>

@@ -285,22 +285,41 @@ class PhantomCalendar {
     
     updateInputValue(value = null) {
         if (value === null) {
-            // Format datetime for display
+            // Format for display (user-friendly)
             const formatted = this.formatDate(this.selectedDate);
             this.input.value = formatted;
             
-            // Also update the original datetime-local format for form submission
+            // Create ISO string for form submission (YYYY-MM-DDTHH:mm)
             const isoString = this.selectedDate.toISOString().slice(0, 16);
+            
+            // Set both data attributes and update hidden input if exists
             this.input.setAttribute('data-datetime', isoString);
+            this.input.setAttribute('value', isoString);
+            
+            // Update any associated hidden input
+            const originalName = this.input.getAttribute('data-original-name');
+            if (originalName) {
+                let hiddenInput = document.querySelector(`input[name="${originalName}"][type="hidden"]`);
+                if (!hiddenInput) {
+                    // Create hidden input if it doesn't exist
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = originalName;
+                    this.input.parentNode.appendChild(hiddenInput);
+                }
+                hiddenInput.value = isoString;
+            }
         } else {
             this.input.value = value;
             this.input.removeAttribute('data-datetime');
+            this.input.removeAttribute('value');
         }
         
         // Trigger change event
         this.input.dispatchEvent(new Event('change', { bubbles: true }));
+        this.input.dispatchEvent(new Event('input', { bubbles: true }));
     }
-    
+        
     formatDate(date) {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
