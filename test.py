@@ -1,4 +1,9 @@
 import requests
 
-url = 'http://127.0.0.1:8000/api/users/'
-print(requests.get(url, data={'method': 'help'}).json())
+
+url = 'https://web.telegram.org/'
+try:
+    print(requests.get(url, timeout=5).status_code)
+
+except requests.exceptions.ConnectTimeout:
+    print('timeout')

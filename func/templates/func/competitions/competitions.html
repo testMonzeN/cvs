@@ -56,7 +56,7 @@
 
             <div class="competitions-grid" data-filter-container>
                 {% for competition in competitions %}
-                <div class="competition-card card slide-in-left" data-type="{{ competition.type }}" data-filter-item="{{ competition.type }}" style="animation-delay: {{ forloop.counter0|floatformat:1 }}s;">
+                <div class="competition-card card slide-in-left" data-type="{{ competition.type }}" data-filter-item="{{ competition.type }}" style="animation-delay: {% widthratio forloop.counter0 1 80 %}ms;">
                     <div class="competition-header">
                         <div class="competition-type">
                             <i class="fas fa-{% if competition.type == 'Снайпинг' %}crosshairs{% elif competition.type == 'Снайпинг МК' %}bullseye{% elif competition.type == 'Силуэтная стрельба' %}running{% else %}target{% endif %}"></i>

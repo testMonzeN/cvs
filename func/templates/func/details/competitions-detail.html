@@ -1,4 +1,4 @@
-{% extends 'global/base.html' %}
+ф{% extends 'global/base.html' %}
 {% load static %}
 
 {% block title %}{{ competition.type }} - ЦВС{% endblock %}
@@ -7,7 +7,7 @@
 {% block content %}
 <main class="main-content">
     <div class="container">
-        <!-- Breadcrumb -->
+        <!-- Breadcrumb 
         <nav class="breadcrumb-nav">
             <a href="{% url 'main' %}" class="breadcrumb-item">
                 <i class="fas fa-home"></i>
@@ -17,7 +17,7 @@
             <a href="{% url 'competitions' %}" class="breadcrumb-item">Соревнования</a>
             <span class="breadcrumb-separator">/</span>
             <span class="breadcrumb-current">{{ competition.type }}</span>
-        </nav>
+        </nav>-->
 
         <!-- Competition Header -->
         <div class="event-header fade-in">
@@ -127,7 +127,7 @@
                             </div>
                             <div class="participant-info">
                                 <div class="participant-name">
-                                    <a href="{% url 'cabinet-other-user' participant.username %}">{{ participant.username }}</a>
+                                    <a >{{ participant.username }}</a>
                                 </div>
                                 <div class="participant-role">
                                     {% if participant.role_user == 'admin' %}
@@ -137,8 +137,9 @@
                                     {% else %}
                                         <i class="fas fa-user"></i> Участник
                                     {% endif %}
-                                </div>
-                            </div>
+                                </div>  
+                            </div>           
+                            <a class='btn btn-outline btn-sm' href="{% url 'cabinet-other-user' participant.username %}">Профиль</a>               
                         </div>
                         {% endfor %}
                     </div>
