@@ -57,3 +57,20 @@ class CommentForm(forms.ModelForm):
         text = cleaned_data.get('text')
         
         return cleaned_data
+
+class CommentUpdateForm(forms.ModelForm):
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 6}),
+        label='Текст'
+    )
+
+    class Meta:
+        model = CommentModel
+        fields = ['text']
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        text = cleaned_data.get('text')
+
+        return cleaned_data

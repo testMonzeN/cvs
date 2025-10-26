@@ -1,7 +1,6 @@
-import re
 from django.shortcuts import render, redirect
 from .models import QuestionModel, CommentModel
-from .forms import QuestionForm, CommentForm
+from .forms import QuestionForm, CommentForm, CommentUpdateForm
 from django.views import View
 from django.shortcuts import get_object_or_404
 from cabinet.models import User
@@ -46,12 +45,12 @@ class QuestionCreateView(View):
 
 class QuestionUpdateView(View):
     def get(self, request, pk):
-        question = get_object_or_404(model=QuestionModel, pk=pk)
+        question = QuestionModel.objects.get(pk=pk)
         form = QuestionForm(instance=question)
         return render(request, 'forum/question-update.html', {'form': form})
     
     def post(self, request, pk):
-        question = get_object_or_404(model=QuestionModel, pk=pk)
+        question = QuestionModel.objects.get(pk=pk)
         form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
             form.save()
@@ -60,12 +59,12 @@ class QuestionUpdateView(View):
 
 class QuestionDeleteView(View):
     def get(self, request, pk):
-        question = get_object_or_404(model=QuestionModel, pk=pk)
+        question = QuestionModel.objects.get(pk=pk)
         question.delete()
         return redirect('question-list')
     
     def post(self, request, pk):
-        question = get_object_or_404(model=QuestionModel, pk=pk)
+        question = QuestionModel.objects.get(pk=pk)
         question.delete()
         return redirect('question-list')
         
@@ -81,33 +80,34 @@ class CommentCreateView(View):
             comment = form.save(commit=False)
             if request.user.is_authenticated:
                 comment.author = request.user
-            comment.question = get_object_or_404(QuestionModel, pk=pk)
+            comment.question = QuestionModel.objects.get(pk=pk)
             comment.save()
             return redirect('question-detail', pk=pk)
         return render(request, 'forum/comment-create.html', {'form': form, 'pk': pk})
 
 class CommentUpdateView(View):
     def get(self, request, pk):
-        comment = get_object_or_404(model=CommentModel, pk=pk)
-        form = CommentForm(instance=comment)
+        comment = CommentModel.objects.get(pk=pk)
+        form = CommentUpdateForm(request.GET, instance=comment)
         return render(request, 'forum/comment-update.html', {'form': form})
     
     def post(self, request, pk):
-        comment = get_object_or_404(model=CommentModel, pk=pk)
-        form = CommentForm(request.POST, instance=comment)
+        comment = CommentModel.objects.get(pk=pk)
+        q = comment.get_question()
+        form = CommentUpdateForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            return redirect('question-detail', pk=form.instance.pk)
+            return redirect('question-detail', pk=q.pk)
         return render(request, 'forum/comment-update.html', {'form': form}) 
 
 class CommentDeleteView(View):
     def get(self, request, pk):
-        comment = get_object_or_404(model=CommentModel, pk=pk)
+        comment = CommentModel.objects.get(pk=pk)
         comment.delete()
         return redirect('question-detail', pk=comment.question.pk)
     
     def post(self, request, pk):
-        comment = get_object_or_404(model=CommentModel, pk=pk)
+        comment = CommentModel.objects.get(pk=pk)
         comment.delete()
         return redirect('question-detail', pk=comment.question.pk)
     

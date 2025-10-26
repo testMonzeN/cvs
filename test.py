@@ -7,3 +7,5 @@ try:
 
 except requests.exceptions.ConnectTimeout:
     print('timeout')
+except requests.exceptions.ReadTimeout:
+    print('timeout')

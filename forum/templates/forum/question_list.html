@@ -19,12 +19,10 @@
                 </div>
                 
                 <div class="forum-actions">
-                    {% if request.user.is_superuser or request.user.role_user == 'admin' %}
                     <a href="{% url 'question-create' %}" class="btn btn-primary">
                         <i class="fas fa-plus"></i>
                         Создать тему
                     </a>
-                    {% endif %}
                 </div>
                 
             </div>

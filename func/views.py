@@ -1,3 +1,5 @@
+import os
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel 
@@ -8,6 +10,9 @@ from .froms import (
     SinghtingInCreateForm, SinghtingInEditForm
     )
 from django.shortcuts import redirect
+from cvs.settings import BASE_DIR
+
+
 
 # телепорт
 class TeleportView(View):
@@ -17,6 +22,12 @@ class TeleportView(View):
 
 #1 соревнования
 class CompetitionsView(View):
+    @staticmethod
+    def check_datetime():
+        competitions = CompetitionsModel.objects.all()
+        for com in competitions:
+            com.save()
+
     def get(self, request):
         filter_type = request.GET.get('name') or request.GET.get('filter')
         
@@ -24,13 +35,13 @@ class CompetitionsView(View):
             competitions = CompetitionsModel.objects.all().order_by('-date').order_by('-status')
         else:
             competitions = CompetitionsModel.objects.filter(type=filter_type).order_by('-date').order_by('-status')
-            
+
+        self.check_datetime()
         return render(request, 'func/competitions/competitions.html', 
                       {
                           'competitions': competitions,
                           }
                       )
-        
         
 class CompetitionsDetailView(View):
     def get(self, request, pk):
@@ -68,7 +79,7 @@ class CompetitionsEditView(View):
                           })
         
     def post(self, request, pk):
-        edit_form = CompetitionsEditForm(instance=CompetitionsModel.objects.get(pk=pk))
+        edit_form = CompetitionsEditForm(request.POST, instance=CompetitionsModel.objects.get(pk=pk))
         if edit_form.is_valid():
             edit_form.save()
             return redirect('competitions')
@@ -76,8 +87,7 @@ class CompetitionsEditView(View):
                       {
                           'edit_form': edit_form,
                           })
-        
-        
+
 class CompetitionsSingUpView(View):
     def get(self, request, pk):
         competition = CompetitionsModel.objects.get(pk=pk)
