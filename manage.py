@@ -20,3 +20,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# # pa_autoconfigure_django.py https://github.com/testMonzeN/cvs.git --branch=main --python=3.10

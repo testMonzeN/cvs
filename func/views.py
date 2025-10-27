@@ -40,6 +40,7 @@ class CompetitionsView(View):
         return render(request, 'func/competitions/competitions.html', 
                       {
                           'competitions': competitions,
+                          'user': request.user,
                           }
                       )
         
