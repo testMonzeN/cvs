@@ -21,11 +21,12 @@ import qrcode
 import io
 import base64
 
-# Личный кабинет TODO: сделать
+# личный кабинет
 class CabinetView(View):
     def get(self, request):
         return render(request, 'account/index.html')
 
+# личный кабинет другого пользователя
 class CabinetUtherUserView(View):
     def get(self, request, username):
         user = User.objects.get(username=username)
@@ -178,3 +179,7 @@ class Authentication(View):
         else:
             messages.error(request, 'Неверный код. Пожалуйста, попробуйте снова.')
             return redirect('authentication')
+
+# TODO: сделать
+class Raiting(View):
+    pass

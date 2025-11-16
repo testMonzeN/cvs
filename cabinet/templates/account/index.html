@@ -27,21 +27,21 @@
                     </div>
                 </div>
             </div>
-            
+
             {% if user.username == request.user.username %}
                 <div class="profile-actions">
                     <a href="{% url 'change' %}" class="btn btn-outline">
                         <i class="fas fa-key"></i>
                         Сменить пароль
                     </a>
-                    {% if not mfa_enabled %}
+                    {% if not user.mfa_enabled %}
                     <a href="{% url 'authentication' %}" class="btn btn-primary">
                         <i class="fas fa-shield-alt"></i>
                         Включить 2FA
                     </a>
                     {% else %}
                     <span class="btn btn-success" title="2FA уже активирована">
-                        <i class="fas fa-shield-check"></i>
+                        <i class="fa-solid fa-circle-check fa-fade"></i>
                         2FA активна
                     </span>
                     {% endif %}
@@ -74,7 +74,7 @@
                         </div>
                         <div class="info-value">{{ user.email }}</div>
                     </div>
-                    
+
                     <div class="info-item">
                         <div class="info-label">
                             <i class="fas fa-calendar-alt"></i>
@@ -88,7 +88,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    
+
                     <div class="info-item">
                         <div class="info-label">
                             <i class="fas fa-clock"></i>
@@ -102,7 +102,8 @@
                             {% endif %}
                         </div>
                     </div>
-                    
+
+                    <!--
                     {% if user.username == request.user.username %}
                     <div class="info-item">
                         <div class="info-label">
@@ -124,6 +125,47 @@
                         </div>
                     </div>
                     {% endif %}
+                    -->
+                </div>
+            </div>
+
+                    <div class="profile-content">
+            <!-- Personal Information -->
+            <div class="profile-section card">
+                <div class="section-header">
+                    <h2>
+                        <i class="fa-solid fa-table-columns"></i>
+                        Рейтинг
+                    </h2>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fa-solid fa-globe"></i>
+                            ММP
+                        </div>
+                        <div class="info-value">{{ user.mmr }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fa-solid fa-star"></i>
+                            ПТС
+                        </div>
+                        <div class="info-value">
+                            {{ user.pts }}
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fa-solid fa-bookmark"></i>
+                            Максимальное кол-во очков
+                        </div>
+                        <div class="info-value">
+                            <!-- Отображение максимального кол-ва очков пользователя за ВСЕ соревнования  -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -145,7 +187,7 @@
                             <div class="stat-label">Соревнований</div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-icon trainings">
                             <i class="fas fa-dumbbell"></i>
@@ -155,7 +197,7 @@
                             <div class="stat-label">Тренировок</div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-icon seminars">
                             <i class="fas fa-chalkboard-teacher"></i>
@@ -165,7 +207,7 @@
                             <div class="stat-label">Семинаров</div>
                         </div>
                     </div>
-                    
+
                     <div class="stat-item">
                         <div class="stat-icon sighting">
                             <i class="fas fa-bullseye"></i>
@@ -205,7 +247,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    
+
                     {% for training in user.training.all|slice:":3" %}
                     <div class="activity-item">
                         <div class="activity-icon trainings">
@@ -224,7 +266,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    
+
                     {% if not user.competitions.all and not user.training.all %}
                     <div class="empty-state">
                         <div class="empty-icon">
@@ -259,7 +301,7 @@
                             <div class="action-desc">Участвовать в соревнованиях</div>
                         </div>
                     </a>
-                    
+
                     <a href="{% url 'training' %}" class="quick-action-btn">
                         <div class="action-icon trainings">
                             <i class="fas fa-dumbbell"></i>
@@ -269,7 +311,7 @@
                             <div class="action-desc">Записаться на тренировку</div>
                         </div>
                     </a>
-                    
+
                     <a href="{% url 'seminar' %}" class="quick-action-btn">
                         <div class="action-icon seminars">
                             <i class="fas fa-chalkboard-teacher"></i>
@@ -279,7 +321,7 @@
                             <div class="action-desc">Посетить семинар</div>
                         </div>
                     </a>
-                    
+
                     <a href="{% url 'singhting-in' %}" class="quick-action-btn">
                         <div class="action-icon sighting">
                             <i class="fas fa-bullseye"></i>

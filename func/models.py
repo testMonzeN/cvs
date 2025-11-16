@@ -24,17 +24,33 @@ class CompetitionsModel(models.Model):
     
     # True - active, False - inactive
     status = models.BooleanField(default=True)
-    
+
+    is_raiting = models.BooleanField(default=False)
+    has_winner = models.BooleanField(default=False)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
     def save(self, *args, **kwargs):
+        if self.participants.count() > 20:
+            self.is_raiting = True
         if self.date < timezone.now():
             self.status = False
         super().save(*args, **kwargs)
-    
+
     def __str__(self):
-        return f"{self.date} - {self.type}"
+        return f"{self.date} - {self.type} - {self.is_raiting}"
     
     def get_absolute_url(self):
         return reverse('competitions-detail', kwargs={'pk': self.pk})
+
+
+class CompetitionResult(models.Model):
+    competition = models.ForeignKey(CompetitionsModel, on_delete=models.CASCADE)
+    participant = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.FloatField(default=0)
+    place = models.IntegerField()
+
+    def __str__(self):
+        return f'Resultat {self.competition}'
 
 
 class TrainingModel(models.Model):

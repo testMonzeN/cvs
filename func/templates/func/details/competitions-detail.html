@@ -53,6 +53,18 @@
                                     Завершено
                                 </span>
                             {% endif %}
+
+                                                    {% if competition.is_raiting %}
+                                <span class="status-badge active" style="color: #FFD43B;">
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    Рейтинговое
+                                </span>
+                        {% else %}
+                                <span class="status-badge active" style="color: #ff3b3bff;">
+                                    <i class="fa-solid fa-star" style="color: #ff3b3bff;"></i>
+                                    Не рейтинговое
+                                </span>
+                        {% endif %}
                         </span>
                     </div>
                 </div>

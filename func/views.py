@@ -2,16 +2,16 @@ import os
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel 
+from cabinet.models import TopLadder, User
+from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel, CompetitionResult
 from .froms import (
     CompetitionsCreateForm, CompetitionsEditForm, 
     TrainingCreateForm, TrainingEditForm, 
     SeminarCreateForm, SeminarEditForm, 
-    SinghtingInCreateForm, SinghtingInEditForm
+    SinghtingInCreateForm, SinghtingInEditForm, CompetitionsMmrRedactorForm
     )
 from django.shortcuts import redirect
 from cvs.settings import BASE_DIR
-
 
 
 # телепорт
@@ -19,9 +19,21 @@ class TeleportView(View):
     def get(self, request):
         return render(request, 'teleport/teleport.html')
 
+class TotalLadderCheck:
+    @staticmethod
+    def count_leader_ladder(competitions):
+        ladder = User.objects.all().order_by('-mmr')[:20]
+
+        count = 0
+        for top_user in ladder:
+            if competitions.participants.filter(id=top_user.id).exists():
+                count += 1
+
+        return count
+
 
 #1 соревнования
-class CompetitionsView(View):
+class CompetitionsView(View, TotalLadderCheck):
     @staticmethod
     def check_datetime():
         competitions = CompetitionsModel.objects.all()
@@ -37,16 +49,48 @@ class CompetitionsView(View):
             competitions = CompetitionsModel.objects.filter(type=filter_type).order_by('-date').order_by('-status')
 
         self.check_datetime()
-        return render(request, 'func/competitions/competitions.html', 
+        for competition in competitions:
+            if self.count_leader_ladder(competition) >= 5:
+                competition.is_raiting = True
+                competition.save()
+
+        return render(request, 'func/competitions/competitions.html',
                       {
                           'competitions': competitions,
                           'user': request.user,
                           }
                       )
-        
-class CompetitionsDetailView(View):
+
+# TODO: Доделать
+class CompetitionPtsCalculator(View):
+    def get(self, requests, pk):
+        competition = CompetitionsModel.objects.get(pk=pk)
+        form = CompetitionsMmrRedactorForm()
+
+        return render(requests, 'form/competition/competitions-pts-redactor-form', {
+            'form': form
+        })
+
+    def post(self, requests, pk):
+        competition = CompetitionsModel.objects.get(pk=pk)
+        form = CompetitionsMmrRedactorForm(requests.POST)
+
+        if form.is_valid():
+            CompetitionResult.objects.create(
+                competition = competition,
+            )
+
+
+
+
+
+class CompetitionsDetailView(View, TotalLadderCheck):
     def get(self, request, pk):
         competition = CompetitionsModel.objects.get(pk=pk)
+
+        if self.count_leader_ladder(competition) >= 5:
+            competition.is_raiting = True
+            competition.save()
         return render(request, 'func/details/competitions-detail.html', 
                       {
                           'competition': competition,

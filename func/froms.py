@@ -1,5 +1,5 @@
 from django import forms
-from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel
+from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel, CompetitionResult
 
 # соревнование
 class CompetitionsCreateForm(forms.ModelForm):
@@ -37,6 +37,22 @@ class CompetitionsCreateForm(forms.ModelForm):
         #status = cleaned_data.get('status')
         
         return cleaned_data
+
+class CompetitionsMmrRedactorForm(forms.ModelForm):
+    place = forms.IntegerField(min_value=1)
+    result = forms.FloatField()
+    class Meta:
+        model = CompetitionResult
+        fields = ['place', 'result']
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        place = cleaned_data.get('place')
+        result = cleaned_data.get('result')
+
+        return cleaned_data
+
 
 # соревнование
 class CompetitionsEditForm(forms.ModelForm):
