@@ -206,23 +206,23 @@ a:hover {
 
 /* Hero description и contact */
 .hero-description {
-    font-size: 0.7rem !important;
+    font-size: 1.1rem !important;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .hero-contact {
-    font-size: 0.7rem !important;
+    font-size: 1.1rem !important;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     max-width: 755px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 /* Адаптивность для разных экранов */
