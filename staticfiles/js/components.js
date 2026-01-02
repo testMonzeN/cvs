@@ -389,6 +389,7 @@ function joinSeminar(seminarId) {
     }
 }
 
+
 // Export component functions to global namespace
 PhantomJS.openModal = openModal;
 PhantomJS.closeModal = closeModal;

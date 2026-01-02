@@ -1,0 +1,181 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Топ-100 стрелков - ЦВС{% endblock %}
+{% block description %}Рейтинг лучших стрелков клуба ЦВС. Топ-100 участников по рейтинговым очкам.{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'css/rating.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <div class="container">
+        <div class="page-header fade-in">
+            <div class="page-header-content">
+                <div class="page-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="page-text">
+                    <h1>Топ-100 стрелков</h1>
+                    <p>Рейтинг лучших участников клуба</p>
+                </div>
+            </div>
+            
+            <div class="page-actions">
+                <div class="stats-badge">
+                    <i class="fas fa-users"></i>
+                    <span>Всего участников: {{ total_users }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <!-- Топ-3 подиум -->
+            {% if ranked_users %}
+            <div class="podium-section fade-in">
+                <div class="podium-container">
+                    {% for rank in ranked_users|slice:":3" %}
+                        {% if rank.position == 2 %}
+                        <div class="podium-place podium-second slide-in-left">
+                            <div class="podium-medal">
+                                <i class="fas fa-medal"></i>
+                                <span class="medal-number">2</span>
+                            </div>
+                            <div class="podium-user">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>{{ rank.user.username }}</h3>
+                                <p class="user-hometown">{{ rank.hometown }}</p>
+                            </div>
+                            <div class="podium-score">
+                                <span class="score-value">{{ rank.mmr }}</span>
+                                <span class="score-label">очков</span>
+                            </div>
+                            <div class="podium-base podium-base-2">
+                                <span class="position-label">2</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for rank in ranked_users|slice:":3" %}
+                        {% if rank.position == 1 %}
+                        <div class="podium-place podium-first slide-in-up">
+                            <div class="podium-crown">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="podium-medal">
+                                <i class="fas fa-medal"></i>
+                                <span class="medal-number">1</span>
+                            </div>
+                            <div class="podium-user">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>{{ rank.user.username }}</h3>
+                                <p class="user-hometown">{{ rank.hometown }}</p>
+                            </div>
+                            <div class="podium-score">
+                                <span class="score-value">{{ rank.mmr }}</span>
+                                <span class="score-label">очков</span>
+                            </div>
+                            <div class="podium-base podium-base-1">
+                                <span class="position-label">1</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for rank in ranked_users|slice:":3" %}
+                        {% if rank.position == 3 %}
+                        <div class="podium-place podium-third slide-in-right">
+                            <div class="podium-medal">
+                                <i class="fas fa-medal"></i>
+                                <span class="medal-number">3</span>
+                            </div>
+                            <div class="podium-user">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3>{{ rank.user.username }}</h3>
+                                <p class="user-hometown">{{ rank.hometown }}</p>
+                            </div>
+                            <div class="podium-score">
+                                <span class="score-value">{{ rank.mmr }}</span>
+                                <span class="score-label">очков</span>
+                            </div>
+                            <div class="podium-base podium-base-3">
+                                <span class="position-label">3</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Таблица остальных участников (4-100) -->
+            <div class="card mt-4 fade-in">
+                <div class="card-header">
+                    <h3><i class="fas fa-list-ol"></i> Полный рейтинг (4-100 место)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="rating-table">
+                            <thead>
+                                <tr>
+                                    <th>Место</th>
+                                    <th>Участник</th>
+                                    <th>Город</th>
+                                    <th>Рейтинг</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rank in ranked_users|slice:"3:" %}
+                                <tr class="fade-in">
+                                    <td>
+                                        <span class="position-badge position-{{ rank.position }}">
+                                            {{ rank.position }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar-small">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <strong><a href="{% url 'cabinet-other-user' rank.user.username %}">{{ rank.user.username }}</a></strong>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="hometown-tag">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ rank.hometown }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="rating-score">
+                                            {{ rank.mmr }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-users-slash"></i>
+                </div>
+                <h3>Рейтинг пока пуст</h3>
+                <p>Примите участие в соревнованиях, чтобы попасть в рейтинг!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+

@@ -1,11 +1,5 @@
 import requests
 
+res = requests.get('https://www.speedtest.net/ru/', timeout=5).status_code()
 
-url = 'https://tetate.pythonanywhere.com/'
-try:
-    print(requests.get(url, timeout=5).status_code)
-
-except requests.exceptions.ConnectTimeout:
-    print('timeout')
-except requests.exceptions.ReadTimeout:
-    print('timeout')
+print(res)

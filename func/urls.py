@@ -4,8 +4,10 @@ from .views import *
 urlpatterns = [
     path('', TeleportView.as_view(), name='teleport'),
     
+    path('rating/', TopLadderView.as_view(), name='top-ladder'),
     path('competitions/', CompetitionsView.as_view(), name='competitions'),
     path('competitions/<int:pk>/', CompetitionsDetailView.as_view(), name='competitions-detail'),
+    path('competitions/<int:pk>/results/', CompetitionResultView.as_view(), name='competition-results'),
     path('competitions/create/', CompetitionsCreateView.as_view(), name='competitions-create'),
     path('competitions/edit/<int:pk>/', CompetitionsEditView.as_view(), name='competitions-edit'),
     path('competitions/sing-up/<int:pk>/', CompetitionsSingUpView.as_view(), name='competitions-sing-up'),

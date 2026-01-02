@@ -1,6 +1,6 @@
 from django import forms
 from .models import CompetitionsModel, TrainingModel, SeminarModel, SinghtingInModel, CompetitionResult
-
+from cabinet.models import User
 # соревнование
 class CompetitionsCreateForm(forms.ModelForm):
     date = forms.DateTimeField(
@@ -40,20 +40,41 @@ class CompetitionsCreateForm(forms.ModelForm):
 
 class CompetitionsMmrRedactorForm(forms.ModelForm):
     place = forms.IntegerField(min_value=1)
-    result = forms.FloatField()
+    points = forms.FloatField()
     class Meta:
         model = CompetitionResult
-        fields = ['place', 'result']
+        fields = ['place', 'points']
 
     def clean(self):
         cleaned_data = super().clean()
 
         place = cleaned_data.get('place')
-        result = cleaned_data.get('result')
+        result = cleaned_data.get('points')
 
         return cleaned_data
 
-
+class CompetitionResultForm(forms.ModelForm):
+    participant = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        label='Участник',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    place = forms.IntegerField(
+        min_value=1,
+        label='Место',
+        widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )
+    points = forms.FloatField(
+        min_value=0,
+        label='Очки',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'})
+    )
+    
+    class Meta:
+        model = CompetitionResult
+        fields = ['participant', 'place', 'points']
+        
+        
 # соревнование
 class CompetitionsEditForm(forms.ModelForm):
     date = forms.DateTimeField(

@@ -1,5 +1,12 @@
+from email.policy import default
+from turtle import mode
+from typing import Any
+
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.lookups import YearExact
+from django.template.base import kwarg_re
 from .ModelConfig import CITIES
 
 # Create your models here.
@@ -37,6 +44,8 @@ class User(AbstractUser):
 
 
 class TopLadder(models.Model):
+    year_ladder = models.IntegerField(default=date.today().year)
+
     users = models.ManyToManyField(User)
 
     def get_user_position(self, username):
@@ -47,9 +56,16 @@ class TopLadder(models.Model):
 
         return None
 
+    def save(self, *args, **kwargs):
+        if not self.year_ladder:
+            self.year_ladder = date.today().year
+        return super().save(*args, **kwargs)
+    
     def get_top(self, count):
         return User.objects.all().order_by('-mmr')[:count]
 
     def __str__(self):
-        return 'Топ лидеров'
+        return f'Топ лидеров за {str(self.year_ladder)}'
+    
+
 

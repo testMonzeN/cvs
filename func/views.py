@@ -8,7 +8,7 @@ from .froms import (
     CompetitionsCreateForm, CompetitionsEditForm, 
     TrainingCreateForm, TrainingEditForm, 
     SeminarCreateForm, SeminarEditForm, 
-    SinghtingInCreateForm, SinghtingInEditForm, CompetitionsMmrRedactorForm
+    SinghtingInCreateForm, SinghtingInEditForm, CompetitionsMmrRedactorForm, CompetitionResultForm
     )
 from django.shortcuts import redirect
 from cvs.settings import BASE_DIR
@@ -31,6 +31,23 @@ class TotalLadderCheck:
 
         return count
 
+class TopLadderView(View):
+    def get(self, request):
+        top_users = User.objects.all().order_by('-mmr')[:100]
+        
+        ranked_users = []
+        for index, user in enumerate(top_users, start=1):
+            ranked_users.append({
+                'position': index,
+                'user': user,
+                'mmr': user.mmr,
+                'hometown': user.hometown or 'Не указан',
+            })
+        
+        return render(request, 'raiting/top_ladder.html', {
+            'ranked_users': ranked_users,
+            'total_users': User.objects.count()
+        })
 
 #1 соревнования
 class CompetitionsView(View, TotalLadderCheck):
@@ -61,28 +78,43 @@ class CompetitionsView(View, TotalLadderCheck):
                           }
                       )
 
-# TODO: Доделать
-class CompetitionPtsCalculator(View):
-    def get(self, requests, pk):
+class CompetitionResultView(View):
+    def get(self, request, pk):
         competition = CompetitionsModel.objects.get(pk=pk)
-        form = CompetitionsMmrRedactorForm()
+        
+        participants = competition.participants.all()
+        
+        existing_results = CompetitionResult.objects.filter(competition=competition)
 
-        return render(requests, 'form/competition/competitions-pts-redactor-form', {
+        form = CompetitionResultForm()
+        
+        return render(request, 'func/competitions/results-form.html', {
+            'competition': competition,
+            'participants': participants,
+            'existing_results': existing_results,
             'form': form
         })
 
-    def post(self, requests, pk):
+    def post(self, request, pk):
         competition = CompetitionsModel.objects.get(pk=pk)
-        form = CompetitionsMmrRedactorForm(requests.POST)
+        form = CompetitionResultForm(request.POST)
 
         if form.is_valid():
-            CompetitionResult.objects.create(
-                competition = competition,
-            )
-
-
-
-
+            result = form.save(commit=False)
+            result.competition = competition
+            result.save()  
+            
+            return redirect('competitions-detail', pk=pk)
+        else:
+            participants = competition.participants.all()
+            existing_results = CompetitionResult.objects.filter(competition=competition)
+            
+            return render(request, 'func/competitions/results-form.html', {
+                'competition': competition,
+                'participants': participants,
+                'existing_results': existing_results,
+                'form': form
+            })
 
 class CompetitionsDetailView(View, TotalLadderCheck):
     def get(self, request, pk):
