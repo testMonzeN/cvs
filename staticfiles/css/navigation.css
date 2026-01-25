@@ -1,7 +1,7 @@
 /* ===== NAVIGATION STYLES ===== */
 
 .navbar {
-    background: rgba(26, 26, 26, 0.95);
+    background: rgba(var(--bg-primary-rgb, 26, 26, 26), 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     position: fixed;
@@ -11,9 +11,17 @@
     transition: var(--transition-medium);
 }
 
+[data-theme="light"] .navbar {
+    background: rgba(255, 255, 255, 0.95);
+}
+
 .navbar.scrolled {
-    background: rgba(26, 26, 26, 0.98);
+    background: rgba(var(--bg-primary-rgb, 26, 26, 26), 0.98);
     box-shadow: var(--shadow-medium);
+}
+
+[data-theme="light"] .navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98);
 }
 
 .nav-container {
@@ -21,6 +29,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
+    gap: 1rem;
 }
 
 .nav-brand {
@@ -43,6 +52,7 @@
     list-style: none;
     gap: 2rem;
     align-items: center;
+    margin-left: auto;
 }
 
 .nav-link {
@@ -120,12 +130,23 @@
     
     .nav-container {
         padding: 0.5rem 0;
+        gap: 0.5rem;
+    }
+    
+    .theme-toggle {
+        order: -1;
+        margin-left: auto;
+        margin-right: 0.5rem;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     .nav-menu {
         gap: 1rem;
+    }
+    
+    .theme-toggle {
+        margin-left: 0.5rem;
     }
 }
 

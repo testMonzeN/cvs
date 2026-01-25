@@ -8,6 +8,7 @@ django-ratelimit
 django-rest-framework
 qrcode
 pyotp
-uwsgi
+gunicorn>=21.2.0
+psycopg2-binary>=2.9.9
 python-dotenv
 requests
