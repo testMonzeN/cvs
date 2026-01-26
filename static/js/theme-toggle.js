@@ -173,12 +173,3 @@ window.PhantomJS = window.PhantomJS || {};
 window.PhantomJS.toggleTheme = toggleTheme;
 window.PhantomJS.getCurrentTheme = () => document.documentElement.getAttribute('data-theme') || 'dark';
 
-// Горячая клавиша для переключения темы (Ctrl+Shift+T)
-document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
-        e.preventDefault();
-        toggleTheme();
-    }
-});
-
-

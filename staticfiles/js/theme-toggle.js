@@ -175,7 +175,7 @@ window.PhantomJS.getCurrentTheme = () => document.documentElement.getAttribute('
 
 // Горячая клавиша для переключения темы (Ctrl+Shift+T)
 document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+    if (e.ctrlKey && e.shiftKey && e.key === 'F') {
         e.preventDefault();
         toggleTheme();
     }
