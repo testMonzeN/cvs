@@ -1,7 +1,7 @@
-// ===== ANIMATIONS & EFFECTS =====
+// ===== АНИМАЦИИ И ЭФФЕКТЫ =====
 
 function initAnimations() {
-    // Intersection Observer for scroll animations
+    // Intersection Observer для анимаций прокрутки
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -12,7 +12,7 @@ function initAnimations() {
             if (entry.isIntersecting) {
                 entry.target.classList.add('fade-in');
                 
-                // Special handling for counters
+                // Специальная обработка для счетчиков
                 if (entry.target.hasAttribute('data-counter')) {
                     const target = parseInt(entry.target.getAttribute('data-counter'));
                     PhantomJS.animateCounter(entry.target, 0, target, 2000);
@@ -22,14 +22,14 @@ function initAnimations() {
         });
     }, observerOptions);
     
-    // Observe elements for animation
+    // Наблюдение за элементами для анимации
     const animateElements = document.querySelectorAll('.feature-card, .card, .content-box, [data-counter]');
     animateElements.forEach(el => {
         observer.observe(el);
     });
 }
 
-// Enhanced feature card interactions
+// Улучшенное взаимодействие с карточками функций
 function enhanceFeatureCards() {
     const featureCards = document.querySelectorAll('.feature-card');
     
@@ -44,9 +44,9 @@ function enhanceFeatureCards() {
     });
 }
 
-// Page transition effects
+// Эффекты переходов страниц
 function initPageTransitions() {
-    // Add page transition class on load
+    // Добавление класса перехода страницы при загрузке
     document.body.classList.add('page-enter');
     
     setTimeout(() => {
@@ -54,7 +54,7 @@ function initPageTransitions() {
         document.body.classList.remove('page-enter');
     }, 50);
     
-    // Handle page exits for internal links
+    // Обработка выходов со страницы для внутренних ссылок
     document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]').forEach(link => {
         link.addEventListener('click', function(e) {
             if (this.target === '_blank') return;
@@ -72,7 +72,7 @@ function initPageTransitions() {
     });
 }
 
-// Stagger animations for lists
+// Поэтапные анимации для списков
 function staggerAnimation(elements, animationClass = 'fade-in', delay = 100) {
     elements.forEach((element, index) => {
         setTimeout(() => {
@@ -81,7 +81,7 @@ function staggerAnimation(elements, animationClass = 'fade-in', delay = 100) {
     });
 }
 
-// Parallax scroll effect
+// Эффект параллакса при прокрутке
 function initParallax() {
     const parallaxElements = document.querySelectorAll('[data-parallax]');
     
@@ -94,10 +94,10 @@ function initParallax() {
             const rate = scrolled * (element.dataset.parallax || 0.5);
             element.style.transform = `translateY(${rate}px)`;
         });
-    }, 16)); // ~60fps
+    }, 16));
 }
 
-// Typing animation
+// Анимация печатного текста
 function typeWriter(element, text, speed = 50) {
     let i = 0;
     element.textContent = '';
@@ -113,7 +113,7 @@ function typeWriter(element, text, speed = 50) {
     type();
 }
 
-// Reveal animation on scroll
+// Анимация появления при прокрутке
 function revealOnScroll() {
     const reveals = document.querySelectorAll('[data-reveal]');
     
@@ -134,7 +134,7 @@ function revealOnScroll() {
     });
 }
 
-// Morphing button animation
+// Анимация преобразования кнопки
 function morphButton(button, newText, newIcon = null) {
     const originalText = button.textContent;
     const originalIcon = button.querySelector('i')?.className;
@@ -168,7 +168,7 @@ function morphButton(button, newText, newIcon = null) {
     };
 }
 
-// Ripple effect
+// Эффект пульсации
 function createRipple(event) {
     const button = event.currentTarget;
     const circle = document.createElement('span');
@@ -192,14 +192,14 @@ function createRipple(event) {
     }, 600);
 }
 
-// Add ripple effect to buttons
+// Добавление эффекта пульсации к кнопкам
 function initRippleEffect() {
     const buttons = document.querySelectorAll('.btn, .btn-icon');
     buttons.forEach(button => {
         button.addEventListener('click', createRipple);
     });
     
-    // Add CSS for ripple effect
+    // Добавление CSS для эффекта пульсации
     if (!document.querySelector('#ripple-styles')) {
         const style = document.createElement('style');
         style.id = 'ripple-styles';
@@ -229,17 +229,16 @@ function initRippleEffect() {
     }
 }
 
-// Export animation functions
+// Экспорт функций анимации
 PhantomJS.staggerAnimation = staggerAnimation;
 PhantomJS.typeWriter = typeWriter;
 PhantomJS.morphButton = morphButton;
 PhantomJS.createRipple = createRipple;
 
-// Initialize animations when DOM is loaded
+// Инициализация анимаций при загрузке DOM
 document.addEventListener('DOMContentLoaded', () => {
     initParallax();
     revealOnScroll();
     initRippleEffect();
     enhanceFeatureCards();
 });
-

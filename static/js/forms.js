@@ -1,16 +1,16 @@
-// ===== FORM ENHANCEMENTS =====
+// ===== УЛУЧШЕНИЯ ФОРМ =====
 
 function initForms() {
-    // Enhanced form validation
+    // Улучшенная валидация форм
     const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
-        // Skip auth forms as they have their own loading handling
+        // Пропустить формы аутентификации, так как они имеют свою собственную обработку загрузки
         if (form.id === 'loginForm' || form.id === 'registrationForm') {
             return;
         }
         
-        // Add loading states to form submissions for other forms
+        // Добавить состояния загрузки для отправки других форм
         form.addEventListener('submit', function(e) {
             const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
             if (submitBtn && submitBtn.getAttribute('data-loading')) {
@@ -18,7 +18,7 @@ function initForms() {
             }
         });
         
-        // Real-time validation
+        // Валидация в реальном времени
         const inputs = form.querySelectorAll('input, textarea, select');
         inputs.forEach(input => {
             input.addEventListener('blur', validateField);
@@ -31,10 +31,10 @@ function validateField(e) {
     const field = e.target;
     const value = field.value.trim();
     
-    // Remove existing validation
+    // Удалить существующую валидацию
     clearFieldError(e);
     
-    // Basic validation rules
+    // Базовые правила валидации
     if (field.required && !value) {
         showFieldError(field, 'Это поле обязательно для заполнения');
         return false;
@@ -59,13 +59,13 @@ function validateField(e) {
 function showFieldError(field, message) {
     field.classList.add('error');
     
-    // Remove existing error message
+    // Удалить существующее сообщение об ошибке
     const existingError = field.parentNode.querySelector('.field-error');
     if (existingError) {
         existingError.remove();
     }
     
-    // Add new error message
+    // Добавить новое сообщение об ошибке
     const errorDiv = document.createElement('div');
     errorDiv.className = 'field-error';
     errorDiv.textContent = message;
@@ -83,7 +83,7 @@ function clearFieldError(e) {
     }
 }
 
-// Form auto-save functionality
+// Функциональность автосохранения форм
 function initAutoSave() {
     const forms = document.querySelectorAll('[data-autosave]');
     
@@ -93,19 +93,19 @@ function initAutoSave() {
         inputs.forEach(input => {
             const saveKey = `autosave_${form.id || 'form'}_${input.name || input.id}`;
             
-            // Load saved data
+            // Загрузить сохраненные данные
             const savedValue = localStorage.getItem(saveKey);
             if (savedValue && input.value === '') {
                 input.value = savedValue;
             }
             
-            // Save on input
+            // Сохранить при вводе
             input.addEventListener('input', debounce(() => {
                 localStorage.setItem(saveKey, input.value);
             }, 500));
         });
         
-        // Clear saved data on successful submit
+        // Очистить сохраненные данные при успешной отправке
         form.addEventListener('submit', () => {
             inputs.forEach(input => {
                 const saveKey = `autosave_${form.id || 'form'}_${input.name || input.id}`;
@@ -115,7 +115,7 @@ function initAutoSave() {
     });
 }
 
-// Password toggle functionality
+// Функциональность переключения пароля
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);
     const button = input.nextElementSibling;
@@ -130,7 +130,7 @@ function togglePassword(inputId) {
     }
 }
 
-// Password strength checker
+// Проверка силы пароля
 function checkPasswordStrength(password) {
     let strength = 0;
     let feedback = [];
@@ -161,10 +161,9 @@ function checkPasswordStrength(password) {
     };
 }
 
-// Export form functions to global namespace
+// Экспорт функций форм в глобальное пространство имен
 window.togglePassword = togglePassword;
 PhantomJS.checkPasswordStrength = checkPasswordStrength;
 PhantomJS.validateField = validateField;
 PhantomJS.showFieldError = showFieldError;
 PhantomJS.clearFieldError = clearFieldError;
-

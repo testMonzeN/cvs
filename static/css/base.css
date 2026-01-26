@@ -1,19 +1,19 @@
-/* ===== BASE STYLES & VARIABLES ===== */
+/* ===== БАЗОВЫЕ СТИЛИ И ПЕРЕМЕННЫЕ ===== */
 
-/* CSS Variables - Dark Theme (default) */
+/* CSS Переменные - Темная тема (по умолчанию) */
 :root {
-    /* Dark Theme Colors */
+    /* Цвета темной темы */
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
     --bg-tertiary: #3a3a3a;
     --bg-accent: #404040;
     
-    /* Text Colors */
+    /* Цвета текста */
     --text-primary: #ffffff;
     --text-secondary: #b0b0b0;
     --text-muted: #808080;
     
-    /* Accent Colors */
+    /* Акцентные цвета */
     --accent-primary: #4a9eff;
     --accent-primary-hover: #404040;
     --accent-primary-dark: #202020;
@@ -28,7 +28,7 @@
     --accent-info: #17a2b8;
     --accent-info-alpha: rgba(23, 162, 184, 0.1);
     
-    /* Borders & Shadows */
+    /* Границы и тени */
     --border-color: #404040;
     --border-color-dark: #404040;
     --bg-secondary-dark: #2d2d2d;
@@ -37,32 +37,32 @@
     --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.4);
     --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.5);
     
-    /* Transitions */
+    /* Переходы */
     --transition-fast: 0.2s ease;
     --transition-medium: 0.3s ease;
     --transition-slow: 0.5s ease;
     
-    /* Border Radius */
+    /* Радиус границ */
     --radius-small: 4px;
     --radius-medium: 8px;
     --radius-large: 12px;
     --radius-xl: 16px;
 }
 
-/* Light Theme */
+/* Светлая тема */
 [data-theme="light"] {
-    /* Light Theme Colors */
+    /* Цвета светлой темы */
     --bg-primary: #f8f9fa;
     --bg-secondary: #ffffff;
     --bg-tertiary: #f1f3f5;
     --bg-accent: #dee2e6;
     
-    /* Text Colors */
+    /* Цвета текста */
     --text-primary: #111827;
     --text-secondary: #1f2937;
     --text-muted: #4b5563;
     
-    /* Accent Colors */
+    /* Акцентные цвета */
     --accent-primary: #65aef7;
     --accent-primary-hover: #b4cee9;
     --accent-primary-dark: #bdd6ee;
@@ -77,7 +77,7 @@
     --accent-info: #0bbdd8;
     --accent-info-alpha: rgba(23, 162, 184, 0.1);
     
-    /* Borders & Shadows */
+    /* Границы и тени */
     --border-color: #dee2e6;
     --border-color-dark: #dee2e6;
     --bg-secondary-dark: #ffffff;
@@ -87,14 +87,13 @@
     --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Reset & Base */
+/* Сброс и база */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Плавные переходы для смены темы */
 html {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -109,7 +108,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Typography */
+/* Типографика */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     margin-bottom: 1rem;
@@ -139,7 +138,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Layout */
+/* Макет */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -152,7 +151,7 @@ a:hover {
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
-/* Responsive Breakpoints */
+/* Адаптивные точки останова */
 @media (max-width: 480px) {
     body {
         font-size: 14px;
@@ -181,7 +180,7 @@ a:hover {
     }
 }
 
-/* Selection */
+/* Выделение */
 ::selection {
     background: var(--accent-primary);
     color: white;
@@ -192,7 +191,7 @@ a:hover {
     color: white;
 }
 
-/* Scrollbar */
+/* Полоса прокрутки */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -210,7 +209,7 @@ a:hover {
     background: var(--accent-primary);
 }
 
-/* Theme Toggle Button */
+/* Кнопка переключения темы */
 .theme-toggle {
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
@@ -281,8 +280,7 @@ a:hover {
     }
 }
 
-/* ===== ADAPTIVE HERO TITLE ===== */
-/* Специальный контейнер для hero - без ограничений ширины */
+/* ===== АДАПТИВНЫЙ ЗАГОЛОВОК ГЕРОЯ ===== */
 .hero-section {
     width: 100%;
     overflow: visible;
@@ -296,7 +294,7 @@ a:hover {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     display: flex;
-    flex-direction: column; /* Колонка, чтобы p был на новой строке */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
@@ -319,7 +317,6 @@ a:hover {
     font-weight: 800;
 }
 
-/* Стиль для "Республики Башкортастан" */
 .hero-title p {
     margin: 0;
     padding: 0;
@@ -329,7 +326,6 @@ a:hover {
     line-height: 1.2;
 }
 
-/* Hero description и contact */
 .hero-description {
     font-size: 1.1rem !important;
     color: var(--text-secondary);
@@ -350,7 +346,6 @@ a:hover {
     line-height: 1.6;
 }
 
-/* Адаптивность для разных экранов */
 @media (max-width: 1400px) {
     .hero-title {
         font-size: 3rem;
@@ -455,7 +450,7 @@ a:hover {
     }
 }
 
-/* === FEATURES MAIN GRID (Две большие карточки) === */
+/* Главная сетка функций (две большие карточки) */
 .features-main-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -579,7 +574,7 @@ a:hover {
     color: #000;
 }
 
-/* === FEATURES SMALL GRID (Маленькие карточки) === */
+/* Сетка малых функций (маленькие карточки) */
 .features-small-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -655,7 +650,6 @@ a:hover {
     transform: translateX(5px);
 }
 
-/* === АДАПТИВНОСТЬ === */
 @media (max-width: 1024px) {
     .features-main-grid {
         gap: 1rem;
@@ -831,4 +825,3 @@ a:hover {
         font-size: 0.85rem;
     }
 }
-

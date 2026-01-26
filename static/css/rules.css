@@ -1,6 +1,6 @@
-/* ===== RULES PAGE STYLES ===== */
+/* ===== СТИЛИ СТРАНИЦЫ ПРАВИЛ ===== */
 
-/* Additional CSS Variables for Rules */
+/* Дополнительные CSS переменные для правил */
 :root {
     --accent-primary-alpha: rgba(74, 158, 255, 0.1);
     --accent-info: #17a2b8;
@@ -16,7 +16,7 @@
     padding: 0 1rem;
 }
 
-/* Page Header */
+/* Заголовок страницы */
 .page-header {
     background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
     color: white;
@@ -87,7 +87,7 @@
     opacity: 0.8;
 }
 
-/* Rules Layout */
+/* Макет правил */
 .rules-layout {
     display: grid;
     grid-template-columns: minmax(350px, 25%) 1fr;
@@ -96,7 +96,7 @@
     max-width: 100%;
 }
 
-/* Sidebar */
+/* Боковая панель */
 .rules-sidebar {
     position: sticky;
     top: 2rem;
@@ -133,7 +133,7 @@
     gap: 0.5rem;
 }
 
-/* Quick Search */
+/* Быстрый поиск */
 .quick-search {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -169,7 +169,7 @@
     font-size: 0.9rem;
 }
 
-/* Navigation */
+/* Навигация */
 .rules-nav {
     flex: 1;
     overflow-y: auto;
@@ -254,7 +254,7 @@
     border-radius: 2px;
 }
 
-/* Sidebar Actions */
+/* Действия боковой панели */
 .sidebar-actions {
     padding: 1.5rem;
     border-top: 1px solid var(--border-color);
@@ -270,7 +270,7 @@
     padding: 0.5rem 0.75rem;
 }
 
-/* Main Content */
+/* Основной контент */
 .rules-content {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -283,7 +283,7 @@
     padding: 2rem;
 }
 
-/* Rule Sections */
+/* Секции правил */
 .rule-section {
     margin-bottom: 3rem;
     scroll-margin-top: 2rem;
@@ -357,7 +357,7 @@
     margin-bottom: 0.5rem;
 }
 
-/* Placeholder Content */
+/* Контент-заглушка */
 .placeholder-content {
     text-align: center;
     padding: 4rem 2rem;
@@ -430,7 +430,7 @@
     line-height: 1.3;
 }
 
-/* Back to Top Button */
+/* Кнопка "Назад вверх" */
 .back-to-top {
     position: fixed;
     bottom: 2rem;
@@ -463,7 +463,7 @@
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Print Styles */
+/* Стили для печати */
 @media print {
     .rules-sidebar,
     .back-to-top,
@@ -490,7 +490,7 @@
     }
 }
 
-/* Responsive Design */
+/* Адаптивный дизайн */
 @media (max-width: 1024px) {
     .rules-layout {
         grid-template-columns: 300px 1fr;
@@ -618,7 +618,7 @@
     }
 }
 
-/* Special Rules Elements */
+/* Специальные элементы правил */
 .safety-rules p {
     margin-bottom: 0.75rem;
     padding-left: 1rem;
@@ -711,7 +711,7 @@
     margin-top: 0;
 }
 
-/* Dark mode adjustments */
+/* Настройки темной темы */
 [data-theme="dark"] .page-header {
     background: linear-gradient(135deg, var(--accent-primary-dark) 0%, var(--accent-primary-hover-dark) 100%);
 }
@@ -750,7 +750,7 @@
     border-color: var(--border-color-dark);
 }
 
-/* Dark theme scrollbar */
+/* Полоса прокрутки темной темы */
 [data-theme="dark"] .rules-nav {
     scrollbar-color: var(--accent-primary) var(--bg-tertiary-dark);
 }
@@ -767,9 +767,9 @@
     background: var(--accent-primary-hover);
 }
 
-/* ===== RESPONSIVE RULES STYLES ===== */
+/* ===== АДАПТИВНЫЕ СТИЛИ ПРАВИЛ ===== */
 
-/* Mobile Phones */
+/* Мобильные телефоны */
 @media (max-width: 480px) {
     .rules-layout {
         grid-template-columns: 1fr;
@@ -933,7 +933,7 @@
     }
 }
 
-/* Mobile Landscape & Small Tablets */
+/* Горизонтальная ориентация мобильных и малые планшеты */
 @media (min-width: 481px) and (max-width: 768px) {
     .rules-layout {
         grid-template-columns: 1fr;
@@ -988,7 +988,7 @@
     }
 }
 
-/* Tablets */
+/* Планшеты */
 @media (min-width: 769px) and (max-width: 1024px) {
     .rules-layout {
         grid-template-columns: 280px 1fr;
@@ -1016,7 +1016,7 @@
     }
 }
 
-/* Large Screens */
+/* Большие экраны */
 @media (min-width: 1025px) and (max-width: 1440px) {
     .rules-layout {
         grid-template-columns: 320px 1fr;
@@ -1032,7 +1032,7 @@
     }
 }
 
-/* Extra Large Screens */
+/* Сверхбольшие экраны */
 @media (min-width: 1441px) {
     .rules-container {
         max-width: 1800px;
@@ -1093,7 +1093,7 @@
     }
 }
 
-/* Ultra Wide Screens (2K and above) */
+/* Ультраширокие экраны (2K и выше) */
 @media (min-width: 1920px) {
     .rules-container {
         max-width: 2200px;
@@ -1179,7 +1179,7 @@
     }
 }
 
-/* 4K and Ultra-Wide Screens */
+/* 4K и ультраширокие экраны */
 @media (min-width: 2560px) {
     .rules-container {
         max-width: 2800px;

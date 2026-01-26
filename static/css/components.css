@@ -1,6 +1,6 @@
-/* ===== COMPONENT STYLES ===== */
+/* ===== СТИЛИ КОМПОНЕНТОВ ===== */
 
-/* Buttons */
+/* Кнопки */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -92,7 +92,7 @@
     text-decoration: none;
 }
 
-/* Cards */
+/* Карточки */
 .card {
     background: var(--bg-secondary);
     border-radius: var(--radius-large);
@@ -124,7 +124,7 @@
     font-size: 0.9rem;
 }
 
-/* Feature Cards */
+/* Карточки функций */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -218,7 +218,7 @@
     font-size: 0.9rem;
 }
 
-/* Content Box */
+/* Контент-бокс */
 .content-box {
     background: rgba(45, 45, 45, 0.5);
     backdrop-filter: blur(10px);
@@ -228,7 +228,7 @@
     box-shadow: var(--shadow-medium);
 }
 
-/* Alerts */
+/* Уведомления */
 .alert {
     padding: 1rem 1.5rem;
     border-radius: var(--radius-medium);
@@ -263,7 +263,7 @@
     color: var(--accent-primary);
 }
 
-/* Loading */
+/* Загрузка */
 .loading {
     display: inline-block;
     width: 20px;
@@ -289,7 +289,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Status Badges */
+/* Значки статуса */
 .status-badge {
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-large);
@@ -310,7 +310,7 @@
     color: var(--text-muted);
 }
 
-/* Empty State */
+/* Пустое состояние */
 .empty-state {
     text-align: center;
     padding: 4rem 2rem;
@@ -335,9 +335,9 @@
     color: var(--text-secondary);
 }
 
-/* ===== RESPONSIVE COMPONENT STYLES ===== */
+/* ===== АДАПТИВНЫЕ СТИЛИ КОМПОНЕНТОВ ===== */
 
-/* Mobile Buttons */
+/* Мобильные кнопки */
 @media (max-width: 480px) {
     .btn {
         padding: 0.625rem 1.25rem;
@@ -355,7 +355,7 @@
     }
 }
 
-/* Mobile Cards */
+/* Мобильные карточки */
 @media (max-width: 768px) {
     .card {
         padding: 1.5rem;
@@ -388,14 +388,14 @@
     }
 }
 
-/* Tablet */
+/* Планшет */
 @media (min-width: 769px) and (max-width: 1024px) {
     .features {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Large Screens */
+/* Большие экраны */
 @media (min-width: 1201px) {
     .features {
         grid-template-columns: repeat(3, 1fr);
@@ -416,10 +416,9 @@
     }
 }
 
-/* Extra Large Screens */
+/* Сверхбольшие экраны */
 @media (min-width: 1601px) {
     .features {
         grid-template-columns: repeat(4, 1fr);
     }
 }
-

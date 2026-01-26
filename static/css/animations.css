@@ -1,6 +1,6 @@
-/* ===== ANIMATIONS & EFFECTS ===== */
+/* ===== АНИМАЦИИ И ЭФФЕКТЫ ===== */
 
-/* Keyframes */
+/* Ключевые кадры */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -133,7 +133,7 @@
     }
 }
 
-/* Animation Classes */
+/* Классы анимаций */
 .fade-in {
     animation: fadeIn 0.6s ease forwards;
 }
@@ -182,7 +182,7 @@
     animation: float 3s ease-in-out infinite;
 }
 
-/* Hover Animations */
+/* Анимации при наведении */
 .hover-fade:hover {
     opacity: 0.8;
     transition: opacity var(--transition-fast);
@@ -228,7 +228,7 @@
     transition: box-shadow var(--transition-fast);
 }
 
-/* Loading Animations */
+/* Анимации загрузки */
 .loading-dots::after {
     content: '';
     animation: loading-dots 1.5s infinite;
@@ -277,7 +277,7 @@
     }
 }
 
-/* Page Transitions */
+/* Переходы страниц */
 .page-enter {
     opacity: 0;
     transform: translateY(20px);
@@ -300,29 +300,29 @@
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* Stagger Animation Delays */
+/* Задержки поэтапной анимации */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 
-/* Animation Durations */
+/* Длительность анимаций */
 .duration-fast { animation-duration: 0.2s; }
 .duration-medium { animation-duration: 0.4s; }
 .duration-slow { animation-duration: 0.8s; }
 
-/* Animation Fill Modes */
+/* Режимы заполнения анимации */
 .fill-both { animation-fill-mode: both; }
 .fill-forwards { animation-fill-mode: forwards; }
 .fill-backwards { animation-fill-mode: backwards; }
 
-/* Pause Animations */
+/* Приостановка анимаций */
 .paused {
     animation-play-state: paused;
 }
 
-/* Reduced Motion Support */
+/* Поддержка уменьшенного движения */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -343,4 +343,3 @@
         transform: none;
     }
 }
-

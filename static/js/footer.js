@@ -1,10 +1,10 @@
-// Footer animations and particles - ТОЛЬКО для футера
+// Анимации и частицы подвала - ТОЛЬКО для подвала
 document.addEventListener('DOMContentLoaded', function() {
     initFooterAnimations();
 });
 
 function initFooterAnimations() {
-    // Проверяем, что футер существует
+    // Проверяем, что подвал существует
     const footer = document.querySelector('.site-footer');
     if (!footer) return;
     
@@ -13,7 +13,7 @@ function initFooterAnimations() {
     initFooterEntranceAnimation(footer);
 }
 
-// Create floating particles in footer - ТОЛЬКО внутри футера
+// Создание плавающих частиц в подвале - ТОЛЬКО внутри подвала
 function createFooterParticles(footer) {
     if (!footer) return;
     
@@ -21,33 +21,33 @@ function createFooterParticles(footer) {
     particlesContainer.className = 'footer-particles';
     footer.appendChild(particlesContainer);
     
-    // Create 5 particles
+    // Создать 5 частиц
     for (let i = 0; i < 5; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         
-        // Random horizontal position
+        // Случайная горизонтальная позиция
         particle.style.left = Math.random() * 100 + '%';
         
-        // Random animation duration (4-8 seconds)
+        // Случайная длительность анимации (4-8 секунд)
         const duration = 4 + Math.random() * 4;
         particle.style.animationDuration = duration + 's';
         
-        // Random delay
+        // Случайная задержка
         particle.style.animationDelay = -(Math.random() * duration) + 's';
         
         particlesContainer.appendChild(particle);
     }
 }
 
-// Enhanced GitHub link animation - ТОЛЬКО для ссылок внутри футера
+// Улучшенная анимация ссылки GitHub - ТОЛЬКО для ссылок внутри подвала
 function initGitHubLinkAnimation(footer) {
     if (!footer) return;
     
     const githubLink = footer.querySelector('.github-link');
     if (!githubLink) return;
     
-    // Add ripple effect on click
+    // Добавить эффект пульсации при клике
     githubLink.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();
@@ -71,7 +71,7 @@ function initGitHubLinkAnimation(footer) {
         
         this.appendChild(ripple);
         
-        // Remove ripple after animation
+        // Удалить пульсацию после анимации
         setTimeout(() => {
             if (ripple.parentNode) {
                 ripple.parentNode.removeChild(ripple);
@@ -79,7 +79,7 @@ function initGitHubLinkAnimation(footer) {
         }, 600);
     });
     
-    // Add hover visual feedback
+    // Добавить визуальную обратную связь при наведении
     githubLink.addEventListener('mouseenter', function() {
         this.style.setProperty('--hover-scale', '1.02');
     });
@@ -89,7 +89,7 @@ function initGitHubLinkAnimation(footer) {
     });
 }
 
-// Add CSS for footer-specific animations - ТОЛЬКО для футера
+// Добавить CSS для анимаций, специфичных для подвала - ТОЛЬКО для подвала
 const footerCSS = `
 @keyframes footerRipple {
     to {
@@ -110,7 +110,7 @@ const footerCSS = `
 }
 `;
 
-// Inject footer-specific CSS
+// Внедрить CSS, специфичный для подвала
 if (!document.querySelector('#footer-styles')) {
     const style = document.createElement('style');
     style.id = 'footer-styles';
@@ -118,7 +118,7 @@ if (!document.querySelector('#footer-styles')) {
     document.head.appendChild(style);
 }
 
-// Intersection Observer for footer entrance animation - ТОЛЬКО для футера
+// Intersection Observer для анимации входа подвала - ТОЛЬКО для подвала
 function initFooterEntranceAnimation(footer) {
     if (!footer) return;
     

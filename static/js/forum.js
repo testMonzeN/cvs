@@ -1,7 +1,7 @@
-// ===== FORUM FUNCTIONALITY =====
+// ===== ФУНКЦИОНАЛЬНОСТЬ ФОРУМА =====
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run on forum pages
+    // Запускать только на страницах форума
     if (!document.querySelector('.forum-header') && !document.querySelector('.topic-detail-header')) return;
     
     initForumFilters();
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initForumForms();
 });
 
-// Forum topic filters
+// Фильтры тем форума
 function initForumFilters() {
     const filterContainer = document.querySelector('[data-filter-container="forum"]');
     if (!filterContainer) return;
@@ -24,17 +24,17 @@ function initForumFilters() {
         button.addEventListener('click', function() {
             const filter = this.getAttribute('data-filter');
             
-            // Update active button
+            // Обновить активную кнопку
             filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
             
-            // Filter topics with animation
+            // Фильтровать темы с анимацией
             filterTopics(topicCards, filter);
         });
     });
 }
 
-// Filter topics with enhanced animations
+// Фильтровать темы с улучшенными анимациями
 function filterTopics(topics, filter) {
     topics.forEach((topic, index) => {
         const topicType = topic.getAttribute('data-filter-item');
@@ -46,13 +46,13 @@ function filterTopics(topics, filter) {
         }
     });
     
-    // Update results count
+    // Обновить количество результатов
     updateFilterResults(topics, filter);
 }
 
-// Show topic with staggered animation
+// Показать тему с поэтапной анимацией
 function showTopic(topic, index) {
-    topic.style.display = 'flex';  // ← Исправлено: используем flex вместо block
+    topic.style.display = 'flex';
     topic.style.opacity = '0';
     topic.style.transform = 'translateY(20px)';
     
@@ -63,7 +63,7 @@ function showTopic(topic, index) {
     }, 50 + (index * 50));
 }
 
-// Hide topic with animation
+// Скрыть тему с анимацией
 function hideTopic(topic) {
     topic.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
     topic.style.opacity = '0';
@@ -74,14 +74,14 @@ function hideTopic(topic) {
     }, 200);
 }
 
-// Update filter results count
+// Обновить количество результатов фильтра
 function updateFilterResults(topics, filter) {
     const visibleCount = Array.from(topics).filter(topic => {
         const topicType = topic.getAttribute('data-filter-item');
         return filter === 'all' || topicType === filter;
     }).length;
     
-    // Show/hide empty state if needed
+    // Показать/скрыть пустое состояние при необходимости
     const emptyState = document.querySelector('.empty-state');
     const topicsContainer = document.querySelector('.topics-container');
     
@@ -93,7 +93,7 @@ function updateFilterResults(topics, filter) {
     }
 }
 
-// Create empty filter message
+// Создать сообщение о пустом фильтре
 function createEmptyFilterMessage(filter) {
     const emptyDiv = document.createElement('div');
     emptyDiv.className = 'empty-state fade-in';
@@ -107,7 +107,7 @@ function createEmptyFilterMessage(filter) {
     return emptyDiv;
 }
 
-// Quick reply functionality
+// Функциональность быстрого ответа
 function initQuickReply() {
     const quickReplyForm = document.querySelector('.quick-reply-form');
     if (!quickReplyForm) return;
@@ -116,22 +116,22 @@ function initQuickReply() {
     const submitButton = quickReplyForm.querySelector('button[type="submit"]');
     
     if (textarea) {
-        // Auto-expand textarea
+        // Автоматическое расширение текстового поля
         textarea.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.max(120, this.scrollHeight) + 'px';
             
-            // Enable/disable submit button based on content
+            // Включить/отключить кнопку отправки в зависимости от содержимого
             if (submitButton) {
                 submitButton.disabled = this.value.trim().length < 10;
             }
         });
         
-        // Character counter
+        // Счетчик символов
         addCharacterCounter(textarea);
     }
     
-    // Handle form submission
+    // Обработка отправки формы
     quickReplyForm.addEventListener('submit', function(e) {
         const text = textarea.value.trim();
         if (text.length < 10) {
@@ -140,14 +140,14 @@ function initQuickReply() {
             return;
         }
         
-        // Add loading state
+        // Добавить состояние загрузки
         if (submitButton) {
             addLoadingState(submitButton);
         }
     });
 }
 
-// Add character counter to textarea
+// Добавить счетчик символов к текстовому полю
 function addCharacterCounter(textarea) {
     const counterDiv = document.createElement('div');
     counterDiv.className = 'character-counter';
@@ -178,9 +178,9 @@ function addCharacterCounter(textarea) {
     updateCounter();
 }
 
-// Post actions (edit, delete, reply)
+// Действия с постами (редактирование, удаление, ответ)
 function initPostActions() {
-    // Confirm delete actions
+    // Подтверждение действий удаления
     document.addEventListener('click', function(e) {
         if (e.target.matches('a[href*="delete"]') || e.target.closest('a[href*="delete"]')) {
             const link = e.target.matches('a') ? e.target : e.target.closest('a');
@@ -195,7 +195,7 @@ function initPostActions() {
         }
     });
     
-    // Quote functionality (if implemented)
+    // Функциональность цитирования (если реализована)
     document.addEventListener('click', function(e) {
         if (e.target.matches('.quote-btn') || e.target.closest('.quote-btn')) {
             e.preventDefault();
@@ -208,7 +208,7 @@ function initPostActions() {
     });
 }
 
-// Insert quote into reply textarea
+// Вставить цитату в текстовое поле ответа
 function insertQuote(text, author) {
     const textarea = document.querySelector('.quick-reply-form textarea, .comment-create-form textarea');
     if (!textarea) return;
@@ -223,11 +223,11 @@ function insertQuote(text, author) {
     textarea.focus();
     textarea.selectionStart = textarea.selectionEnd = cursorPos + quote.length;
     
-    // Trigger input event for auto-expand
+    // Вызвать событие ввода для автоматического расширения
     textarea.dispatchEvent(new Event('input'));
 }
 
-// Preview feature for posts
+// Функция предварительного просмотра для постов
 function initPreviewFeature() {
     const previewButtons = document.querySelectorAll('[data-preview]');
     
@@ -250,9 +250,9 @@ function initPreviewFeature() {
     });
 }
 
-// Format post content for preview
+// Форматирование содержимого поста для предварительного просмотра
 function formatPostContent(text) {
-    // Basic formatting (can be extended)
+    // Базовое форматирование (может быть расширено)
     return text
         .replace(/\n\n/g, '</p><p>')
         .replace(/\n/g, '<br>')
@@ -261,7 +261,7 @@ function formatPostContent(text) {
         .replace(/\[quote="([^"]+)"\](.*?)\[\/quote\]/g, '<blockquote><strong>$1 писал:</strong><br>$2</blockquote>');
 }
 
-// Forum search functionality
+// Функциональность поиска форума
 function initForumSearch() {
     const searchInput = document.querySelector('#forumSearch');
     if (!searchInput) return;
@@ -278,7 +278,7 @@ function initForumSearch() {
     });
 }
 
-// Search topics
+// Поиск тем
 function searchTopics(query) {
     const topicCards = document.querySelectorAll('.topic-card');
     let visibleCount = 0;
@@ -294,7 +294,7 @@ function searchTopics(query) {
                        author.includes(query);
         
         if (matches) {
-            card.style.display = 'flex';  // ← Исправлено: используем flex вместо block
+            card.style.display = 'flex';
             highlightSearchTerm(card, query);
             visibleCount++;
         } else {
@@ -302,11 +302,11 @@ function searchTopics(query) {
         }
     });
     
-    // Show search results count
+    // Показать количество результатов поиска
     updateSearchResults(visibleCount, query);
 }
 
-// Highlight search terms
+// Выделить термины поиска
 function highlightSearchTerm(card, query) {
     if (!query) return;
     
@@ -322,12 +322,12 @@ function highlightSearchTerm(card, query) {
     });
 }
 
-// Escape regex special characters
+// Экранирование специальных символов regex
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Update search results
+// Обновить результаты поиска
 function updateSearchResults(count, query) {
     let resultsDiv = document.querySelector('.search-results');
     
@@ -356,7 +356,7 @@ function updateSearchResults(count, query) {
     }
 }
 
-// Utility functions
+// Вспомогательные функции
 function showNotification(message, type = 'info') {
     if (typeof PhantomJS !== 'undefined' && PhantomJS.showNotification) {
         PhantomJS.showNotification(message, type);
@@ -374,7 +374,7 @@ function addLoadingState(button) {
     }
 }
 
-// Forum forms handling
+// Обработка форм форума
 function initForumForms() {
     const forumForms = document.querySelectorAll('.topic-create-form, .topic-edit-form, .comment-create-form, .quick-reply-form');
     
@@ -382,33 +382,33 @@ function initForumForms() {
         form.addEventListener('submit', function(e) {
             const submitBtn = form.querySelector('button[type="submit"]');
             if (submitBtn) {
-                // Prevent double submission
+                // Предотвратить двойную отправку
                 if (submitBtn.disabled || submitBtn.classList.contains('loading')) {
                     e.preventDefault();
                     return;
                 }
                 
-                // Check form validity first
+                // Проверить валидность формы сначала
                 if (!form.checkValidity()) {
-                    return; // Let browser handle validation
+                    return;
                 }
                 
-                // Add loading state
+                // Добавить состояние загрузки
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
                 
-                // Remove loading state after a timeout as fallback
+                // Удалить состояние загрузки после тайм-аута в качестве запасного варианта
                 setTimeout(() => {
                     if (submitBtn.classList.contains('loading')) {
                         submitBtn.classList.remove('loading');
                         submitBtn.disabled = false;
                     }
-                }, 10000); // 10 seconds fallback
+                }, 10000);
             }
         });
     });
 }
 
-// Export functions for global usage
+// Экспорт функций для глобального использования
 window.filterTopics = filterTopics;
 window.insertQuote = insertQuote;

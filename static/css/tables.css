@@ -1,4 +1,4 @@
-/* ===== MODERN TABLE STYLES ===== */
+/* ===== СОВРЕМЕННЫЕ СТИЛИ ТАБЛИЦ ===== */
 
 .table-responsive {
     overflow-x: auto;
@@ -44,7 +44,7 @@
     border-bottom: none;
 }
 
-/* Text color classes */
+/* Классы цвета текста */
 .text-success {
     color: var(--accent-success) !important;
     font-weight: 500;
@@ -65,7 +65,7 @@
     font-weight: 500;
 }
 
-/* Responsive improvements */
+/* Адаптивные улучшения */
 @media (max-width: 768px) {
     .modern-table {
         font-size: 0.8rem;
@@ -81,7 +81,7 @@
     }
 }
 
-/* Dark mode adjustments */
+/* Настройки темной темы */
 [data-theme="dark"] .modern-table {
     background: var(--bg-primary-dark);
 }
@@ -94,9 +94,9 @@
     background: var(--bg-tertiary-dark);
 }
 
-/* ===== RESPONSIVE TABLE STYLES ===== */
+/* ===== АДАПТИВНЫЕ СТИЛИ ТАБЛИЦ ===== */
 
-/* Mobile Phones */
+/* Мобильные телефоны */
 @media (max-width: 480px) {
     .table-responsive {
         border-radius: var(--radius-small);
@@ -105,7 +105,7 @@
     
     .modern-table {
         font-size: 0.8rem;
-        min-width: 600px; /* Force horizontal scroll on very small content */
+        min-width: 600px;
     }
     
     .modern-table th,
@@ -132,7 +132,7 @@
         padding: 0.2rem 0.4rem;
     }
     
-    /* Stack table for very small screens */
+    /* Стековая таблица для очень малых экранов */
     .stack-table {
         display: block;
         overflow-x: visible;
@@ -191,7 +191,7 @@
     }
 }
 
-/* Mobile Landscape & Small Tablets */
+/* Горизонтальная ориентация мобильных и малые планшеты */
 @media (min-width: 481px) and (max-width: 768px) {
     .modern-table {
         font-size: 0.85rem;
@@ -213,7 +213,7 @@
     }
 }
 
-/* Tablets */
+/* Планшеты */
 @media (min-width: 769px) and (max-width: 1024px) {
     .modern-table th,
     .modern-table td {
@@ -221,7 +221,7 @@
     }
 }
 
-/* Large Screens */
+/* Большие экраны */
 @media (min-width: 1025px) {
     .modern-table {
         font-size: 0.95rem;
@@ -241,4 +241,3 @@
         height: 42px;
     }
 }
-

@@ -1,15 +1,15 @@
 /**
- * Calendar Forms Integration
- * Handles form submission with calendar data
+ * Интеграция форм с календарем
+ * Обрабатывает отправку форм с данными календаря
  */
 
-// Form submission handler for calendar inputs
+// Обработчик отправки формы для вводов календаря
 function handleCalendarFormSubmission() {
     document.addEventListener('submit', function(e) {
         const form = e.target;
         if (!form.matches('form')) return;
         
-        // Find all calendar inputs in the form
+        // Найти все вводы календаря в форме
         const calendarInputs = form.querySelectorAll('.calendar-input');
         
         calendarInputs.forEach(input => {
@@ -17,7 +17,7 @@ function handleCalendarFormSubmission() {
             const originalName = input.getAttribute('data-original-name') || input.name;
             
             if (datetimeValue && originalName) {
-                // Create or update a hidden input with the datetime-local format
+                // Создать или обновить скрытый ввод с форматом datetime-local
                 let hiddenInput = form.querySelector(`input[name="${originalName}"][type="hidden"]`);
                 if (!hiddenInput) {
                     hiddenInput = document.createElement('input');
@@ -27,10 +27,10 @@ function handleCalendarFormSubmission() {
                 }
                 hiddenInput.value = datetimeValue;
                 
-                // Remove the calendar input from form submission
+                // Удалить ввод календаря из отправки формы
                 input.removeAttribute('name');
             } else if (originalName && input.value) {
-                // Fallback: if no datetime value, try to parse the display value
+                // Запасной вариант: если нет значения datetime, попытаться разобрать отображаемое значение
                 const displayValue = input.value;
                 const parsedDate = parseDisplayDate(displayValue);
                 if (parsedDate) {
@@ -49,7 +49,7 @@ function handleCalendarFormSubmission() {
     });
 }
 
-// Parse display date format (dd.mm.yyyy в hh:mm) to Date object
+// Разбор формата отображения даты (dd.mm.yyyy в hh:mm) в объект Date
 function parseDisplayDate(displayValue) {
     try {
         const regex = /(\d{2})\.(\d{2})\.(\d{4}) в (\d{2}):(\d{2})/;
@@ -60,18 +60,18 @@ function parseDisplayDate(displayValue) {
             return new Date(year, month - 1, day, hours, minutes);
         }
         
-        // Fallback: try to parse as ISO date
+        // Запасной вариант: попытка разобрать как ISO дату
         return new Date(displayValue);
     } catch (e) {
-        console.error('Error parsing date:', e);
+        console.error('Ошибка разбора даты:', e);
         return null;
     }
 }
 
-// Initialize calendar form handling
+// Инициализация обработки форм календаря
 document.addEventListener('DOMContentLoaded', handleCalendarFormSubmission);
 
-// Handle dynamic forms
+// Обработка динамических форм
 const formObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {

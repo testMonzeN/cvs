@@ -1,8 +1,8 @@
-// ===== COMPONENT FUNCTIONALITY =====
+// ===== ФУНКЦИОНАЛЬНОСТЬ КОМПОНЕНТОВ =====
 
-// Modal system
+// Система модальных окон
 function initModals() {
-    // Modal triggers
+    // Триггеры модальных окон
     document.addEventListener('click', function(e) {
         if (e.target.matches('[data-modal]')) {
             e.preventDefault();
@@ -15,7 +15,7 @@ function initModals() {
         }
     });
     
-    // Close modal with Escape key
+    // Закрытие модального окна клавишей Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeModal();
@@ -29,7 +29,7 @@ function openModal(modalId) {
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
         
-        // Focus trap
+        // Ловушка фокуса
         const focusableElements = modal.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
@@ -47,7 +47,7 @@ function closeModal() {
     }
 }
 
-// Tooltip system
+// Система подсказок
 function initTooltips() {
     const tooltipElements = document.querySelectorAll('[data-tooltip]');
     
@@ -86,7 +86,7 @@ function showTooltip(e) {
     
     document.body.appendChild(tooltip);
     
-    // Position tooltip
+    // Позиционирование подсказки
     const rect = element.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     
@@ -118,7 +118,7 @@ function showTooltip(e) {
     tooltip.style.left = Math.max(10, left) + 'px';
     tooltip.style.top = Math.max(10, top) + 'px';
     
-    // Animate in
+    // Анимация появления
     setTimeout(() => {
         tooltip.style.opacity = '1';
         tooltip.style.transform = 'translate(0)';
@@ -135,22 +135,22 @@ function hideTooltip(e) {
     }
 }
 
-// Loading states
+// Состояния загрузки
 function initLoadingStates() {
-    // Auto-add loading states to buttons with data-loading attribute
+    // Автодобавление состояний загрузки к кнопкам с атрибутом data-loading
     document.addEventListener('click', function(e) {
         if (e.target.matches('[data-loading]')) {
-            // Only add loading state for submit buttons in forms
+            // Добавить состояние загрузки только для кнопок отправки в формах
             const form = e.target.closest('form');
             if (form && e.target.type === 'submit') {
                 addLoadingState(e.target);
                 
-                // Remove loading state if form submission fails
+                // Удалить состояние загрузки если отправка формы не удалась
                 setTimeout(() => {
                     if (e.target.classList.contains('loading')) {
                         removeLoadingState(e.target);
                     }
-                }, 10000); // Remove after 10 seconds as fallback
+                }, 10000);
             }
         }
     });
@@ -165,7 +165,7 @@ function addLoadingState(button) {
     const originalText = button.textContent;
     button.setAttribute('data-original-text', originalText);
     
-    // Add loading spinner
+    // Добавить спиннер загрузки
     button.innerHTML = `
         <span class="loading-spinner"></span>
         ${button.getAttribute('data-loading') || 'Загрузка...'}
@@ -185,7 +185,7 @@ function removeLoadingState(button) {
     }
 }
 
-// Notification system
+// Система уведомлений
 function showNotification(message, type = 'info', duration = 5000) {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -218,17 +218,17 @@ function showNotification(message, type = 'info', duration = 5000) {
     
     document.body.appendChild(notification);
     
-    // Animate in
+    // Анимация появления
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 10);
     
-    // Close button
+    // Кнопка закрытия
     notification.querySelector('.notification-close').addEventListener('click', () => {
         removeNotification(notification);
     });
     
-    // Auto remove
+    // Автоудаление
     if (duration > 0) {
         setTimeout(() => {
             removeNotification(notification);
@@ -247,7 +247,7 @@ function removeNotification(notification) {
     }, 300);
 }
 
-// Dropdown functionality
+// Функциональность выпадающего списка
 function initDropdowns() {
     document.addEventListener('click', function(e) {
         const dropdown = e.target.closest('.dropdown');
@@ -260,7 +260,7 @@ function initDropdowns() {
                 e.preventDefault();
                 menu.classList.toggle('show');
                 
-                // Close other dropdowns
+                // Закрыть другие выпадающие списки
                 document.querySelectorAll('.dropdown-menu.show').forEach(otherMenu => {
                     if (otherMenu !== menu) {
                         otherMenu.classList.remove('show');
@@ -268,7 +268,7 @@ function initDropdowns() {
                 });
             }
         } else {
-            // Close all dropdowns when clicking outside
+            // Закрыть все выпадающие списки при клике снаружи
             document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
                 menu.classList.remove('show');
             });
@@ -276,7 +276,7 @@ function initDropdowns() {
     });
 }
 
-// Tabs functionality
+// Функциональность вкладок
 function initTabs() {
     document.addEventListener('click', function(e) {
         if (e.target.matches('.tab-button')) {
@@ -286,11 +286,11 @@ function initTabs() {
             const tabContainer = tabButton.closest('.tabs');
             const targetId = tabButton.getAttribute('data-tab');
             
-            // Remove active class from all tabs and buttons
+            // Удалить активный класс со всех вкладок и кнопок
             tabContainer.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             tabContainer.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            // Add active class to clicked button and corresponding content
+            // Добавить активный класс к нажатой кнопке и соответствующему содержимому
             tabButton.classList.add('active');
             const targetContent = tabContainer.querySelector(`[data-tab-content="${targetId}"]`);
             if (targetContent) {
@@ -300,7 +300,7 @@ function initTabs() {
     });
 }
 
-// Filter functionality with enhanced animations
+// Функциональность фильтра с улучшенными анимациями
 function initFilters() {
     document.addEventListener('click', function(e) {
         if (e.target.matches('.filter-tab')) {
@@ -308,13 +308,13 @@ function initFilters() {
             const filterContainer = filterButton.closest('.filter-tabs');
             const filter = filterButton.dataset.filter;
             
-            // Remove active class from all filter buttons
+            // Удалить активный класс со всех кнопок фильтра
             filterContainer.querySelectorAll('.filter-tab').forEach(btn => btn.classList.remove('active'));
             
-            // Add active class to clicked button
+            // Добавить активный класс к нажатой кнопке
             filterButton.classList.add('active');
             
-            // Filter items with enhanced animations
+            // Фильтровать элементы с улучшенными анимациями
             const itemsContainer = document.querySelector('[data-filter-container]');
             if (itemsContainer) {
                 const items = itemsContainer.querySelectorAll('[data-filter-item]');
@@ -324,7 +324,7 @@ function initFilters() {
     });
 }
 
-// Enhanced filter animation function
+// Улучшенная функция анимации фильтра
 function filterItemsWithAnimation(items, filter) {
     items.forEach((item, index) => {
         const itemType = item.dataset.filterItem;
@@ -337,21 +337,21 @@ function filterItemsWithAnimation(items, filter) {
     });
 }
 
-// Show filter item with staggered animation
+// Показать элемент фильтра с поэтапной анимацией
 function showFilterItem(item, index) {
     item.style.display = 'block';
     item.style.opacity = '0';
     item.style.transform = 'translateY(20px)';
     
-    // Stagger animation for multiple items
+    // Поэтапная анимация для нескольких элементов
     setTimeout(() => {
         item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         item.style.opacity = '1';
         item.style.transform = 'translateY(0)';
-    }, 50 + (index * 50)); // Delay based on item position
+    }, 50 + (index * 50));
 }
 
-// Hide filter item with animation
+// Скрыть элемент фильтра с анимацией
 function hideFilterItem(item) {
     item.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
     item.style.opacity = '0';
@@ -362,7 +362,7 @@ function hideFilterItem(item) {
     }, 200);
 }
 
-// Join competition function (specific to competitions page)
+// Функция присоединения к соревнованию (специфична для страницы соревнований)
 function joinCompetition(competitionId) {
     if (typeof PhantomJS !== 'undefined' && PhantomJS.showNotification) {
         PhantomJS.showNotification('Функция записи на соревнование будет добавлена', 'info');
@@ -371,7 +371,7 @@ function joinCompetition(competitionId) {
     }
 }
 
-// Join training function (specific to training page)
+// Функция присоединения к тренировке (специфична для страницы тренировок)
 function joinTraining(trainingId) {
     if (typeof PhantomJS !== 'undefined' && PhantomJS.showNotification) {
         PhantomJS.showNotification('Функция записи на тренировку будет добавлена', 'info');
@@ -380,7 +380,7 @@ function joinTraining(trainingId) {
     }
 }
 
-// Join seminar function (specific to seminar page)
+// Функция присоединения к семинару (специфична для страницы семинаров)
 function joinSeminar(seminarId) {
     if (typeof PhantomJS !== 'undefined' && PhantomJS.showNotification) {
         PhantomJS.showNotification('Функция записи на семинар будет добавлена', 'info');
@@ -389,8 +389,7 @@ function joinSeminar(seminarId) {
     }
 }
 
-
-// Export component functions to global namespace
+// Экспорт функций компонентов в глобальное пространство имен
 PhantomJS.openModal = openModal;
 PhantomJS.closeModal = closeModal;
 PhantomJS.showNotification = showNotification;
@@ -400,12 +399,12 @@ PhantomJS.removeLoadingState = removeLoadingState;
 PhantomJS.showTooltip = showTooltip;
 PhantomJS.hideTooltip = hideTooltip;
 
-// Export functions to global scope for inline usage
+// Экспорт функций в глобальную область для встроенного использования
 window.joinCompetition = joinCompetition;
 window.joinTraining = joinTraining;
 window.joinSeminar = joinSeminar;
 
-// Initialize components
+// Инициализация компонентов
 document.addEventListener('DOMContentLoaded', () => {
     initDropdowns();
     initTabs();

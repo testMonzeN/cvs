@@ -1,11 +1,11 @@
-/* ===== UTILITY CLASSES ===== */
+/* ===== УТИЛИТАРНЫЕ КЛАССЫ ===== */
 
-/* Text Alignment */
+/* Выравнивание текста */
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-/* Display */
+/* Отображение */
 .d-none { display: none; }
 .d-block { display: block; }
 .d-flex { display: flex; }
@@ -30,7 +30,7 @@
 .flex-column { flex-direction: column; }
 .flex-row { flex-direction: row; }
 
-/* Margins */
+/* Отступы */
 .m-0 { margin: 0; }
 .m-1 { margin: 0.25rem; }
 .m-2 { margin: 0.5rem; }
@@ -68,7 +68,7 @@
 
 .mx-auto { margin-left: auto; margin-right: auto; }
 
-/* Padding */
+/* Внутренние отступы */
 .p-0 { padding: 0; }
 .p-1 { padding: 0.25rem; }
 .p-2 { padding: 0.5rem; }
@@ -104,7 +104,7 @@
 .pr-4 { padding-right: 1.5rem; }
 .pr-5 { padding-right: 2rem; }
 
-/* Width & Height */
+/* Ширина и высота */
 .w-25 { width: 25%; }
 .w-50 { width: 50%; }
 .w-75 { width: 75%; }
@@ -120,19 +120,19 @@
 .mw-100 { max-width: 100%; }
 .mh-100 { max-height: 100%; }
 
-/* Position */
+/* Позиционирование */
 .position-relative { position: relative; }
 .position-absolute { position: absolute; }
 .position-fixed { position: fixed; }
 .position-sticky { position: sticky; }
 
-/* Overflow */
+/* Переполнение */
 .overflow-hidden { overflow: hidden; }
 .overflow-auto { overflow: auto; }
 .overflow-scroll { overflow: scroll; }
 .overflow-visible { overflow: visible; }
 
-/* Border */
+/* Границы */
 .border { border: 1px solid var(--border-color); }
 .border-0 { border: 0; }
 .border-top { border-top: 1px solid var(--border-color); }
@@ -146,13 +146,13 @@
 .rounded-xl { border-radius: var(--radius-xl); }
 .rounded-circle { border-radius: 50%; }
 
-/* Shadow */
+/* Тени */
 .shadow-sm { box-shadow: var(--shadow-light); }
 .shadow { box-shadow: var(--shadow-medium); }
 .shadow-lg { box-shadow: var(--shadow-heavy); }
 .shadow-none { box-shadow: none; }
 
-/* Colors */
+/* Цвета */
 .text-primary { color: var(--text-primary); }
 .text-secondary { color: var(--text-secondary); }
 .text-muted { color: var(--text-muted); }
@@ -166,7 +166,7 @@
 .bg-accent { background-color: var(--bg-accent); }
 .bg-transparent { background-color: transparent; }
 
-/* Font */
+/* Шрифт */
 .font-weight-light { font-weight: 300; }
 .font-weight-normal { font-weight: 400; }
 .font-weight-medium { font-weight: 500; }
@@ -185,7 +185,7 @@
 .text-decoration-none { text-decoration: none; }
 .text-decoration-underline { text-decoration: underline; }
 
-/* Cursor */
+/* Курсор */
 .cursor-pointer { cursor: pointer; }
 .cursor-default { cursor: default; }
 .cursor-not-allowed { cursor: not-allowed; }
@@ -196,23 +196,23 @@
 .z-index-100 { z-index: 100; }
 .z-index-1000 { z-index: 1000; }
 
-/* Visibility */
+/* Видимость */
 .visible { visibility: visible; }
 .invisible { visibility: hidden; }
 
-/* Opacity */
+/* Прозрачность */
 .opacity-0 { opacity: 0; }
 .opacity-25 { opacity: 0.25; }
 .opacity-50 { opacity: 0.5; }
 .opacity-75 { opacity: 0.75; }
 .opacity-100 { opacity: 1; }
 
-/* Transitions */
+/* Переходы */
 .transition-fast { transition: var(--transition-fast); }
 .transition-medium { transition: var(--transition-medium); }
 .transition-slow { transition: var(--transition-slow); }
 
-/* Hover Effects */
+/* Эффекты при наведении */
 .hover-lift:hover {
     transform: translateY(-2px);
 }
@@ -225,9 +225,9 @@
     transform: scale(1.05);
 }
 
-/* ===== RESPONSIVE UTILITIES ===== */
+/* ===== АДАПТИВНЫЕ УТИЛИТЫ ===== */
 
-/* Mobile First - Show on larger screens */
+/* Подход "сначала мобильные" - Показать на больших экранах */
 @media (min-width: 481px) {
     .d-mobile-none { display: none; }
 }
@@ -240,7 +240,7 @@
     .d-desktop-none { display: none; }
 }
 
-/* Hide on smaller screens */
+/* Скрыть на малых экранах */
 @media (max-width: 480px) {
     .d-mobile-hide { display: none; }
     .text-mobile-center { text-align: center; }
@@ -275,7 +275,7 @@
     .justify-desktop-center { justify-content: center; }
 }
 
-/* Specific breakpoint utilities */
+/* Утилиты для конкретных точек останова */
 @media (max-width: 575px) {
     .d-xs-none { display: none !important; }
     .d-xs-block { display: block !important; }
@@ -308,20 +308,20 @@
     .d-xl-flex { display: flex !important; }
 }
 
-/* Container queries for modern browsers */
+/* Контейнерные запросы для современных браузеров */
 @container (max-width: 480px) {
     .container-mobile-hide { display: none; }
     .container-mobile-stack { flex-direction: column; }
 }
 
-/* Print utilities */
+/* Утилиты для печати */
 @media print {
     .d-print-none { display: none !important; }
     .d-print-block { display: block !important; }
     .d-print-flex { display: flex !important; }
 }
 
-/* Accessibility utilities */
+/* Утилиты доступности */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -344,7 +344,7 @@
     white-space: normal;
 }
 
-/* Touch-friendly utilities */
+/* Утилиты для сенсорных устройств */
 @media (hover: none) and (pointer: coarse) {
     .touch-friendly {
         min-height: 44px;
@@ -357,4 +357,3 @@
         font-size: 1.1rem;
     }
 }
-

@@ -1,4 +1,4 @@
-// ===== NAVIGATION FUNCTIONALITY =====
+// ===== ФУНКЦИОНАЛЬНОСТЬ НАВИГАЦИИ =====
 
 function initNavbar() {
     const navbar = document.querySelector('.navbar');
@@ -6,20 +6,20 @@ function initNavbar() {
     const navMenu = document.getElementById('navMenu');
     
     if (navbar) {
-        // Navbar scroll effect
+        // Эффект прокрутки навбара
         let lastScrollTop = 0;
         
         window.addEventListener('scroll', throttle(function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            // Add scrolled class for backdrop effect
+            // Добавить класс scrolled для эффекта фона
             if (scrollTop > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
             
-            // Hide/show navbar on scroll (only on desktop)
+            // Скрыть/показать навбар при прокрутке (только на десктопе)
             if (window.innerWidth > 768) {
                 if (scrollTop > lastScrollTop && scrollTop > 200) {
                     navbar.style.transform = 'translateY(-100%)';
@@ -31,7 +31,7 @@ function initNavbar() {
             lastScrollTop = scrollTop;
         }, 100));
         
-        // Mobile menu toggle
+        // Переключение мобильного меню
         if (mobileMenuToggle && navMenu) {
             mobileMenuToggle.addEventListener('click', function() {
                 navMenu.classList.toggle('mobile-open');
@@ -46,7 +46,7 @@ function initNavbar() {
                 }
             });
             
-            // Close mobile menu when clicking on links
+            // Закрыть мобильное меню при клике на ссылки
             navMenu.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     navMenu.classList.remove('mobile-open');
@@ -55,7 +55,7 @@ function initNavbar() {
                 });
             });
             
-            // Close mobile menu on window resize
+            // Закрыть мобильное меню при изменении размера окна
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 768) {
                     navMenu.classList.remove('mobile-open');
@@ -66,7 +66,7 @@ function initNavbar() {
             });
         }
         
-        // Active link highlighting
+        // Подсветка активной ссылки
         highlightActiveNavLink();
     }
 }
@@ -83,7 +83,7 @@ function highlightActiveNavLink() {
     });
 }
 
-// Smooth scroll for anchor links
+// Плавная прокрутка для якорных ссылок
 function initSmoothScroll() {
     const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
     
@@ -106,4 +106,3 @@ function initSmoothScroll() {
         });
     });
 }
-

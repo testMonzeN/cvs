@@ -1,4 +1,4 @@
-/* ===== NAVIGATION STYLES ===== */
+/* ===== СТИЛИ НАВИГАЦИИ ===== */
 
 .navbar {
     background: rgba(var(--bg-primary-rgb, 26, 26, 26), 0.95);
@@ -78,7 +78,7 @@
     text-decoration: none;
 }
 
-/* Mobile Navigation */
+/* Мобильная навигация */
 .mobile-menu-toggle {
     display: none;
     background: none;
@@ -110,7 +110,7 @@
     z-index: 999;
 }
 
-/* Navigation Responsive */
+/* Адаптивная навигация */
 @media (max-width: 767px) {
     .mobile-menu-toggle {
         display: block;
@@ -149,4 +149,3 @@
         margin-left: 0.5rem;
     }
 }
-

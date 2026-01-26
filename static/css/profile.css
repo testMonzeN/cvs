@@ -1,6 +1,6 @@
-/* ===== PROFILE PAGE STYLES ===== */
+/* ===== СТИЛИ СТРАНИЦЫ ПРОФИЛЯ ===== */
 
-/* Profile Header */
+/* Заголовок профиля */
 .profile-header {
     display: flex;
     align-items: center;
@@ -119,7 +119,7 @@
     flex-wrap: wrap;
 }
 
-/* Profile Content */
+/* Содержимое профиля */
 .profile-content {
     display: grid;
     gap: 2rem;
@@ -145,7 +145,7 @@
     gap: 0.5rem;
 }
 
-/* Info Grid */
+/* Сетка информации */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -173,7 +173,7 @@
     font-weight: 500;
 }
 
-/* Stats Grid */
+/* Сетка статистики */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -240,7 +240,7 @@
     font-weight: 500;
 }
 
-/* Activity List */
+/* Список активности */
 .activity-list {
     display: flex;
     flex-direction: column;
@@ -294,7 +294,7 @@
     flex-shrink: 0;
 }
 
-/* Quick Actions */
+/* Быстрые действия */
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -347,7 +347,7 @@
     color: var(--text-muted);
 }
 
-/* Status Badges */
+/* Значки статуса */
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -368,9 +368,9 @@
     color: var(--text-muted);
 }
 
-/* ===== RESPONSIVE PROFILE STYLES ===== */
+/* ===== АДАПТИВНЫЕ СТИЛИ ПРОФИЛЯ ===== */
 
-/* Mobile Phones */
+/* Мобильные телефоны */
 @media (max-width: 480px) {
     .profile-header {
         flex-direction: column;
@@ -510,7 +510,7 @@
     }
 }
 
-/* Mobile Landscape & Small Tablets */
+/* Горизонтальная ориентация мобильных и малые планшеты */
 @media (min-width: 481px) and (max-width: 768px) {
     .profile-header {
         flex-direction: column;
@@ -554,7 +554,7 @@
     }
 }
 
-/* Tablets */
+/* Планшеты */
 @media (min-width: 769px) and (max-width: 1024px) {
     .profile-header {
         gap: 1.75rem;
@@ -590,7 +590,7 @@
     }
 }
 
-/* Large Tablets & Small Desktops */
+/* Большие планшеты и малые десктопы */
 @media (min-width: 1025px) and (max-width: 1440px) {
     .profile-header {
         padding: 2rem;
@@ -609,7 +609,7 @@
     }
 }
 
-/* Extra Large Screens */
+/* Сверхбольшие экраны */
 @media (min-width: 1441px) {
     .profile-header {
         padding: 2.5rem;
@@ -661,7 +661,7 @@
     }
 }
 
-/* Dark mode adjustments */
+/* Настройки темной темы */
 [data-theme="dark"] .profile-header {
     background: var(--bg-secondary-dark);
     border-color: var(--border-color-dark);
@@ -678,7 +678,7 @@
     border-color: var(--border-color-dark);
 }
 
-/* Animation improvements */
+/* Улучшения анимации */
 .profile-section {
     animation: slideInUp 0.6s ease;
 }

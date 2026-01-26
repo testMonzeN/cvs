@@ -1,4 +1,4 @@
-// ===== THEME TOGGLE FUNCTIONALITY =====
+// ===== ФУНКЦИОНАЛЬНОСТЬ ПЕРЕКЛЮЧЕНИЯ ТЕМЫ =====
 
 // Инициализация темы при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
@@ -172,4 +172,3 @@ function showThemeNotification(theme) {
 window.PhantomJS = window.PhantomJS || {};
 window.PhantomJS.toggleTheme = toggleTheme;
 window.PhantomJS.getCurrentTheme = () => document.documentElement.getAttribute('data-theme') || 'dark';
-

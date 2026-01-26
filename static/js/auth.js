@@ -1,6 +1,6 @@
-// ===== AUTHENTICATION FORMS =====
+// ===== ФОРМЫ АУТЕНТИФИКАЦИИ =====
 
-// Toggle password visibility
+// Переключение видимости пароля
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);
     const button = input.nextElementSibling;
@@ -17,7 +17,7 @@ function togglePassword(inputId) {
     }
 }
 
-// Initialize authentication forms
+// Инициализация форм аутентификации
 document.addEventListener('DOMContentLoaded', function() {
     initLoginForm();
     initRegistrationForm();
@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
     initPasswordMatchChecker();
 });
 
-// Login form functionality
+// Функциональность формы входа
 function initLoginForm() {
     const loginForm = document.getElementById('loginForm');
     const loginBtn = document.getElementById('loginBtn');
     
     if (loginForm && loginBtn) {
         loginForm.addEventListener('submit', function(e) {
-            // Show loading state
+            // Показать состояние загрузки
             const originalHTML = loginBtn.innerHTML;
             loginBtn.disabled = true;
             loginBtn.innerHTML = `
@@ -40,25 +40,25 @@ function initLoginForm() {
                 Вход...
             `;
             
-            // Add timeout to prevent infinite loading
+            // Добавить тайм-аут для предотвращения бесконечной загрузки
             setTimeout(() => {
                 if (loginBtn.disabled) {
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = originalHTML;
                 }
-            }, 10000); // 10 seconds timeout
+            }, 10000);
         });
     }
 }
 
-// Registration form functionality
+// Функциональность формы регистрации
 function initRegistrationForm() {
     const registrationForm = document.getElementById('registrationForm');
     const registerBtn = document.getElementById('registerBtn');
     
     if (registrationForm && registerBtn) {
         registrationForm.addEventListener('submit', function(e) {
-            // Show loading state
+            // Показать состояние загрузки
             const originalHTML = registerBtn.innerHTML;
             registerBtn.disabled = true;
             registerBtn.innerHTML = `
@@ -66,18 +66,18 @@ function initRegistrationForm() {
                 Регистрация...
             `;
             
-            // Add timeout to prevent infinite loading
+            // Добавить тайм-аут для предотвращения бесконечной загрузки
             setTimeout(() => {
                 if (registerBtn.disabled) {
                     registerBtn.disabled = false;
                     registerBtn.innerHTML = originalHTML;
                 }
-            }, 10000); // 10 seconds timeout
+            }, 10000);
         });
     }
 }
 
-// Password strength checker
+// Проверка силы пароля
 function initPasswordStrengthChecker() {
     const passwordInput = document.getElementById('id_password1');
     const strengthDiv = document.getElementById('passwordStrength');
@@ -97,7 +97,7 @@ function initPasswordStrengthChecker() {
     }
 }
 
-// Password match checker
+// Проверка совпадения паролей
 function initPasswordMatchChecker() {
     const password1Input = document.getElementById('id_password1');
     const password2Input = document.getElementById('id_password2');
@@ -122,29 +122,29 @@ function initPasswordMatchChecker() {
     }
 }
 
-// Two-factor authentication setup
+// Настройка двухфакторной аутентификации
 function initTwoFactorAuth() {
     const qrCodeContainer = document.getElementById('qrCodeContainer');
     const otpInput = document.getElementById('otpInput');
     const verifyBtn = document.getElementById('verifyBtn');
     
     if (qrCodeContainer && otpInput && verifyBtn) {
-        // Auto-focus on OTP input
+        // Автофокус на вводе OTP
         otpInput.focus();
         
-        // Format OTP input (6 digits)
+        // Форматирование ввода OTP (6 цифр)
         otpInput.addEventListener('input', function() {
-            let value = this.value.replace(/\D/g, ''); // Remove non-digits
+            let value = this.value.replace(/\D/g, '');
             if (value.length > 6) {
                 value = value.substr(0, 6);
             }
             this.value = value;
             
-            // Enable verify button when 6 digits entered
+            // Активация кнопки проверки при вводе 6 цифр
             verifyBtn.disabled = value.length !== 6;
         });
         
-        // Auto-submit when 6 digits entered
+        // Автоотправка при вводе 6 цифр
         otpInput.addEventListener('input', function() {
             if (this.value.length === 6) {
                 setTimeout(() => {
@@ -157,16 +157,16 @@ function initTwoFactorAuth() {
     }
 }
 
-// Account security functions
+// Функции безопасности аккаунта
 function enableTwoFactor() {
     PhantomJS.showNotification('Настройка двухфакторной аутентификации...', 'info');
-    // Redirect to 2FA setup page
+    // Перенаправление на страницу настройки 2FA
     window.location.href = '/cabinet/authentication/';
 }
 
 function disableTwoFactor() {
     if (confirm('Вы уверены, что хотите отключить двухфакторную аутентификацию? Это снизит безопасность вашего аккаунта.')) {
-        // Make AJAX request to disable 2FA
+        // Выполнение AJAX-запроса для отключения 2FA
         fetch('/cabinet/disable-2fa/', {
             method: 'POST',
             headers: {
@@ -184,20 +184,20 @@ function disableTwoFactor() {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Ошибка:', error);
             PhantomJS.showNotification('Произошла ошибка', 'error');
         });
     }
 }
 
-// Account deletion
+// Удаление аккаунта
 function deleteAccount() {
     const confirmText = 'УДАЛИТЬ';
     const userInput = prompt(`Для подтверждения удаления аккаунта введите "${confirmText}" (без кавычек):`);
     
     if (userInput === confirmText) {
         if (confirm('Это действие необратимо. Все ваши данные будут удалены. Продолжить?')) {
-            // Make AJAX request to delete account
+            // Выполнение AJAX-запроса для удаления аккаунта
             fetch('/cabinet/delete-account/', {
                 method: 'POST',
                 headers: {
@@ -217,7 +217,7 @@ function deleteAccount() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Ошибка:', error);
                 PhantomJS.showNotification('Произошла ошибка', 'error');
             });
         }
@@ -226,13 +226,12 @@ function deleteAccount() {
     }
 }
 
-// Export auth functions to global namespace
+// Экспорт функций аутентификации в глобальное пространство имен
 window.enableTwoFactor = enableTwoFactor;
 window.disableTwoFactor = disableTwoFactor;
 window.deleteAccount = deleteAccount;
 
-// Initialize 2FA if on auth page
+// Инициализация 2FA если на странице аутентификации
 if (window.location.pathname.includes('/authentication/')) {
     document.addEventListener('DOMContentLoaded', initTwoFactorAuth);
 }
-

@@ -1,6 +1,6 @@
 /**
- * Custom Calendar Component for Phantom
- * Provides date and time picking functionality with Russian localization
+ * Пользовательский компонент календаря для Phantom
+ * Предоставляет функциональность выбора даты и времени с русской локализацией
  */
 
 class PhantomCalendar {
@@ -39,38 +39,38 @@ class PhantomCalendar {
         const value = this.input.value;
         if (!value) return null;
         
-        // Handle both datetime-local format and our custom format
+        // Обработка формата datetime-local и нашего пользовательского формата
         const date = new Date(value);
         return isNaN(date.getTime()) ? null : date;
     }
     
     createCalendarStructure() {
-        // Wrap input in container
+        // Обернуть ввод в контейнер
         const wrapper = document.createElement('div');
         wrapper.className = 'calendar-container';
         this.input.parentNode.insertBefore(wrapper, this.input);
         
-        // Create input wrapper
+        // Создать обертку ввода
         const inputWrapper = document.createElement('div');
         inputWrapper.className = 'calendar-input-wrapper';
         
-        // Style the input
+        // Стилизовать ввод
         this.input.className += ' calendar-input';
         this.input.setAttribute('data-original-name', this.input.name);
         this.input.type = 'text';
         this.input.readOnly = true;
         
-        // Create calendar toggle button
+        // Создать кнопку переключения календаря
         const toggleBtn = document.createElement('button');
         toggleBtn.type = 'button';
         toggleBtn.className = 'calendar-toggle';
         toggleBtn.innerHTML = '<i class="fas fa-calendar-alt"></i>';
         
-        // Create calendar popup
+        // Создать всплывающее окно календаря
         this.popup = document.createElement('div');
         this.popup.className = 'calendar-popup';
         
-        // Assemble structure
+        // Собрать структуру
         inputWrapper.appendChild(this.input);
         inputWrapper.appendChild(toggleBtn);
         wrapper.appendChild(inputWrapper);
@@ -122,28 +122,28 @@ class PhantomCalendar {
         const month = this.currentDate.getMonth();
         const today = new Date();
         
-        // First day of month and how many days
+        // Первый день месяца и количество дней
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
         const daysInMonth = lastDay.getDate();
         
-        // Adjust for Monday start (0 = Sunday, 1 = Monday, etc.)
+        // Настройка для начала с понедельника (0 = Воскресенье, 1 = Понедельник и т.д.)
         let startDay = firstDay.getDay();
         startDay = startDay === 0 ? 6 : startDay - 1;
         
-        // Previous month days
+        // Дни предыдущего месяца
         const prevMonth = new Date(year, month - 1, 0);
         const daysInPrevMonth = prevMonth.getDate();
         
         let daysHTML = '';
         
-        // Previous month's trailing days
+        // Замыкающие дни предыдущего месяца
         for (let i = startDay - 1; i >= 0; i--) {
             const day = daysInPrevMonth - i;
             daysHTML += `<div class="calendar-day other-month" data-date="${year}-${month}-${day}">${day}</div>`;
         }
         
-        // Current month days
+        // Дни текущего месяца
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(year, month, day);
             const isToday = this.isSameDay(date, today);
@@ -156,7 +156,7 @@ class PhantomCalendar {
             daysHTML += `<div class="${classes}" data-date="${year}-${month + 1}-${day}">${day}</div>`;
         }
         
-        // Next month's leading days
+        // Ведущие дни следующего месяца
         const totalCells = Math.ceil((startDay + daysInMonth) / 7) * 7;
         const remainingCells = totalCells - (startDay + daysInMonth);
         
@@ -183,20 +183,20 @@ class PhantomCalendar {
     }
     
     bindEvents() {
-        // Toggle calendar
+        // Переключение календаря
         this.toggleBtn.addEventListener('click', (e) => {
             e.preventDefault();
             this.toggle();
         });
         
-        // Close on outside click
+        // Закрытие при клике вне
         document.addEventListener('click', (e) => {
             if (!this.wrapper.contains(e.target)) {
                 this.close();
             }
         });
         
-        // Calendar popup events
+        // События всплывающего окна календаря
         this.popup.addEventListener('click', (e) => {
             const action = e.target.dataset.action;
             const dayElement = e.target.closest('.calendar-day');
@@ -208,14 +208,14 @@ class PhantomCalendar {
             }
         });
         
-        // Time input events
+        // События ввода времени
         this.popup.addEventListener('input', (e) => {
             if (e.target.classList.contains('time-input')) {
                 this.updateTime();
             }
         });
         
-        // Keyboard navigation
+        // Навигация с клавиатуры
         this.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -262,7 +262,7 @@ class PhantomCalendar {
         const dateStr = dayElement.dataset.date;
         const [year, month, day] = dateStr.split('-').map(Number);
         
-        // Update selected date but keep current time
+        // Обновить выбранную дату, но сохранить текущее время
         this.selectedDate.setFullYear(year);
         this.selectedDate.setMonth(month - 1);
         this.selectedDate.setDate(day);
@@ -285,23 +285,23 @@ class PhantomCalendar {
     
     updateInputValue(value = null) {
         if (value === null) {
-            // Format for display (user-friendly)
+            // Формат для отображения (удобный для пользователя)
             const formatted = this.formatDate(this.selectedDate);
             this.input.value = formatted;
             
-            // Create ISO string for form submission (YYYY-MM-DDTHH:mm)
+            // Создать ISO строку для отправки формы (YYYY-MM-DDTHH:mm)
             const isoString = this.selectedDate.toISOString().slice(0, 16);
             
-            // Set both data attributes and update hidden input if exists
+            // Установить атрибуты данных и обновить скрытый ввод, если существует
             this.input.setAttribute('data-datetime', isoString);
             this.input.setAttribute('value', isoString);
             
-            // Update any associated hidden input
+            // Обновить любой связанный скрытый ввод
             const originalName = this.input.getAttribute('data-original-name');
             if (originalName) {
                 let hiddenInput = document.querySelector(`input[name="${originalName}"][type="hidden"]`);
                 if (!hiddenInput) {
-                    // Create hidden input if it doesn't exist
+                    // Создать скрытый ввод, если его не существует
                     hiddenInput = document.createElement('input');
                     hiddenInput.type = 'hidden';
                     hiddenInput.name = originalName;
@@ -315,7 +315,7 @@ class PhantomCalendar {
             this.input.removeAttribute('value');
         }
         
-        // Trigger change event
+        // Вызвать событие изменения
         this.input.dispatchEvent(new Event('change', { bubbles: true }));
         this.input.dispatchEvent(new Event('input', { bubbles: true }));
     }
@@ -349,7 +349,7 @@ class PhantomCalendar {
     }
     
     open() {
-        // Create backdrop for mobile
+        // Создать фон для мобильных
         if (window.innerWidth <= 768) {
             this.backdrop = document.createElement('div');
             this.backdrop.className = 'calendar-backdrop';
@@ -366,7 +366,7 @@ class PhantomCalendar {
             `;
             document.body.appendChild(this.backdrop);
             
-            // Prevent body scroll
+            // Предотвратить прокрутку body
             document.body.style.overflow = 'hidden';
             
             setTimeout(() => {
@@ -377,7 +377,7 @@ class PhantomCalendar {
         this.popup.classList.add('show');
         this.isOpen = true;
         
-        // Focus first focusable element
+        // Фокус на первом фокусируемом элементе
         const firstInput = this.popup.querySelector('input, button');
         if (firstInput) {
             setTimeout(() => firstInput.focus(), 100);
@@ -388,7 +388,7 @@ class PhantomCalendar {
         this.popup.classList.remove('show');
         this.isOpen = false;
         
-        // Remove backdrop and restore body scroll
+        // Удалить фон и восстановить прокрутку body
         if (this.backdrop) {
             this.backdrop.style.opacity = '0';
             setTimeout(() => {
@@ -402,13 +402,13 @@ class PhantomCalendar {
     }
 }
 
-// Auto-initialize calendars
+// Автоинициализация календарей
 function initCalendars() {
-    // Find all datetime inputs and convert them to custom calendars
+    // Найти все вводы datetime и преобразовать их в пользовательские календари
     const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"], input[data-calendar]');
     
     dateTimeInputs.forEach(input => {
-        // Skip if already initialized
+        // Пропустить, если уже инициализирован
         if (input.closest('.calendar-container')) return;
         
         const options = {
@@ -419,10 +419,10 @@ function initCalendars() {
     });
 }
 
-// Initialize on DOM ready
+// Инициализация при готовности DOM
 document.addEventListener('DOMContentLoaded', initCalendars);
 
-// Re-initialize when new content is added dynamically
+// Переинициализация при динамическом добавлении нового содержимого
 const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
@@ -448,5 +448,5 @@ observer.observe(document.body, {
     subtree: true
 });
 
-// Export for manual initialization
+// Экспорт для ручной инициализации
 window.PhantomCalendar = PhantomCalendar;

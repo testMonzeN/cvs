@@ -159,7 +159,7 @@
     color: #64748b;
 }
 
-/* Базы подиума */
+/* Основания подиума */
 .podium-base {
     width: 200px;
     border-radius: 12px 12px 0 0;
@@ -223,7 +223,7 @@
     transform: translateX(4px);
 }
 
-/* Бейдж позиции */
+/* Значок позиции */
 .position-badge {
     display: inline-flex;
     align-items: center;
@@ -323,4 +323,3 @@
         align-items: flex-start;
     }
 }
-

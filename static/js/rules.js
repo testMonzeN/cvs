@@ -1,7 +1,7 @@
-// ===== RULES PAGE FUNCTIONALITY =====
+// ===== ФУНКЦИОНАЛЬНОСТЬ СТРАНИЦЫ ПРАВИЛ =====
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Only run on rules page
+    // Запускать только на странице правил
     if (!document.querySelector('.rules-container')) return;
     
     initRulesSearch();
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initIntersectionObserver();
 });
 
-// Search functionality
+// Функциональность поиска
 function initRulesSearch() {
     const searchInput = document.getElementById('rulesSearch');
     const navLinks = document.querySelectorAll('.rules-nav-link');
@@ -33,7 +33,7 @@ function initRulesSearch() {
             }
         });
         
-        // Also search in section content
+        // Также искать в содержимом секций
         sections.forEach(section => {
             const content = section.textContent.toLowerCase();
             if (content.includes(searchTerm) || searchTerm === '') {
@@ -45,11 +45,11 @@ function initRulesSearch() {
     });
 }
 
-// Navigation functionality
+// Функциональность навигации
 function initRulesNavigation() {
     const navLinks = document.querySelectorAll('.rules-nav-link');
     
-    // Smooth scrolling for navigation links
+    // Плавная прокрутка для ссылок навигации
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -57,11 +57,11 @@ function initRulesNavigation() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // Update active link
+                // Обновить активную ссылку
                 navLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Smooth scroll
+                // Плавная прокрутка
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
@@ -71,7 +71,7 @@ function initRulesNavigation() {
     });
 }
 
-// Back to top functionality
+// Функциональность "Назад вверх"
 function initBackToTop() {
     const backToTopBtn = document.getElementById('backToTop');
     
@@ -86,7 +86,7 @@ function initBackToTop() {
     });
 }
 
-// Intersection Observer for active navigation
+// Intersection Observer для активной навигации
 function initIntersectionObserver() {
     const navLinks = document.querySelectorAll('.rules-nav-link');
     const sections = document.querySelectorAll('.rule-section');
@@ -116,7 +116,7 @@ function initIntersectionObserver() {
     });
 }
 
-// Utility functions
+// Вспомогательные функции
 function highlightSearchTerm(text, term) {
     if (!term) return text;
     const regex = new RegExp(`(${term})`, 'gi');
@@ -140,7 +140,7 @@ function exportRules() {
     fetch(downloadUrl)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Сетевой ответ был не ок');
             }
             return response.blob();
         })
@@ -155,12 +155,12 @@ function exportRules() {
             document.body.removeChild(a);
         })
         .catch(error => {
-            console.error('Error downloading file:', error);
+            console.error('Ошибка при загрузке файла:', error);
             alert('Ошибка при загрузке файла: ' + error.message);
         });
 }
 
-// Export functions to global scope for inline usage
+// Экспорт функций в глобальную область для встроенного использования
 window.scrollToTop = scrollToTop;
 window.printRules = printRules;
 window.exportRules = exportRules;

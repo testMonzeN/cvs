@@ -1,4 +1,4 @@
-/* Footer Styles */
+/* Стили подвала */
 .site-footer {
     background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-dark) 100%);
     border-top: 1px solid var(--border-color);
@@ -120,7 +120,7 @@
     font-size: 0.9rem;
 }
 
-/* Floating particles animation */
+/* Анимация плавающих частиц */
 .footer-particles {
     position: absolute;
     top: 0;
@@ -180,7 +180,7 @@
     }
 }
 
-/* Responsive design */
+/* Адаптивный дизайн */
 @media (max-width: 768px) {
     .site-footer {
         padding: 2rem 0 1.5rem;
@@ -218,7 +218,7 @@
     }
 }
 
-/* Large screens (1920x1080 and up) */
+/* Большие экраны (1920x1080 и выше) */
 @media (min-width: 1920px) {
     .site-footer {
         padding: 4rem 0 3rem;
@@ -252,7 +252,7 @@
     }
 }
 
-/* Dark mode enhancements */
+/* Улучшения темной темы */
 @media (prefers-color-scheme: dark) {
     .site-footer {
         background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a1a 100%);

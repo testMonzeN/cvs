@@ -1,14 +1,14 @@
-// ===== PHANTOM CORE JAVASCRIPT =====
+// ===== CORE JAVASCRIPT PHANTOM =====
 
-// Global namespace for Phantom functions
+// Глобальное пространство имен для функций Phantom
 window.PhantomJS = window.PhantomJS || {};
 
-// Core initialization
+// Инициализация ядра
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-// Main initialization function
+// Основная функция инициализации
 function initializeApp() {
     initNavbar();
     initAnimations();
@@ -18,13 +18,13 @@ function initializeApp() {
     initLoadingStates();
     initSmoothScroll();
     
-    // Animate page load
+    // Анимация загрузки страницы
     animatePageLoad();
     
-    console.log('🎯 Phantom site initialized');
+    console.log('🎯 Сайт Phantom инициализирован');
 }
 
-// Page load animation
+// Анимация загрузки страницы
 function animatePageLoad() {
     const body = document.body;
     body.style.opacity = '0';
@@ -37,7 +37,7 @@ function animatePageLoad() {
     }, 100);
 }
 
-// Utility functions
+// Вспомогательные функции
 function debounce(func, wait, immediate) {
     let timeout;
     return function executedFunction(...args) {
@@ -65,7 +65,7 @@ function throttle(func, limit) {
     }
 }
 
-// Format date for Russian locale
+// Форматирование даты для русской локали
 function formatDate(date, options = {}) {
     const defaultOptions = {
         year: 'numeric',
@@ -77,7 +77,7 @@ function formatDate(date, options = {}) {
     return new Intl.DateTimeFormat('ru-RU', defaultOptions).format(new Date(date));
 }
 
-// Animate counter numbers
+// Анимация счетчика чисел
 function animateCounter(element, start, end, duration = 2000) {
     const range = end - start;
     const startTime = performance.now();
@@ -86,7 +86,7 @@ function animateCounter(element, start, end, duration = 2000) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Easing function
+        // Функция плавности
         const easeOutCubic = 1 - Math.pow(1 - progress, 3);
         const current = Math.round(start + (range * easeOutCubic));
         
@@ -100,28 +100,27 @@ function animateCounter(element, start, end, duration = 2000) {
     requestAnimationFrame(updateCounter);
 }
 
-// Export core functions to global namespace
+// Экспорт основных функций в глобальное пространство имен
 PhantomJS.debounce = debounce;
 PhantomJS.throttle = throttle;
 PhantomJS.formatDate = formatDate;
 PhantomJS.animateCounter = animateCounter;
 
-// Global error handler
+// Глобальный обработчик ошибок
 window.addEventListener('error', function(e) {
-    console.error('Global error:', e.error);
-    // Could send error reports to server here
+    console.error('Глобальная ошибка:', e.error);
 });
 
-// Development helpers
+// Помощники для разработки
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    console.log('🔧 Development mode active');
+    console.log('🔧 Режим разработки активен');
     
-    // Add dev tools
+    // Добавить инструменты разработчика
     window.addEventListener('keydown', function(e) {
-        // Ctrl+Shift+D for debug info
+        // Ctrl+Shift+D для информации отладки
         if (e.ctrlKey && e.shiftKey && e.key === 'D') {
-            console.log('🎯 Debug Info:', {
-                currentUser: window.currentUsername || 'guest',
+            console.log('🎯 Информация отладки:', {
+                currentUser: window.currentUsername || 'гость',
                 viewport: {
                     width: window.innerWidth,
                     height: window.innerHeight
@@ -132,4 +131,3 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
         }
     });
 }
-

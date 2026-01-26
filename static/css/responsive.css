@@ -1,6 +1,6 @@
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== АДАПТИВНЫЙ ДИЗАЙН ===== */
 
-/* Extra Large screens (1400px and up) */
+/* Сверхбольшие экраны (1400px и выше) */
 @media (min-width: 1400px) {
     .container {
         max-width: 1400px;
@@ -35,7 +35,7 @@
     }
 }
 
-/* Large screens (992px to 1399px) */
+/* Большие экраны (992px до 1399px) */
 @media (min-width: 992px) and (max-width: 1399px) {
     .container {
         max-width: 1200px;
@@ -60,7 +60,7 @@
     }
 }
 
-/* Medium screens (768px to 991px) - Tablets */
+/* Средние экраны (768px до 991px) - Планшеты */
 @media (min-width: 768px) and (max-width: 991px) {
     .container {
         padding: 0 20px;
@@ -107,8 +107,6 @@
         font-size: 0.7em;
         margin-bottom: 0.5rem;
     }
-    
-    /* .title-text стили перенесены в base.css для единой адаптивности */
     
     .hero-buttons {
         flex-direction: column !important;
@@ -158,7 +156,7 @@
     }
 }
 
-/* Small screens (576px to 767px) - Large phones */
+/* Малые экраны (576px до 767px) - Большие телефоны */
 @media (min-width: 576px) and (max-width: 767px) {
     .container {
         padding: 0 15px;
@@ -217,8 +215,6 @@
         margin-bottom: 0.5rem;
     }
     
-    /* .title-text стили в base.css */
-    
     .hero-buttons {
         flex-direction: column !important;
         align-items: center !important;
@@ -242,7 +238,7 @@
     }
 }
 
-/* Extra small screens (up to 575px) - Small phones */
+/* Сверхмалые экраны (до 575px) - Малые телефоны */
 @media (max-width: 575px) {
     .container {
         padding: 0 15px;
@@ -315,8 +311,6 @@
         margin-bottom: 0.5rem;
     }
     
-    /* .title-text стили в base.css */
-    
     .stat-number {
         font-size: 1.8rem;
     }
@@ -366,7 +360,7 @@
     }
 }
 
-/* Ultra-wide screens (1920px and up) */
+/* Ультраширокие экраны (1920px и выше) */
 @media (min-width: 1920px) {
     .container {
         max-width: 1600px;
@@ -409,11 +403,9 @@
     .hero-title i {
         font-size: 0.9em;
     }
-    
-    /* .title-text стили в base.css */
 }
 
-/* ===== EXTRA SMALL SCREENS (320px and below) ===== */
+/* ===== СВЕРХМАЛЫЕ ЭКРАНЫ (320px и ниже) ===== */
 @media (max-width: 320px) {
     .hero-title {
         font-size: 1.5rem;
@@ -425,11 +417,9 @@
         font-size: 0.4em;
         margin-bottom: 0.3rem;
     }
-    
-    /* .title-text стили в base.css */
 }
 
-/* ===== LANDSCAPE ORIENTATION FOR MOBILE ===== */
+/* ===== АЛЬБОМНАЯ ОРИЕНТАЦИЯ ДЛЯ МОБИЛЬНЫХ ===== */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-title {
         font-size: 1.6rem;
@@ -442,7 +432,4 @@
         font-size: 0.5em;
         margin-bottom: 0;
     }
-    
-    /* .title-text стили в base.css */
 }
-

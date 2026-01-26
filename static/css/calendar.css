@@ -1,13 +1,13 @@
-/* ===== CUSTOM CALENDAR STYLES ===== */
+/* ===== СТИЛИ ПОЛЬЗОВАТЕЛЬСКОГО КАЛЕНДАРЯ ===== */
 
-/* Calendar Container */
+/* Контейнер календаря */
 .calendar-container {
     position: relative;
     display: inline-block;
     width: 100%;
 }
 
-/* Integration with existing form styles */
+/* Интеграция с существующими стилями форм */
 .form-group .calendar-container {
     width: 100%;
 }
@@ -71,7 +71,7 @@
     border-color: var(--accent-primary);
 }
 
-/* Calendar Popup */
+/* Всплывающее окно календаря */
 .calendar-popup {
     position: absolute;
     top: 100%;
@@ -96,7 +96,7 @@
     transform: translateY(0);
 }
 
-/* Calendar Header */
+/* Заголовок календаря */
 .calendar-header {
     display: flex;
     align-items: center;
@@ -132,7 +132,7 @@
     font-size: 1.1rem;
 }
 
-/* Calendar Grid */
+/* Сетка календаря */
 .calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -192,7 +192,7 @@
     background: var(--accent-success);
 }
 
-/* Time Picker */
+/* Выбор времени */
 .calendar-time {
     margin-top: 1rem;
     padding-top: 1rem;
@@ -229,7 +229,7 @@
     font-size: 1.2rem;
 }
 
-/* Calendar Actions */
+/* Действия календаря */
 .calendar-actions {
     margin-top: 1rem;
     padding-top: 1rem;
@@ -265,7 +265,7 @@
     background: var(--accent-primary-dark);
 }
 
-/* Responsive Design */
+/* Адаптивный дизайн */
 @media (max-width: 768px) {
     .calendar-popup {
         position: fixed;
@@ -298,7 +298,7 @@
     }
 }
 
-/* Touch-friendly improvements */
+/* Улучшения для сенсорных устройств */
 @media (hover: none) and (pointer: coarse) {
     .calendar-day {
         padding: 1rem;
@@ -316,7 +316,7 @@
     }
 }
 
-/* Dark mode adjustments */
+/* Настройки темной темы */
 [data-theme="dark"] .calendar-popup {
     border-color: var(--border-color-dark);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -326,7 +326,7 @@
     background: var(--bg-secondary-dark);
 }
 
-/* Animation for calendar appearance */
+/* Анимация появления календаря */
 @keyframes calendarSlideIn {
     from {
         opacity: 0;
@@ -342,9 +342,9 @@
     animation: calendarSlideIn 0.3s ease;
 }
 
-/* ===== RESPONSIVE CALENDAR STYLES ===== */
+/* ===== АДАПТИВНЫЕ СТИЛИ КАЛЕНДАРЯ ===== */
 
-/* Mobile Phones */
+/* Мобильные телефоны */
 @media (max-width: 480px) {
     .calendar-popup {
         position: fixed;
@@ -436,7 +436,7 @@
     }
 }
 
-/* Mobile Landscape & Small Tablets */
+/* Горизонтальная ориентация мобильных и малые планшеты */
 @media (min-width: 481px) and (max-width: 768px) {
     .calendar-popup {
         max-width: 400px;
@@ -459,7 +459,7 @@
     }
 }
 
-/* Tablets */
+/* Планшеты */
 @media (min-width: 769px) and (max-width: 1024px) {
     .calendar-popup {
         max-width: 420px;
@@ -470,7 +470,7 @@
     }
 }
 
-/* Large Screens */
+/* Большие экраны */
 @media (min-width: 1025px) {
     .calendar-popup {
         max-width: 450px;

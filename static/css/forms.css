@@ -1,4 +1,4 @@
-/* ===== FORM STYLES ===== */
+/* ===== СТИЛИ ФОРМ ===== */
 
 .form-group {
     margin-bottom: 1.5rem;
@@ -50,14 +50,14 @@
     animation: slideInFromLeft 0.3s ease;
 }
 
-/* Form Row */
+/* Строка формы */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-/* Password Input */
+/* Ввод пароля */
 .password-input-wrapper {
     position: relative;
 }
@@ -87,7 +87,7 @@
     font-size: 0.85rem;
 }
 
-/* Filter Tabs */
+/* Вкладки фильтров */
 .filter-tabs {
     display: flex;
     gap: 0.5rem;
@@ -115,7 +115,7 @@
     border-color: var(--accent-primary);
 }
 
-/* Auth Forms */
+/* Формы аутентификации */
 .auth-wrapper {
     display: flex;
     justify-content: center;
@@ -180,7 +180,7 @@
     margin-bottom: 0.25rem;
 }
 
-/* Form Responsive */
+/* Адаптивные формы */
 @media (max-width: 767px) {
     .form-row {
         grid-template-columns: 1fr;
@@ -231,7 +231,7 @@
     }
 }
 
-/* Tablet Forms */
+/* Формы для планшетов */
 @media (min-width: 768px) and (max-width: 1024px) {
     .auth-card {
         max-width: 500px;
@@ -242,7 +242,7 @@
     }
 }
 
-/* Large Screen Forms */
+/* Формы для больших экранов */
 @media (min-width: 1201px) {
     .auth-card {
         max-width: 500px;
@@ -257,4 +257,3 @@
         margin-bottom: 1.75rem;
     }
 }
-
