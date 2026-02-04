@@ -179,7 +179,3 @@ class Authentication(View):
         else:
             messages.error(request, 'Неверный код. Пожалуйста, попробуйте снова.')
             return redirect('authentication')
-
-# TODO: сделать
-class Raiting(View):
-    pass

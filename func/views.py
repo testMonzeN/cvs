@@ -18,7 +18,7 @@ from cvs.settings import BASE_DIR
 class TeleportView(View):
     def get(self, request):
         return render(request, 'teleport/teleport.html')
-
+# рейтинг
 class TotalLadderCheck:
     @staticmethod
     def count_leader_ladder(competitions):

@@ -1,12 +1,6 @@
-from email.policy import default
-from turtle import mode
-from typing import Any
-
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.lookups import YearExact
-from django.template.base import kwarg_re
 from .ModelConfig import CITIES
 
 # Create your models here.
